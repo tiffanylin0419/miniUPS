@@ -5,16 +5,21 @@
 
 class Server {
  private:
-  const char * port_num;
+  const char * world_port;
+  const char * world_hostname;
   int world_fd;
+  const char * amazon_port;
+  const char * amazon_hostname;
   int amazon_fd;
 
-  int truck_num=5;
-  int truck_distance=10;
+  int truck_num;
+  int truck_distance;
+
+  void init_world();
   
 
  public:
-  Server(const char * myport);
+  Server();
   void run();
   
 };

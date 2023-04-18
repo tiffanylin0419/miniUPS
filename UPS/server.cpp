@@ -4,12 +4,34 @@ pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
 
 
-Server::Server(const char * myport) : port_num(myport) {
+Server::Server(){
+    world_port="12345";
+    world_hostname="vcm-33209.vm.duke.edu";
+    amazon_port="11111";
+    amazon_hostname="vcm-33209.vm.duke.edu";
+
+    truck_num=5;
+    truck_distance=10;
     //connect DB
 }
 
 void Server::run() {
-    world_fd = setup_client("vcm-33209.vm.duke.edu", port_num);
+    
+    init_world();
+
+    //other groups vcm
+    amazon_fd = setup_client(amazon_hostname, amazon_port);
+    google::protobuf::io::FileInputStream * amazon_in=new google::protobuf::io::FileInputStream(amazon_fd);
+    google::protobuf::io::FileOutputStream * amazon_out=new google::protobuf::io::FileOutputStream(amazon_fd);
+
+
+    close(world_fd);
+    close(amazon_fd);
+}
+
+
+void Server::init_world(){
+    world_fd = setup_client(world_hostname, world_port);
     google::protobuf::io::FileInputStream * world_in=new google::protobuf::io::FileInputStream(world_fd);
     google::protobuf::io::FileOutputStream * world_out=new google::protobuf::io::FileOutputStream(world_fd);
 
@@ -23,31 +45,16 @@ void Server::run() {
     }
     connect.set_isamazon(false);
 
-    bool b=sendMesgTo<UConnect>(connect, world_out) ;
-    if(!b){
+    if(!sendMesgTo<UConnect>(connect, world_out)){
         cout<< "send to world failure";
     }
 
     UConnected connected;
-    b=recvMesgFrom<UConnected>(connected, world_in) ;
-    if(!b){
+    if(!recvMesgFrom<UConnected>(connected, world_in)){
         cout<< "recv from world failure";
     }
     cout<<connected.result()<<endl;
     cout<<connected.worldid()<<endl;
-
-
-    //other groups vcm
-    amazon_fd = setup_client("vcm-33209.vm.duke.edu", "11111");
-    google::protobuf::io::FileInputStream * amazon_in=new google::protobuf::io::FileInputStream(amazon_fd);
-    google::protobuf::io::FileOutputStream * amazon_out=new google::protobuf::io::FileOutputStream(amazon_fd);
-
-
-    close(world_fd);
-    close(amazon_fd);
 }
-
-
-
 
     
