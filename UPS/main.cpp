@@ -14,5 +14,6 @@ int main(){
     truck->set_y(3);
     connect.set_isamazon(false);
 
+
     return 0;
 }
