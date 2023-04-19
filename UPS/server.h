@@ -25,6 +25,7 @@ class Server {
   void init_world();
   void setup_sockets();
   void init_database();
+  int getSeqNum();
   
   
 

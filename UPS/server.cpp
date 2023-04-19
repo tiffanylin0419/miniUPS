@@ -89,14 +89,21 @@ void Server::init_world(){
     UAConfirmConnected uaConfirmConnected;
     uaConfirmConnected.set_worldid(world_id);
     uaConfirmConnected.set_connected(true);
-    uaConfirmConnected.set_seqnum(sequence_num);
-    sequence_num++;
+    uaConfirmConnected.set_seqnum(getSeqNum());
     if(!sendMesgTo<UAConfirmConnected>(uaConfirmConnected, amazon_out)){
         cerr<< "5 send to amazon failure"<<endl;
     }
     cout<<"5 confirmed connect"<<endl;
 }
 
+
+int Server::getSeqNum(){
+    pthread_mutex_lock(&mutex1);
+    int tmp=sequence_num;
+    sequence_num++;
+    pthread_mutex_unlock(&mutex1);
+    return sequence_num;
+}
     
 Server::~Server() {
     close(world_fd);
