@@ -12,6 +12,7 @@ class Server {
   const char * amazon_hostname;
   int amazon_fd;
 
+  int sequence_num;
   int truck_num;
   int truck_distance;
 
