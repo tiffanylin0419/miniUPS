@@ -30,13 +30,12 @@ void Server::run() {
     google::protobuf::io::FileOutputStream * amazon_out=new google::protobuf::io::FileOutputStream(amazon_fd);
 
 
-    close(world_fd);
-    close(amazon_fd);
+    
 }
 
 void Server::init_database(){
     connection *C;
-    try{ 
+    /*try{ 
         //docker
         C = new connection("dbname=postgres user=postgres password=passw0rd host=db port=5432");
         //no docker
@@ -51,8 +50,9 @@ void Server::init_database(){
         return NULL;
     }
     string response=requestToResponse(C, request);
-    C->disconnect();
+    C->disconnect();*/
 }
+
 
 void Server::init_world(){
     world_fd = setup_client(world_hostname, world_port);
@@ -82,3 +82,7 @@ void Server::init_world(){
 }
 
     
+Server::~Server() {
+    close(world_fd);
+    close(amazon_fd);
+}

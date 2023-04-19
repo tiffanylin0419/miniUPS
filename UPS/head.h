@@ -20,4 +20,15 @@
 #include <sstream>
 #include <string>
 
+
+
+//connect_func
+#include <pqxx/pqxx>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
 using namespace std;
+using namespace pqxx;
