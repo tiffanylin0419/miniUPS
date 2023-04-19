@@ -1,14 +1,14 @@
 syntax = "proto2";
 
 message AUInitConnect{ 
-required int64 worldid= 1;
- required int64 seqnum = 2;
+    required int64 worldid= 1;
+    required int64 seqnum = 2;
 }
 
 message UAConfirmConnected{
-required int64 worldid= 1;
- required bool connected = 2; 
-required int64 seqnum = 3;
+    required int64 worldid= 1;
+    required bool connected = 2; 
+    required int64 seqnum = 3;
 }
 
 message AUInitPickUp{
@@ -27,17 +27,17 @@ message AULoaded{
   required int64 seqnum = 2;
 } 
 message UADelivered{
-  required int32 truckid = 1;
-  required int64 packageid = 2;
-  required int64 seqnum = 3;
+    required int32 truckid = 1;
+    required int64 packageid = 2;
+    required int64 seqnum = 3;
 }
 
 message UATruck{
-  required int32 truckid =1;
-  required string status = 2;
-  required int32 x = 3;
-  required int32 y = 4;
-  required int64 seqnum = 5;
+    required int32 truckid =1;
+    required string status = 2;
+    required int32 x = 3;
+    required int32 y = 4;
+    required int64 seqnum = 5;
 }
 
 message AUProduct {

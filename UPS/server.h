@@ -17,10 +17,11 @@ class Server {
   int truck_distance;
 
   void init_world();
+  void init_database();
   
 
  public:
   Server();
   void run();
-  
+  ~Server();
 };
