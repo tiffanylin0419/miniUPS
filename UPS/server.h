@@ -4,6 +4,7 @@
 #include "connect_world.cpp"
 #include "threadSafeMap.h"
 #include "threadSafeSet.h"
+#include "threadSafeList.h"
 
 class Server {
  private:
@@ -28,6 +29,8 @@ class Server {
   ThreadSafeMap<UACommands> amazon_command;
   ThreadSafeSet world_response;
   ThreadSafeSet amazon_response;
+  ThreadSafeList<UCommands> world_ack;
+  ThreadSafeList<UACommands> amazon_ack;
 
   void init_world();
   void setup_sockets();
@@ -36,6 +39,8 @@ class Server {
 
   void sendToAmazon();
   void sendToWorld();
+  void sendAckAmazon();
+  void sendAckWorld();
   void recvFromAmazon();
   void recvFromWorld();
   

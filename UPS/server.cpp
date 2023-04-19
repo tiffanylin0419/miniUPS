@@ -116,10 +116,18 @@ Server::~Server() {
 }
 
 void Server::sendToAmazon(){
-
+    
 }
 
 void Server::sendToWorld(){
+    
+}
+
+void Server::sendAckAmazon(){
+
+}
+
+void Server::sendAckWorld(){
     
 }
 

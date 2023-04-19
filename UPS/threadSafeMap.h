@@ -15,6 +15,11 @@ class ThreadSafeMap {
     myMap.insert({seq, command});
   }
 
+  T get(int seq){
+    std::unique_lock<std::mutex> lock(map_mutex);
+    myMap.at(seq);
+  }
+
   void remove(int seq){
     std::unique_lock<std::mutex> lock(map_mutex);
     myMap.erase(seq);
