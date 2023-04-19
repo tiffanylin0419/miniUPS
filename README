@@ -1,0 +1,7 @@
+
+
+go to world folder and execute `sudo docker-compose up`
+
+go to Amazon folder and execute `./main`
+
+go to UPS folder and execute `./main`
