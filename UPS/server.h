@@ -25,10 +25,9 @@ class Server {
 
 
   ThreadSafeMap<UCommands> world_command;
-  ThreadSafeMap<UCommands> amazon_command;
+  ThreadSafeMap<UACommands> amazon_command;
   ThreadSafeSet world_response;
   ThreadSafeSet amazon_response;
-
 
   void init_world();
   void setup_sockets();
