@@ -9,6 +9,7 @@ sudo apt install make
 sudo apt install emacs
 sudo apt install postgresql postgresql-contrib 
 sudo apt-get install libpqxx-dev
+sudo apt-get install libpugixml-dev
 ```
 
 ## World setup
