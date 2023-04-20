@@ -23,6 +23,8 @@ void Server::run() {
     
     //todo
     //use handle or while loop to keep getting and sending data?
+    pthread_t thread;
+    //pthread_create(&thread, NULL, recvFromWorld,);
     
 }
 
@@ -116,7 +118,7 @@ Server::~Server() {
 }
 
 void Server::sendToAmazon(){
-    
+
 }
 
 void Server::sendToWorld(){
@@ -136,5 +138,13 @@ void Server::recvFromAmazon(){
 }
 
 void Server::recvFromWorld(){
-    
+    while(true){
+        UResponses response;
+        if (recvMesgFrom<UResponses>(response, world_in) == false) {
+            continue;
+        }
+        UResponseHandler h(response, world_command, world_response, world_ack);
+        h.handle();
+    }
 }
+

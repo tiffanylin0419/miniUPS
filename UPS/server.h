@@ -1,10 +1,10 @@
-#include "proto/ups.pb.h"
-#include "proto/ups-amazon.pb.h"
+
 #include "connect_func.h"
 #include "connect_world.cpp"
-#include "threadSafeMap.h"
-#include "threadSafeSet.h"
-#include "threadSafeList.h"
+
+
+
+#include "UResponseHandler.h"
 
 class Server {
  private:
@@ -25,12 +25,7 @@ class Server {
   int truck_distance;
 
 
-  ThreadSafeMap<UCommands> world_command;
-  ThreadSafeMap<UACommands> amazon_command;
-  ThreadSafeSet world_response;
-  ThreadSafeSet amazon_response;
-  ThreadSafeList<UCommands> world_ack;
-  ThreadSafeList<UACommands> amazon_ack;
+ 
 
   void init_world();
   void setup_sockets();
@@ -45,6 +40,15 @@ class Server {
   void recvFromWorld();
   
  public:
+
+  ThreadSafeMap<UCommands> world_command;
+  ThreadSafeMap<UACommands> amazon_command;
+  ThreadSafeSet world_response;
+  ThreadSafeSet amazon_response;
+  ThreadSafeList<UCommands> world_ack;
+  ThreadSafeList<UACommands> amazon_ack;
+
+
   Server();
   void run();
   ~Server();
