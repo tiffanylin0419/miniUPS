@@ -117,23 +117,28 @@ Server::~Server() {
 
 /*----------------------------------Send & Recv-----------------------------------*/
 void *Server::sendToAmazon(){
-
+    //todo
+    return NULL;
 }
 
 void *Server::sendToWorld(){
-    
+    //todo
+    return NULL;
 }
 
 void *Server::sendAckAmazon(){
-
+    //todo
+    return NULL;
 }
 
 void *Server::sendAckWorld(){
-    
+    //todo
+    return NULL;
 }
 
 void *Server::recvFromAmazon(){
-    
+    //todo
+    return NULL;
 }
 
 void *Server::recvFromWorld(){
@@ -142,7 +147,7 @@ void *Server::recvFromWorld(){
         if (recvMesgFrom<UResponses>(response, world_in) == false) {
             continue;
         }
-        UResponseHandler h(response, world_command, world_response, world_ack);
+        WorldResponseHandler h(response, world_command, world_response, world_ack);
         h.handle();
     }
 }

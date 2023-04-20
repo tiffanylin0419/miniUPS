@@ -4,7 +4,7 @@
 
 
 
-#include "UResponseHandler.h"
+#include "WorldResponseHandler.h"
 
 class Server {
  private:
@@ -40,22 +40,19 @@ class Server {
   void *recvFromWorld();
   
   static void* recvFromWorldWrapper(void* arg);
-  
+
  public:
 
   ThreadSafeMap<UCommands> world_command;
   ThreadSafeMap<UACommands> amazon_command;
   ThreadSafeSet world_response;
   ThreadSafeSet amazon_response;
-  ThreadSafeList<UCommands> world_ack;
-  ThreadSafeList<UACommands> amazon_ack;
+  ThreadSafeList world_ack;
+  ThreadSafeList amazon_ack;
 
 
   Server();
   void run();
   ~Server();
 
-
-
-  
 };
