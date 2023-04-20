@@ -23,22 +23,20 @@ class UResponseHandler {
         for(int i=0;i<response.acks_size();i++){
             world_command.remove(response.acks(i));
         }
-        /*for(int i=0;i<response.completions_size();i++){
+        for(int i=0;i<response.completions_size();i++){
             //todo
-            
             //if not in world_response
                 //deal with response.completions(i)
                 //add to world_response
             //add to world_ack
         }
         for(int i=0;i<response.delivered_size();i++){
-            
             //todo
             //if not in world_response
                 //deal with response.delivered(i)   
                 //add to world_response
             //add to world_ack
-        }*/
+        }
 
     }
 

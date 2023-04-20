@@ -32,12 +32,14 @@ class Server {
   void init_database();
   int getSeqNum();
 
-  void sendToAmazon();
-  void sendToWorld();
-  void sendAckAmazon();
-  void sendAckWorld();
-  void recvFromAmazon();
-  void recvFromWorld();
+  void *sendToAmazon();
+  void *sendToWorld();
+  void *sendAckAmazon();
+  void *sendAckWorld();
+  void *recvFromAmazon();
+  void *recvFromWorld();
+  
+  static void* recvFromWorldWrapper(void* arg);
   
  public:
 
@@ -52,4 +54,8 @@ class Server {
   Server();
   void run();
   ~Server();
+
+
+
+  
 };

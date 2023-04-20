@@ -1,8 +1,5 @@
 #include "server.h"
-
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
-
-
 
 Server::Server(){
     world_port="12345";
@@ -16,16 +13,17 @@ Server::Server(){
     truck_distance=10;
 }
 
+
+
 void Server::run() {
     //uncomment
     //init_database();
     init_world();
     
     //todo
-    //use handle or while loop to keep getting and sending data?
     pthread_t thread;
-    //pthread_create(&thread, NULL, recvFromWorld,);
-    
+    pthread_create(&thread, NULL, &Server::recvFromWorldWrapper,this);
+    pthread_join(thread, NULL);
 }
 
 void Server::init_database(){
@@ -117,27 +115,28 @@ Server::~Server() {
     close(amazon_fd);
 }
 
-void Server::sendToAmazon(){
+/*----------------------------------Send & Recv-----------------------------------*/
+void *Server::sendToAmazon(){
 
 }
 
-void Server::sendToWorld(){
+void *Server::sendToWorld(){
     
 }
 
-void Server::sendAckAmazon(){
+void *Server::sendAckAmazon(){
 
 }
 
-void Server::sendAckWorld(){
+void *Server::sendAckWorld(){
     
 }
 
-void Server::recvFromAmazon(){
+void *Server::recvFromAmazon(){
     
 }
 
-void Server::recvFromWorld(){
+void *Server::recvFromWorld(){
     while(true){
         UResponses response;
         if (recvMesgFrom<UResponses>(response, world_in) == false) {
@@ -148,3 +147,9 @@ void Server::recvFromWorld(){
     }
 }
 
+
+/*----------------------------------Send & Recv Wrapper-----------------------------------*/
+void* Server::recvFromWorldWrapper(void* arg) {
+    Server* server = static_cast<Server*>(arg);
+    return server->recvFromWorld();
+}
