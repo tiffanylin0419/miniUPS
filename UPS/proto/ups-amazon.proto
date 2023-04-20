@@ -1,0 +1,74 @@
+syntax = "proto2";
+
+message AUInitConnect{ 
+    required int64 worldid= 1;
+    required int64 seqnum = 2;
+}
+
+message UAConfirmConnected{
+    required int64 worldid= 1;
+    required bool connected = 2; 
+    required int64 seqnum = 3;
+}
+
+message AUInitPickUp{
+  required int32 whid = 1;
+  required int64 seqnum = 2;
+}
+
+message UATruckArrived{
+  required int32 truckid = 1;
+  required int64 shipid = 2;
+  required int64 seqnum = 3;
+}
+
+message AULoaded{
+  required int64 shipid = 1;
+  required int64 seqnum = 2;
+} 
+message UADelivered{
+    required int32 truckid = 1;
+    required int64 packageid = 2;
+    required int64 seqnum = 3;
+}
+
+message UATruck{
+    required int32 truckid =1;
+    required string status = 2;
+    required int32 x = 3;
+    required int32 y = 4;
+    required int64 seqnum = 5;
+}
+
+message AUProduct {
+    required int64 id = 1;
+    required string description = 2;
+    required int32 count = 3;
+}
+
+message UAPackageRequest {
+    required int64 packageid = 1;
+    required int64 seqnum = 2;
+}
+
+message AUPackageResponse {
+    required int64 packageid = 1;
+    required AUProduct product = 2;
+    required int64 seqnum = 3;
+}
+
+message AUCommands {
+    repeated AUInitPickUp pickupreq = 1;
+    repeated AULoaded loaded = 2;
+    repeated AUPackageResponse packageresponse = 3;
+    repeated int64 acks = 4;
+}
+
+message UACommands {
+    repeated UATruckArrived truckarrived = 1;
+    repeated UADelivered delivered = 2;
+    repeated UATruck trucks = 3;
+    repeated UAPackageRequest packagerequest = 4;
+    repeated int64 acks = 5;
+}
+ 
