@@ -53,7 +53,7 @@ bool recvMesgFrom(T & message, google::protobuf::io::FileInputStream * in ){
 }
 
 int main(){
-    int server_fd = setup_client("vcm-33209.vm.duke.edu", "12345");
+    int server_fd = setup_client("vcm-32227.vm.duke.edu", "12345");
     google::protobuf::io::FileInputStream * in=new google::protobuf::io::FileInputStream(server_fd);
     google::protobuf::io::FileOutputStream *out=new google::protobuf::io::FileOutputStream(server_fd);
 

@@ -1,0 +1,12 @@
+<h2>Update Delivery Address</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="addr_x">Delivery Address X:</label>
+    <input type="number" name="addr_x" value="{{ package.addr_x }}" required>
+    <br>
+    <label for="addr_y">Delivery Address Y:</label>
+    <input type="number" name="addr_y" value="{{ package.addr_y }}" required>
+    <br>
+    <button type="submit">Update</button>
+    <a href="{% url 'package_detail' package.package_id %}">Return</a>
+</form>
