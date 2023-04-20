@@ -1,3 +1,15 @@
+todo:
+ACK
+pthread_create for recv/send from/to world/ups
+
+收：一直收，收到就發ack，收到要檢查有無重複
+發：一直發，收到ack就停止發
+database connect
 
 
+
+check:
 server non stop
+
+done: 
+use uniquelock to prevent dead locks when return from function

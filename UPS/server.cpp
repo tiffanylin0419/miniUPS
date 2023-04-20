@@ -23,6 +23,8 @@ void Server::run() {
     
     //todo
     //use handle or while loop to keep getting and sending data?
+    pthread_t thread;
+    //pthread_create(&thread, NULL, recvFromWorld,);
     
 }
 
@@ -61,10 +63,11 @@ void Server::init_world(){
     //2 AUInitConnect
     AUInitConnect auInitConnect;
     if(!recvMesgFrom<AUInitConnect>(auInitConnect, amazon_in)){
-        cerr<< "2 recv from world failure"<<endl;
+        cerr<< "2 Err: recv from world failure"<<endl;
+    }else{
+        world_id-=auInitConnect.worldid();
+        cout<<"2 receive world_id = "<<world_id<<endl;
     }
-    world_id-=auInitConnect.worldid();
-    cout<<"2 receive world_id = "<<world_id<<endl;
     //3 UConnect
     UConnect connect;
     connect.set_worldid(world_id);
@@ -76,24 +79,28 @@ void Server::init_world(){
     }
     connect.set_isamazon(false);
     if(!sendMesgTo<UConnect>(connect, world_out)){
-        cerr<< "3 send to world failure"<<endl;
+        cerr<< "3 Err: send to world failure"<<endl;
+    }else{
+        cout<<"3 connect world"<<endl;
     }
-    cout<<"3 connect world"<<endl;
     //4 UConnected
     UConnected connected;
     if(!recvMesgFrom<UConnected>(connected, world_in)){
-        cout<< "4 recv from world failure"<<endl;
+        cout<< "4 Err: recv from world failure"<<endl;
+    }else{
+        cout<<"4 "<<connected.result()<<endl;
     }
-    cout<<"4 "<<connected.result()<<endl;
     //5 UAConfirmConnected
     UAConfirmConnected uaConfirmConnected;
     uaConfirmConnected.set_worldid(world_id);
     uaConfirmConnected.set_connected(true);
     uaConfirmConnected.set_seqnum(getSeqNum());
     if(!sendMesgTo<UAConfirmConnected>(uaConfirmConnected, amazon_out)){
-        cerr<< "5 send to amazon failure"<<endl;
+        cerr<< "5 Err: send to amazon failure"<<endl;
+    }else{
+        cout<<"5 confirmed connect"<<endl;
     }
-    cout<<"5 confirmed connect"<<endl;
+    
 }
 
 
@@ -109,3 +116,35 @@ Server::~Server() {
     close(world_fd);
     close(amazon_fd);
 }
+
+void Server::sendToAmazon(){
+
+}
+
+void Server::sendToWorld(){
+    
+}
+
+void Server::sendAckAmazon(){
+
+}
+
+void Server::sendAckWorld(){
+    
+}
+
+void Server::recvFromAmazon(){
+    
+}
+
+void Server::recvFromWorld(){
+    while(true){
+        UResponses response;
+        if (recvMesgFrom<UResponses>(response, world_in) == false) {
+            continue;
+        }
+        UResponseHandler h(response, world_command, world_response, world_ack);
+        h.handle();
+    }
+}
+

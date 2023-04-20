@@ -1,8 +1,10 @@
-#include "proto/ups.pb.h"
-#include "proto/ups-amazon.pb.h"
+
 #include "connect_func.h"
 #include "connect_world.cpp"
 
+
+
+#include "UResponseHandler.h"
 
 class Server {
  private:
@@ -22,14 +24,31 @@ class Server {
   int truck_num;
   int truck_distance;
 
+
+ 
+
   void init_world();
   void setup_sockets();
   void init_database();
   int getSeqNum();
-  
-  
 
+  void sendToAmazon();
+  void sendToWorld();
+  void sendAckAmazon();
+  void sendAckWorld();
+  void recvFromAmazon();
+  void recvFromWorld();
+  
  public:
+
+  ThreadSafeMap<UCommands> world_command;
+  ThreadSafeMap<UACommands> amazon_command;
+  ThreadSafeSet world_response;
+  ThreadSafeSet amazon_response;
+  ThreadSafeList<UCommands> world_ack;
+  ThreadSafeList<UACommands> amazon_ack;
+
+
   Server();
   void run();
   ~Server();
