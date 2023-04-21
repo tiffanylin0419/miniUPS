@@ -90,7 +90,7 @@ void UDeliveryMade_sql(int world_id,int truck_id, int package_id) {
     }
 }
 
-
+/*
 int main(){
     //Ucreate_truck_sql(3, 1, 5, 6);
     //Ucreate_truck_sql(1, "idle", 5, 6);
@@ -98,3 +98,4 @@ int main(){
     UDeliveryMade_sql(1,1,1);
     return 0;
 }
+*/
