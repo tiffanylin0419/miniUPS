@@ -115,11 +115,11 @@ void UTruck_sql(int world_id, int truck_id, string truck_status, int loc_x, int 
     }
 }
 
-
+/*
 int main(){
     //Ucreate_truck_sql(3, 1, 5, 6);
     //Ucreate_truck_sql(1, "idle", 5, 6);
     //Ufinish_sql(2,"idle" , 3, 4);
     UTruck_sql(1, 6, "traveling" ,2, 2);
     return 0;
-}
+}*/

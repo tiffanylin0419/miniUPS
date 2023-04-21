@@ -5,7 +5,7 @@
 #include "threadSafeMap.h"
 #include "threadSafeSet.h"
 #include "threadSafeList.h"
-
+#include "sql_cmd.h"
 
 class WorldResponseHandler {
  private: 
@@ -24,18 +24,27 @@ class WorldResponseHandler {
         }
         for(int i=0;i<response.completions_size();i++){
             //todo
-            //if not in world_response
-                //deal with response.completions(i)
-                //add to world_response
-                //perhaps send to 
-            world_ack.add(response.completions(i).seqnum());
+            UFinished r=response.completions(i);
+            if(!world_response.contains(r.seqnum())){
+                //sql deal with r
+                world_response.add(r.seqnum());
+                //10
+                    //add 11 to amazon_command
+                //17+
+                    //none
+            }   
+            world_ack.add(r.seqnum());
         }
         for(int i=0;i<response.delivered_size();i++){
             //todo
-            //if not in world_response
-                //deal with response.delivered(i)   
-                //add to world_response
-            world_ack.add(response.completions(i).seqnum());
+            UDeliveryMade r=response.delivered(i);
+            if(!world_response.contains(r.seqnum())){
+                //sql deal with r
+                world_response.add(r.seqnum());
+                //16
+                //add 17 to amazon_command
+            }
+            world_ack.add(r.seqnum());
         }
     }
 
