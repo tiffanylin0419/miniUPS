@@ -1,9 +1,7 @@
 todo:
-ACK
-pthread_create for recv/send from/to world/ups
-
-收：一直收，收到就發ack，收到要檢查有無重複
-發：一直發，收到ack就停止發
+server.cpp: 6 functions 
+WorldResponseHandler.h
+AmazonResponseHandler.h
 database connect
 
 

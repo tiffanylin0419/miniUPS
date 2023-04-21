@@ -1,8 +1,5 @@
 #include "server.h"
-
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
-
-
 
 Server::Server(){
     world_port="12345";
@@ -16,16 +13,17 @@ Server::Server(){
     truck_distance=10;
 }
 
+
+
 void Server::run() {
     //uncomment
     //init_database();
     init_world();
     
     //todo
-    //use handle or while loop to keep getting and sending data?
     pthread_t thread;
-    //pthread_create(&thread, NULL, recvFromWorld,);
-    
+    pthread_create(&thread, NULL, &Server::recvFromWorldWrapper,this);
+    pthread_join(thread, NULL);
 }
 
 void Server::init_database(){
@@ -117,34 +115,46 @@ Server::~Server() {
     close(amazon_fd);
 }
 
-void Server::sendToAmazon(){
-
+/*----------------------------------Send & Recv-----------------------------------*/
+void *Server::sendToAmazon(){
+    //todo
+    return NULL;
 }
 
-void Server::sendToWorld(){
-    
+void *Server::sendToWorld(){
+    //todo
+    return NULL;
 }
 
-void Server::sendAckAmazon(){
-
+void *Server::sendAckAmazon(){
+    //todo
+    return NULL;
 }
 
-void Server::sendAckWorld(){
-    
+void *Server::sendAckWorld(){
+    //todo
+    return NULL;
 }
 
-void Server::recvFromAmazon(){
-    
+void *Server::recvFromAmazon(){
+    //todo
+    return NULL;
 }
 
-void Server::recvFromWorld(){
+void *Server::recvFromWorld(){
     while(true){
         UResponses response;
         if (recvMesgFrom<UResponses>(response, world_in) == false) {
             continue;
         }
-        UResponseHandler h(response, world_command, world_response, world_ack);
+        WorldResponseHandler h(response, world_command, world_response, world_ack);
         h.handle();
     }
 }
 
+
+/*----------------------------------Send & Recv Wrapper-----------------------------------*/
+void* Server::recvFromWorldWrapper(void* arg) {
+    Server* server = static_cast<Server*>(arg);
+    return server->recvFromWorld();
+}
