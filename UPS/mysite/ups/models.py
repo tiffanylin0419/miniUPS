@@ -9,7 +9,7 @@ from django.views.generic import View
 
 
 class World(models.Model):
-    world_id = models.AutoField(primary_key=True)
+    world_id = models.AutoField(primary_key=True, db_column='world_id')
     connected = models.BooleanField(default=False)
 
 # class User(AbstractUser):
@@ -25,8 +25,8 @@ class Truck(models.Model):
         ('loading', 'Loading'),
         ('delivering', 'Delivering'),
     )
-    truck_id = models.AutoField(primary_key=True)
-    world_id = models.ForeignKey(World, on_delete=models.CASCADE, blank=True, null=True)
+    truck_id = models.AutoField(primary_key=True, db_column='truck_id')
+    world_id = models.ForeignKey(World, on_delete=models.CASCADE, blank=True, null=True, db_column='world_id')
     truck_status = models.CharField(max_length=20, choices=TRUCK_STATUS_CHOICES)
     loc_x = models.FloatField()
     loc_y = models.FloatField()
@@ -47,11 +47,11 @@ class Package(models.Model):
     wh_id = models.IntegerField()
     addr_y = models.IntegerField()
     addr_x = models.IntegerField()
-    truck_id = models.ForeignKey(Truck, on_delete=models.SET_NULL, null=True)
+    truck_id = models.ForeignKey(Truck, on_delete=models.SET_NULL, null=True, db_column='truck_id')
     des_x = models.IntegerField()
     des_y = models.IntegerField()
     package_status = models.CharField(max_length=10, choices=PACKAGE_STATUS_CHOICES, default='Pickup')
-    world_id = models.ForeignKey(World, on_delete=models.CASCADE)
+    world_id = models.ForeignKey(World, on_delete=models.CASCADE, db_column='world_id')
     ready_for_picktime = models.DateTimeField(null=True, blank=True)
     load_time = models.DateTimeField(null=True, blank=True)
     delivered_time = models.DateTimeField(null=True, blank=True)
