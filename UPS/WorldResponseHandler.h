@@ -27,6 +27,7 @@ class WorldResponseHandler {
             //if not in world_response
                 //deal with response.completions(i)
                 //add to world_response
+                //perhaps send to 
             world_ack.add(response.completions(i).seqnum());
         }
         for(int i=0;i<response.delivered_size();i++){
