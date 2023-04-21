@@ -90,12 +90,36 @@ void UDeliveryMade_sql(int world_id,int truck_id, int package_id) {
     }
 }
 
+//create truck
+void UTruck_sql(int world_id, int truck_id, string truck_status, int loc_x, int loc_y) {
+    // connect to database
+    pqxx::connection conn("dbname=postgres user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+
+    try {
+        // execute a query to check if the truck already exists
+        pqxx::work txn(conn);
+        pqxx::result res = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
+
+        // check if the truck already exists
+        if (res.empty()) {
+            cerr << "Truck with world_id=" << world_id << " truck_id=" << truck_id << " does not exist." << endl;
+            txn.abort();
+            return;
+        }
+
+        // update an existing truck
+        txn.exec("UPDATE ups_truck SET truck_status = '" + truck_status + "', loc_x =" + to_string(loc_x) + ", loc_y=" + to_string(loc_y) +  " WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
+        txn.commit();
+    } catch (const exception &e) {
+        cerr << "Error: " << e.what() << endl;
+    }
+}
+
 /*
 int main(){
     //Ucreate_truck_sql(3, 1, 5, 6);
     //Ucreate_truck_sql(1, "idle", 5, 6);
     //Ufinish_sql(2,"idle" , 3, 4);
-    UDeliveryMade_sql(1,1,1);
+    UTruck_sql(1, 6, "traveling" ,2, 2);
     return 0;
-}
-*/
+}*/
