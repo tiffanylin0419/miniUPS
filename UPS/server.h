@@ -44,7 +44,7 @@ class Server {
  public:
 
   ThreadSafeMap<UCommands> world_command;
-  ThreadSafeMap<UACommands> amazon_command;
+  ThreadSafeMap<AUCommands> amazon_command;
   ThreadSafeSet world_response;
   ThreadSafeSet amazon_response;
   ThreadSafeList world_ack;
