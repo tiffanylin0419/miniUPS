@@ -1,7 +1,3 @@
-
-#include "proto/ups.pb.h"
-#include "proto/ups-amazon.pb.h"
-
 #include "threadSafeMap.h"
 #include "threadSafeSet.h"
 #include "threadSafeList.h"
@@ -13,10 +9,11 @@ class WorldResponseHandler {
     ThreadSafeMap<UCommands>& world_command;
     ThreadSafeSet& world_response;
     ThreadSafeList & world_ack;
+    int world_id;
 
  public:
-    WorldResponseHandler(UResponses response, ThreadSafeMap<UCommands>& world_command, ThreadSafeSet& world_response, ThreadSafeList & world_ack)
-    : response(response), world_command(world_command), world_response(world_response), world_ack(world_ack) {}
+    WorldResponseHandler(UResponses response, ThreadSafeMap<UCommands>& world_command, ThreadSafeSet& world_response, ThreadSafeList & world_ack, int world_id)
+    : response(response), world_command(world_command), world_response(world_response), world_ack(world_ack), world_id(world_id) {}
  
     void handle(){
         for(int i=0;i<response.acks_size();i++){
@@ -26,7 +23,7 @@ class WorldResponseHandler {
             //todo
             UFinished r=response.completions(i);
             if(!world_response.contains(r.seqnum())){
-                //sql deal with r
+                //Ufinish_sql(int truck_id, std::string truck_status, int new_x, int new_y);
                 world_response.add(r.seqnum());
                 //10
                     //add 11 to amazon_command
@@ -39,7 +36,7 @@ class WorldResponseHandler {
             //todo
             UDeliveryMade r=response.delivered(i);
             if(!world_response.contains(r.seqnum())){
-                //sql deal with r
+                UDeliveryMade_sql(world_id, r.truckid(), r.packageid());
                 world_response.add(r.seqnum());
                 //16
                 //add 17 to amazon_command
