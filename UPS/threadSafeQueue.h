@@ -42,6 +42,16 @@ class ThreadSafeQueue {
     return c.second;
   }
 
+  T getAndRemove(){
+    std::unique_lock<std::mutex> lock(map_mutex);
+    while (myList.empty()) {
+      cv.wait(lock);
+    }
+    std::pair<int, T> c=myList.front();
+    myList.pop();
+    return c.second;
+  }
+
   // int getCommandSeqNum(UCommands command){
   //   for(int i=0;i<command.pickups_size();i++){
   //       return command.pickups(i).seqnum();

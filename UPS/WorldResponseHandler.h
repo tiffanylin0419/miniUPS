@@ -1,6 +1,5 @@
 #include "threadSafeQueue.h"
 #include "threadSafeSet.h"
-#include "threadSafeList.h"
 #include "sql_cmd.h"
 
 class WorldResponseHandler {
@@ -8,11 +7,11 @@ class WorldResponseHandler {
     UResponses response;
     ThreadSafeQueue<UCommands> & world_command;
     ThreadSafeSet& world_response;
-    ThreadSafeList & world_ack;
+    ThreadSafeQueue<int> & world_ack;
     int world_id;
 
  public:
-    WorldResponseHandler(UResponses response, ThreadSafeQueue<UCommands> &world_command, ThreadSafeSet& world_response, ThreadSafeList & world_ack, int world_id)
+    WorldResponseHandler(UResponses response, ThreadSafeQueue<UCommands> &world_command, ThreadSafeSet& world_response, ThreadSafeQueue<int> & world_ack, int world_id)
     : response(response), world_command(world_command), world_response(world_response), world_ack(world_ack), world_id(world_id) {}
  
     void handle(){
@@ -23,14 +22,14 @@ class WorldResponseHandler {
             //todo
             UFinished r=response.completions(i);
             if(!world_response.contains(r.seqnum())){
-                //Ufinish_sql(int truck_id, std::string truck_status, int new_x, int new_y);
+                Ufinish_sql(world_id, r.truckid(), r.status(), r.x(), r.y());
                 world_response.add(r.seqnum());
                 //10
                     //add 11 to amazon_command
                 //17+
                     //none
             }   
-            world_ack.add(r.seqnum());
+            world_ack.add(r.seqnum(), r.seqnum());
         }
         for(int i=0;i<response.delivered_size();i++){
             //todo
@@ -41,8 +40,17 @@ class WorldResponseHandler {
                 //16
                 //add 17 to amazon_command
             }
-            world_ack.add(r.seqnum());
+            world_ack.add(r.seqnum(), r.seqnum());
         }
+        // for(int i=0;i<response.truckstatus_size();i++){
+        //     //todo
+        //     UTruck r=response.truckstatus(i);
+        //     if(!world_response.contains(r.seqnum())){
+        //         UTruck_sql(world_id, r.truckid(), r.status(), r.x(), r.y());
+        //         world_response.add(r.seqnum());
+        //     }
+        //     world_ack.add(r.seqnum());
+        // }
     }
 
     ~WorldResponseHandler(){}

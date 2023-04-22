@@ -24,6 +24,8 @@ void Server::run() {
     //todo
     pthread_t thread;
     pthread_create(&thread, NULL, &Server::recvFromWorldWrapper,this);
+    pthread_create(&thread, NULL, &Server::sendAckWorldWrapper,this);
+    
     pthread_join(thread, NULL);
 }
 
@@ -165,3 +167,7 @@ void* Server::recvFromWorldWrapper(void* arg) {
     return server->recvFromWorld();
 }
 
+void* Server::sendAckWorldWrapper(void* arg) {
+    Server* server = static_cast<Server*>(arg);
+    return server->sendAckWorld();
+}

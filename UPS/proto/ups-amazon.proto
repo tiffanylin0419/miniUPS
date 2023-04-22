@@ -14,6 +14,8 @@ message UAConfirmConnected{
 message AUInitPickUp{
   required int32 whid = 1;
   required int64 seqnum = 2;
+  required string accountname=3;
+  required int64 packageid = 4;
 }
 
 message UATruckArrived{
@@ -50,9 +52,14 @@ message UAPackageRequest {
     required int64 packageid = 1;
     required int64 seqnum = 2;
 }
-
+message UDeliveryLocation{
+  required int64 packageid = 1;
+  required int32 x = 2;
+  required int32 y = 3;
+}
 message AUPackageResponse {
     required int64 packageid = 1;
+    required UDeliveryLocation packages = 1;
     required AUProduct product = 2;
     required int64 seqnum = 3;
 }
