@@ -1,4 +1,5 @@
 #include "server.h"
+#include <exception>
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
 Server::Server(){
@@ -132,7 +133,12 @@ void *Server::sendAckAmazon(){
 }
 
 void *Server::sendAckWorld(){
-    //todo
+    while(true){
+        UCommands command=world_command.waitPop();
+        if(!sendMesgTo<UCommands>(command, world_out)){
+            cerr<<"Error: send to world fail"<<endl;
+        }
+    }
     return NULL;
 }
 
@@ -144,10 +150,10 @@ void *Server::recvFromAmazon(){
 void *Server::recvFromWorld(){
     while(true){
         UResponses response;
-        if (recvMesgFrom<UResponses>(response, world_in) == false) {
-            continue;
+        if (!recvMesgFrom<UResponses>(response, world_in)) {
+            cerr<<"Error: recv from world fail"<<endl;
         }
-        WorldResponseHandler h(response, world_command, world_response, world_ack);
+        WorldResponseHandler h(response, world_command, world_response, world_ack, world_id);
         h.handle();
     }
 }
@@ -158,3 +164,4 @@ void* Server::recvFromWorldWrapper(void* arg) {
     Server* server = static_cast<Server*>(arg);
     return server->recvFromWorld();
 }
+

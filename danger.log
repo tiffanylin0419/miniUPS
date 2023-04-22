@@ -2,8 +2,9 @@ todo:
 server.cpp: 6 functions 
 WorldResponseHandler.h
 AmazonResponseHandler.h
+add thread for response handling
 database connect
-
+connect to world many times to send ?
 
 
 check:
