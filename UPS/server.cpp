@@ -134,7 +134,7 @@ void *Server::sendAckAmazon(){
 
 void *Server::sendAckWorld(){
     while(true){
-        UCommands command=world_command.waitPop();
+        UCommands command=world_command.getOne();
         if(!sendMesgTo<UCommands>(command, world_out)){
             cerr<<"Error: send to world fail"<<endl;
         }
