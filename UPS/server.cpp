@@ -24,6 +24,9 @@ void Server::run() {
     //todo
     pthread_t thread;
     pthread_create(&thread, NULL, &Server::recvFromWorldWrapper,this);
+    pthread_create(&thread, NULL, &Server::sendAckWorldWrapper,this);
+    pthread_create(&thread, NULL, &Server::sendToWorldWrapper,this);
+    
     pthread_join(thread, NULL);
 }
 
@@ -123,8 +126,12 @@ void *Server::sendToAmazon(){
 }
 
 void *Server::sendToWorld(){
-    //todo
-    return NULL;
+    while(true){
+        UCommands command=world_command.getOne();
+        if(!sendMesgTo<UCommands>(command, world_out)){
+            cerr<<"Error: send to world fail"<<endl;
+        }
+    }
 }
 
 void *Server::sendAckAmazon(){
@@ -134,12 +141,11 @@ void *Server::sendAckAmazon(){
 
 void *Server::sendAckWorld(){
     while(true){
-        UCommands command=world_command.getOne();
+        UCommands command=world_ack.getAndRemove();
         if(!sendMesgTo<UCommands>(command, world_out)){
-            cerr<<"Error: send to world fail"<<endl;
+            cerr<<"Error: send ack to world fail"<<endl;
         }
     }
-    return NULL;
 }
 
 void *Server::recvFromAmazon(){
@@ -165,3 +171,12 @@ void* Server::recvFromWorldWrapper(void* arg) {
     return server->recvFromWorld();
 }
 
+void* Server::sendAckWorldWrapper(void* arg) {
+    Server* server = static_cast<Server*>(arg);
+    return server->sendAckWorld();
+}
+
+void* Server::sendToWorldWrapper(void* arg) {
+    Server* server = static_cast<Server*>(arg);
+    return server->sendToWorld();
+}

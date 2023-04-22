@@ -40,6 +40,8 @@ class Server {
   void *recvFromWorld();
   
   static void* recvFromWorldWrapper(void* arg);
+  static void* sendAckWorldWrapper(void* arg);
+  static void* sendToWorldWrapper(void* arg);
 
  public:
 
@@ -47,8 +49,8 @@ class Server {
   ThreadSafeQueue<AUCommands> amazon_command;
   ThreadSafeSet world_response;
   ThreadSafeSet amazon_response;
-  ThreadSafeList world_ack;
-  ThreadSafeList amazon_ack;
+  ThreadSafeQueue<UCommands> world_ack;
+  ThreadSafeQueue<AUCommands> amazon_ack;
 
 
   Server();
