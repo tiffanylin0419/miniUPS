@@ -36,24 +36,24 @@ void Ucreate_truck_sql(int truck_id, int world_id, int loc_x, int loc_y) {
 
 
 //update truck truck_status, loc_x, loc_y
-void Ufinish_sql(int truck_id, string truck_status, int new_x, int new_y) {
+void Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, int new_y) {
     // connect to database
     pqxx::connection conn("dbname=postgres user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
 
     try {
         // execute a query to get the truck with the specified ID
         pqxx::work txn(conn);
-        pqxx::result res = txn.exec("SELECT * FROM ups_truck WHERE truck_id=" + to_string(truck_id));
+        pqxx::result res = txn.exec("SELECT * FROM ups_truck WHERE world_id="+ to_string(world_id) +"AND truck_id=" + to_string(truck_id));
 
         // check if the truck exists
         if (res.empty()) {
-            cerr << "Truck with truck_id=" << truck_id << " does not exist." << endl;
+            cerr << "Truck with world_id=" << world_id << " truck_id=" << truck_id << " does not exist." << endl;
             txn.abort();
             return;
         }
 
         // update the truck's location
-        txn.exec("UPDATE ups_truck SET truck_status='"+ truck_status + "', loc_x=" + to_string(new_x) + ", loc_y=" + to_string(new_y) + " WHERE truck_id=" + to_string(truck_id));
+        txn.exec("UPDATE ups_truck SET truck_status='"+ truck_status + "', loc_x=" + to_string(new_x) + ", loc_y=" + to_string(new_y) + " WHERE world_id="+ to_string(world_id) + "AND truck_id=" + to_string(truck_id));
         txn.commit();
     } catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
@@ -119,7 +119,7 @@ void UTruck_sql(int world_id, int truck_id, string truck_status, int loc_x, int 
 int main(){
     //Ucreate_truck_sql(3, 1, 5, 6);
     //Ucreate_truck_sql(1, "idle", 5, 6);
-    //Ufinish_sql(2,"idle" , 3, 4);
-    UTruck_sql(1, 6, "traveling" ,2, 2);
+    Ufinish_sql(1,1,"idle" , 3, 4);
+    //UTruck_sql(1, 6, "traveling" ,2, 2);
     return 0;
 }
