@@ -1,3 +1,6 @@
+#ifndef THREAD_SAFE_SET_H
+#define THREAD_SAFE_SET_H
+
 #include <set>
 #include <mutex>
 
@@ -8,19 +11,9 @@ class ThreadSafeSet {
   
  public:
   ThreadSafeSet(){}
-
-  void add(int seq){
-    std::unique_lock<std::mutex> lock(set_mutex);
-    mySet.insert(seq);
-  }
-
-  bool contains(int seq){
-    std::unique_lock<std::mutex> lock(set_mutex);
-    if(mySet.count(seq)==0){
-        return false;
-    }
-    return true;
-  }
-
+  void add(int seq);
+  bool contains(int seq);
   ~ThreadSafeSet(){}
 };
+
+#endif // THREAD_SAFE_SET_H

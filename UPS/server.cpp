@@ -149,7 +149,14 @@ void *Server::sendAckWorld(){
 }
 
 void *Server::recvFromAmazon(){
-    //todo
+    // while(true){
+    //     AUCommands response;
+    //     if (!recvMesgFrom<AUCommands>(response, amazon_in)) {
+    //         cerr<<"Error: recv from world fail"<<endl;
+    //     }
+    //     AmazonResponseHandler h(response, amazon_command, amazon_response, amazon_ack, world_id);
+    //     h.handle();
+    // }
     return NULL;
 }
 

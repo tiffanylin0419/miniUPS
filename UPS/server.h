@@ -2,8 +2,10 @@
 #include "connect_func.h"
 #include "connect_world.cpp"
 
+#include "threadSafeQueue.h"
+#include "threadSafeSet.h"
 
-
+//#include "AmazonResponseHandler.h"
 #include "WorldResponseHandler.h"
 
 class Server {
@@ -46,11 +48,11 @@ class Server {
  public:
 
   ThreadSafeQueue<UCommands> world_command;
-  ThreadSafeQueue<AUCommands> amazon_command;
+  ThreadSafeQueue<UACommands> amazon_command;
   ThreadSafeSet world_response;
   ThreadSafeSet amazon_response;
   ThreadSafeQueue<UCommands> world_ack;
-  ThreadSafeQueue<AUCommands> amazon_ack;
+  ThreadSafeQueue<UACommands> amazon_ack;
 
 
   Server();
