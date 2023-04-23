@@ -55,19 +55,6 @@ class ThreadSafeQueue {
     return c.second;
   }
 
-  // int getCommandSeqNum(UCommands command){
-  //   for(int i=0;i<command.pickups_size();i++){
-  //       return command.pickups(i).seqnum();
-  //   }
-  //   for(int i=0;i<command.deliveries_size();i++){
-  //       return command.deliveries(i).seqnum();
-  //   }
-  //   for(int i=0;i<command.queries_size();i++){
-  //       return command.queries(i).seqnum();
-  //   }
-  //   return -1;
-  // }
-
   ~ThreadSafeQueue(){}
 };
 

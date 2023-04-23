@@ -4,15 +4,15 @@
 
 class AmazonResponseHandler {
  private: 
-    UResponses response;
-    ThreadSafeQueue<UCommands> & world_command;
-    ThreadSafeSet& world_response;
-    ThreadSafeQueue<UCommands> & world_ack;
+    AUCommands response;
+    ThreadSafeQueue<UACommands> & amazon_command;
+    ThreadSafeSet& amazon_response;
+    ThreadSafeQueue<UACommands> & amazon_ack;
     int world_id;
 
  public:
-    AmazonResponseHandler(UResponses response, ThreadSafeQueue<UCommands> &world_command, ThreadSafeSet& world_response, ThreadSafeQueue<UCommands> & world_ack, int world_id)
-    : response(response), world_command(world_command), world_response(world_response), world_ack(world_ack), world_id(world_id) {}
+    AmazonResponseHandler(AUCommands response, ThreadSafeQueue<UACommands> &amazon_command, ThreadSafeSet& amazon_response, ThreadSafeQueue<UACommands> & amazon_ack, int world_id)
+    : response(response), amazon_command(amazon_command), amazon_response(amazon_response), amazon_ack(amazon_ack), world_id(world_id) {}
  
 
     ~AmazonResponseHandler(){}
