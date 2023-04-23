@@ -4,8 +4,8 @@
 #include <queue>
 #include <mutex>
 #include <condition_variable>
-#include "proto/ups.pb.h"
-#include "proto/ups-amazon.pb.h"
+#include "../proto/ups.pb.h"
+#include "../proto/ups-amazon.pb.h"
 
 template<typename T>
 class ThreadSafeQueue {
