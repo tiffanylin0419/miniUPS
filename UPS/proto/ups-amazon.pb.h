@@ -71,6 +71,9 @@ extern UAConfirmConnectedDefaultTypeInternal _UAConfirmConnected_default_instanc
 class UADelivered;
 struct UADeliveredDefaultTypeInternal;
 extern UADeliveredDefaultTypeInternal _UADelivered_default_instance_;
+class UADeliveryLocation;
+struct UADeliveryLocationDefaultTypeInternal;
+extern UADeliveryLocationDefaultTypeInternal _UADeliveryLocation_default_instance_;
 class UAPackageRequest;
 struct UAPackageRequestDefaultTypeInternal;
 extern UAPackageRequestDefaultTypeInternal _UAPackageRequest_default_instance_;
@@ -90,6 +93,7 @@ template<> ::AUProduct* Arena::CreateMaybeMessage<::AUProduct>(Arena*);
 template<> ::UACommands* Arena::CreateMaybeMessage<::UACommands>(Arena*);
 template<> ::UAConfirmConnected* Arena::CreateMaybeMessage<::UAConfirmConnected>(Arena*);
 template<> ::UADelivered* Arena::CreateMaybeMessage<::UADelivered>(Arena*);
+template<> ::UADeliveryLocation* Arena::CreateMaybeMessage<::UADeliveryLocation>(Arena*);
 template<> ::UAPackageRequest* Arena::CreateMaybeMessage<::UAPackageRequest>(Arena*);
 template<> ::UATruck* Arena::CreateMaybeMessage<::UATruck>(Arena*);
 template<> ::UATruckArrived* Arena::CreateMaybeMessage<::UATruckArrived>(Arena*);
@@ -584,9 +588,29 @@ class AUInitPickUp final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kAccountnameFieldNumber = 3,
     kSeqnumFieldNumber = 2,
+    kPackageidFieldNumber = 4,
     kWhidFieldNumber = 1,
   };
+  // required string accountname = 3;
+  bool has_accountname() const;
+  private:
+  bool _internal_has_accountname() const;
+  public:
+  void clear_accountname();
+  const std::string& accountname() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_accountname(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_accountname();
+  PROTOBUF_NODISCARD std::string* release_accountname();
+  void set_allocated_accountname(std::string* accountname);
+  private:
+  const std::string& _internal_accountname() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_accountname(const std::string& value);
+  std::string* _internal_mutable_accountname();
+  public:
+
   // required int64 seqnum = 2;
   bool has_seqnum() const;
   private:
@@ -598,6 +622,19 @@ class AUInitPickUp final :
   private:
   int64_t _internal_seqnum() const;
   void _internal_set_seqnum(int64_t value);
+  public:
+
+  // required int64 packageid = 4;
+  bool has_packageid() const;
+  private:
+  bool _internal_has_packageid() const;
+  public:
+  void clear_packageid();
+  int64_t packageid() const;
+  void set_packageid(int64_t value);
+  private:
+  int64_t _internal_packageid() const;
+  void _internal_set_packageid(int64_t value);
   public:
 
   // required int32 whid = 1;
@@ -625,7 +662,9 @@ class AUInitPickUp final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr accountname_;
   int64_t seqnum_;
+  int64_t packageid_;
   int32_t whid_;
   friend struct ::TableStruct_ups_2damazon_2eproto;
 };
@@ -1769,6 +1808,194 @@ class UAPackageRequest final :
 };
 // -------------------------------------------------------------------
 
+class UADeliveryLocation final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:UADeliveryLocation) */ {
+ public:
+  inline UADeliveryLocation() : UADeliveryLocation(nullptr) {}
+  ~UADeliveryLocation() override;
+  explicit PROTOBUF_CONSTEXPR UADeliveryLocation(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  UADeliveryLocation(const UADeliveryLocation& from);
+  UADeliveryLocation(UADeliveryLocation&& from) noexcept
+    : UADeliveryLocation() {
+    *this = ::std::move(from);
+  }
+
+  inline UADeliveryLocation& operator=(const UADeliveryLocation& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UADeliveryLocation& operator=(UADeliveryLocation&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
+  }
+  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const UADeliveryLocation& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const UADeliveryLocation* internal_default_instance() {
+    return reinterpret_cast<const UADeliveryLocation*>(
+               &_UADeliveryLocation_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  friend void swap(UADeliveryLocation& a, UADeliveryLocation& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UADeliveryLocation* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(UADeliveryLocation* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  UADeliveryLocation* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<UADeliveryLocation>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const UADeliveryLocation& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const UADeliveryLocation& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UADeliveryLocation* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "UADeliveryLocation";
+  }
+  protected:
+  explicit UADeliveryLocation(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPackageidFieldNumber = 1,
+    kXFieldNumber = 2,
+    kYFieldNumber = 3,
+  };
+  // required int64 packageid = 1;
+  bool has_packageid() const;
+  private:
+  bool _internal_has_packageid() const;
+  public:
+  void clear_packageid();
+  int64_t packageid() const;
+  void set_packageid(int64_t value);
+  private:
+  int64_t _internal_packageid() const;
+  void _internal_set_packageid(int64_t value);
+  public:
+
+  // required int32 x = 2;
+  bool has_x() const;
+  private:
+  bool _internal_has_x() const;
+  public:
+  void clear_x();
+  int32_t x() const;
+  void set_x(int32_t value);
+  private:
+  int32_t _internal_x() const;
+  void _internal_set_x(int32_t value);
+  public:
+
+  // required int32 y = 3;
+  bool has_y() const;
+  private:
+  bool _internal_has_y() const;
+  public:
+  void clear_y();
+  int32_t y() const;
+  void set_y(int32_t value);
+  private:
+  int32_t _internal_y() const;
+  void _internal_set_y(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:UADeliveryLocation)
+ private:
+  class _Internal;
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  int64_t packageid_;
+  int32_t x_;
+  int32_t y_;
+  friend struct ::TableStruct_ups_2damazon_2eproto;
+};
+// -------------------------------------------------------------------
+
 class AUPackageResponse final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AUPackageResponse) */ {
  public:
@@ -1824,7 +2051,7 @@ class AUPackageResponse final :
                &_AUPackageResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   friend void swap(AUPackageResponse& a, AUPackageResponse& b) {
     a.Swap(&b);
@@ -1895,10 +2122,28 @@ class AUPackageResponse final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kPackageFieldNumber = 1,
     kProductFieldNumber = 2,
-    kPackageidFieldNumber = 1,
     kSeqnumFieldNumber = 3,
   };
+  // required .UADeliveryLocation package = 1;
+  bool has_package() const;
+  private:
+  bool _internal_has_package() const;
+  public:
+  void clear_package();
+  const ::UADeliveryLocation& package() const;
+  PROTOBUF_NODISCARD ::UADeliveryLocation* release_package();
+  ::UADeliveryLocation* mutable_package();
+  void set_allocated_package(::UADeliveryLocation* package);
+  private:
+  const ::UADeliveryLocation& _internal_package() const;
+  ::UADeliveryLocation* _internal_mutable_package();
+  public:
+  void unsafe_arena_set_allocated_package(
+      ::UADeliveryLocation* package);
+  ::UADeliveryLocation* unsafe_arena_release_package();
+
   // required .AUProduct product = 2;
   bool has_product() const;
   private:
@@ -1916,19 +2161,6 @@ class AUPackageResponse final :
   void unsafe_arena_set_allocated_product(
       ::AUProduct* product);
   ::AUProduct* unsafe_arena_release_product();
-
-  // required int64 packageid = 1;
-  bool has_packageid() const;
-  private:
-  bool _internal_has_packageid() const;
-  public:
-  void clear_packageid();
-  int64_t packageid() const;
-  void set_packageid(int64_t value);
-  private:
-  int64_t _internal_packageid() const;
-  void _internal_set_packageid(int64_t value);
-  public:
 
   // required int64 seqnum = 3;
   bool has_seqnum() const;
@@ -1955,8 +2187,8 @@ class AUPackageResponse final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::UADeliveryLocation* package_;
   ::AUProduct* product_;
-  int64_t packageid_;
   int64_t seqnum_;
   friend struct ::TableStruct_ups_2damazon_2eproto;
 };
@@ -2017,7 +2249,7 @@ class AUCommands final :
                &_AUCommands_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    11;
 
   friend void swap(AUCommands& a, AUCommands& b) {
     a.Swap(&b);
@@ -2240,7 +2472,7 @@ class UACommands final :
                &_UACommands_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    12;
 
   friend void swap(UACommands& a, UACommands& b) {
     a.Swap(&b);
@@ -2587,7 +2819,7 @@ inline void UAConfirmConnected::set_seqnum(int64_t value) {
 
 // required int32 whid = 1;
 inline bool AUInitPickUp::_internal_has_whid() const {
-  bool value = (_has_bits_[0] & 0x00000002u) != 0;
+  bool value = (_has_bits_[0] & 0x00000008u) != 0;
   return value;
 }
 inline bool AUInitPickUp::has_whid() const {
@@ -2595,7 +2827,7 @@ inline bool AUInitPickUp::has_whid() const {
 }
 inline void AUInitPickUp::clear_whid() {
   whid_ = 0;
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline int32_t AUInitPickUp::_internal_whid() const {
   return whid_;
@@ -2605,7 +2837,7 @@ inline int32_t AUInitPickUp::whid() const {
   return _internal_whid();
 }
 inline void AUInitPickUp::_internal_set_whid(int32_t value) {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000008u;
   whid_ = value;
 }
 inline void AUInitPickUp::set_whid(int32_t value) {
@@ -2615,7 +2847,7 @@ inline void AUInitPickUp::set_whid(int32_t value) {
 
 // required int64 seqnum = 2;
 inline bool AUInitPickUp::_internal_has_seqnum() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  bool value = (_has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
 inline bool AUInitPickUp::has_seqnum() const {
@@ -2623,7 +2855,7 @@ inline bool AUInitPickUp::has_seqnum() const {
 }
 inline void AUInitPickUp::clear_seqnum() {
   seqnum_ = int64_t{0};
-  _has_bits_[0] &= ~0x00000001u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline int64_t AUInitPickUp::_internal_seqnum() const {
   return seqnum_;
@@ -2633,12 +2865,108 @@ inline int64_t AUInitPickUp::seqnum() const {
   return _internal_seqnum();
 }
 inline void AUInitPickUp::_internal_set_seqnum(int64_t value) {
-  _has_bits_[0] |= 0x00000001u;
+  _has_bits_[0] |= 0x00000002u;
   seqnum_ = value;
 }
 inline void AUInitPickUp::set_seqnum(int64_t value) {
   _internal_set_seqnum(value);
   // @@protoc_insertion_point(field_set:AUInitPickUp.seqnum)
+}
+
+// required string accountname = 3;
+inline bool AUInitPickUp::_internal_has_accountname() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool AUInitPickUp::has_accountname() const {
+  return _internal_has_accountname();
+}
+inline void AUInitPickUp::clear_accountname() {
+  accountname_.ClearToEmpty();
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& AUInitPickUp::accountname() const {
+  // @@protoc_insertion_point(field_get:AUInitPickUp.accountname)
+  return _internal_accountname();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AUInitPickUp::set_accountname(ArgT0&& arg0, ArgT... args) {
+ _has_bits_[0] |= 0x00000001u;
+ accountname_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:AUInitPickUp.accountname)
+}
+inline std::string* AUInitPickUp::mutable_accountname() {
+  std::string* _s = _internal_mutable_accountname();
+  // @@protoc_insertion_point(field_mutable:AUInitPickUp.accountname)
+  return _s;
+}
+inline const std::string& AUInitPickUp::_internal_accountname() const {
+  return accountname_.Get();
+}
+inline void AUInitPickUp::_internal_set_accountname(const std::string& value) {
+  _has_bits_[0] |= 0x00000001u;
+  accountname_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AUInitPickUp::_internal_mutable_accountname() {
+  _has_bits_[0] |= 0x00000001u;
+  return accountname_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AUInitPickUp::release_accountname() {
+  // @@protoc_insertion_point(field_release:AUInitPickUp.accountname)
+  if (!_internal_has_accountname()) {
+    return nullptr;
+  }
+  _has_bits_[0] &= ~0x00000001u;
+  auto* p = accountname_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (accountname_.IsDefault()) {
+    accountname_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void AUInitPickUp::set_allocated_accountname(std::string* accountname) {
+  if (accountname != nullptr) {
+    _has_bits_[0] |= 0x00000001u;
+  } else {
+    _has_bits_[0] &= ~0x00000001u;
+  }
+  accountname_.SetAllocated(accountname, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (accountname_.IsDefault()) {
+    accountname_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:AUInitPickUp.accountname)
+}
+
+// required int64 packageid = 4;
+inline bool AUInitPickUp::_internal_has_packageid() const {
+  bool value = (_has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool AUInitPickUp::has_packageid() const {
+  return _internal_has_packageid();
+}
+inline void AUInitPickUp::clear_packageid() {
+  packageid_ = int64_t{0};
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline int64_t AUInitPickUp::_internal_packageid() const {
+  return packageid_;
+}
+inline int64_t AUInitPickUp::packageid() const {
+  // @@protoc_insertion_point(field_get:AUInitPickUp.packageid)
+  return _internal_packageid();
+}
+inline void AUInitPickUp::_internal_set_packageid(int64_t value) {
+  _has_bits_[0] |= 0x00000004u;
+  packageid_ = value;
+}
+inline void AUInitPickUp::set_packageid(int64_t value) {
+  _internal_set_packageid(value);
+  // @@protoc_insertion_point(field_set:AUInitPickUp.packageid)
 }
 
 // -------------------------------------------------------------------
@@ -3251,39 +3579,189 @@ inline void UAPackageRequest::set_seqnum(int64_t value) {
 
 // -------------------------------------------------------------------
 
-// AUPackageResponse
+// UADeliveryLocation
 
 // required int64 packageid = 1;
-inline bool AUPackageResponse::_internal_has_packageid() const {
+inline bool UADeliveryLocation::_internal_has_packageid() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool UADeliveryLocation::has_packageid() const {
+  return _internal_has_packageid();
+}
+inline void UADeliveryLocation::clear_packageid() {
+  packageid_ = int64_t{0};
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline int64_t UADeliveryLocation::_internal_packageid() const {
+  return packageid_;
+}
+inline int64_t UADeliveryLocation::packageid() const {
+  // @@protoc_insertion_point(field_get:UADeliveryLocation.packageid)
+  return _internal_packageid();
+}
+inline void UADeliveryLocation::_internal_set_packageid(int64_t value) {
+  _has_bits_[0] |= 0x00000001u;
+  packageid_ = value;
+}
+inline void UADeliveryLocation::set_packageid(int64_t value) {
+  _internal_set_packageid(value);
+  // @@protoc_insertion_point(field_set:UADeliveryLocation.packageid)
+}
+
+// required int32 x = 2;
+inline bool UADeliveryLocation::_internal_has_x() const {
   bool value = (_has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
-inline bool AUPackageResponse::has_packageid() const {
-  return _internal_has_packageid();
+inline bool UADeliveryLocation::has_x() const {
+  return _internal_has_x();
 }
-inline void AUPackageResponse::clear_packageid() {
-  packageid_ = int64_t{0};
+inline void UADeliveryLocation::clear_x() {
+  x_ = 0;
   _has_bits_[0] &= ~0x00000002u;
 }
-inline int64_t AUPackageResponse::_internal_packageid() const {
-  return packageid_;
+inline int32_t UADeliveryLocation::_internal_x() const {
+  return x_;
 }
-inline int64_t AUPackageResponse::packageid() const {
-  // @@protoc_insertion_point(field_get:AUPackageResponse.packageid)
-  return _internal_packageid();
+inline int32_t UADeliveryLocation::x() const {
+  // @@protoc_insertion_point(field_get:UADeliveryLocation.x)
+  return _internal_x();
 }
-inline void AUPackageResponse::_internal_set_packageid(int64_t value) {
+inline void UADeliveryLocation::_internal_set_x(int32_t value) {
   _has_bits_[0] |= 0x00000002u;
-  packageid_ = value;
+  x_ = value;
 }
-inline void AUPackageResponse::set_packageid(int64_t value) {
-  _internal_set_packageid(value);
-  // @@protoc_insertion_point(field_set:AUPackageResponse.packageid)
+inline void UADeliveryLocation::set_x(int32_t value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:UADeliveryLocation.x)
+}
+
+// required int32 y = 3;
+inline bool UADeliveryLocation::_internal_has_y() const {
+  bool value = (_has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool UADeliveryLocation::has_y() const {
+  return _internal_has_y();
+}
+inline void UADeliveryLocation::clear_y() {
+  y_ = 0;
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline int32_t UADeliveryLocation::_internal_y() const {
+  return y_;
+}
+inline int32_t UADeliveryLocation::y() const {
+  // @@protoc_insertion_point(field_get:UADeliveryLocation.y)
+  return _internal_y();
+}
+inline void UADeliveryLocation::_internal_set_y(int32_t value) {
+  _has_bits_[0] |= 0x00000004u;
+  y_ = value;
+}
+inline void UADeliveryLocation::set_y(int32_t value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:UADeliveryLocation.y)
+}
+
+// -------------------------------------------------------------------
+
+// AUPackageResponse
+
+// required .UADeliveryLocation package = 1;
+inline bool AUPackageResponse::_internal_has_package() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || package_ != nullptr);
+  return value;
+}
+inline bool AUPackageResponse::has_package() const {
+  return _internal_has_package();
+}
+inline void AUPackageResponse::clear_package() {
+  if (package_ != nullptr) package_->Clear();
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline const ::UADeliveryLocation& AUPackageResponse::_internal_package() const {
+  const ::UADeliveryLocation* p = package_;
+  return p != nullptr ? *p : reinterpret_cast<const ::UADeliveryLocation&>(
+      ::_UADeliveryLocation_default_instance_);
+}
+inline const ::UADeliveryLocation& AUPackageResponse::package() const {
+  // @@protoc_insertion_point(field_get:AUPackageResponse.package)
+  return _internal_package();
+}
+inline void AUPackageResponse::unsafe_arena_set_allocated_package(
+    ::UADeliveryLocation* package) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(package_);
+  }
+  package_ = package;
+  if (package) {
+    _has_bits_[0] |= 0x00000001u;
+  } else {
+    _has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:AUPackageResponse.package)
+}
+inline ::UADeliveryLocation* AUPackageResponse::release_package() {
+  _has_bits_[0] &= ~0x00000001u;
+  ::UADeliveryLocation* temp = package_;
+  package_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::UADeliveryLocation* AUPackageResponse::unsafe_arena_release_package() {
+  // @@protoc_insertion_point(field_release:AUPackageResponse.package)
+  _has_bits_[0] &= ~0x00000001u;
+  ::UADeliveryLocation* temp = package_;
+  package_ = nullptr;
+  return temp;
+}
+inline ::UADeliveryLocation* AUPackageResponse::_internal_mutable_package() {
+  _has_bits_[0] |= 0x00000001u;
+  if (package_ == nullptr) {
+    auto* p = CreateMaybeMessage<::UADeliveryLocation>(GetArenaForAllocation());
+    package_ = p;
+  }
+  return package_;
+}
+inline ::UADeliveryLocation* AUPackageResponse::mutable_package() {
+  ::UADeliveryLocation* _msg = _internal_mutable_package();
+  // @@protoc_insertion_point(field_mutable:AUPackageResponse.package)
+  return _msg;
+}
+inline void AUPackageResponse::set_allocated_package(::UADeliveryLocation* package) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete package_;
+  }
+  if (package) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(package);
+    if (message_arena != submessage_arena) {
+      package = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, package, submessage_arena);
+    }
+    _has_bits_[0] |= 0x00000001u;
+  } else {
+    _has_bits_[0] &= ~0x00000001u;
+  }
+  package_ = package;
+  // @@protoc_insertion_point(field_set_allocated:AUPackageResponse.package)
 }
 
 // required .AUProduct product = 2;
 inline bool AUPackageResponse::_internal_has_product() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  bool value = (_has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || product_ != nullptr);
   return value;
 }
@@ -3292,7 +3770,7 @@ inline bool AUPackageResponse::has_product() const {
 }
 inline void AUPackageResponse::clear_product() {
   if (product_ != nullptr) product_->Clear();
-  _has_bits_[0] &= ~0x00000001u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline const ::AUProduct& AUPackageResponse::_internal_product() const {
   const ::AUProduct* p = product_;
@@ -3310,14 +3788,14 @@ inline void AUPackageResponse::unsafe_arena_set_allocated_product(
   }
   product_ = product;
   if (product) {
-    _has_bits_[0] |= 0x00000001u;
+    _has_bits_[0] |= 0x00000002u;
   } else {
-    _has_bits_[0] &= ~0x00000001u;
+    _has_bits_[0] &= ~0x00000002u;
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:AUPackageResponse.product)
 }
 inline ::AUProduct* AUPackageResponse::release_product() {
-  _has_bits_[0] &= ~0x00000001u;
+  _has_bits_[0] &= ~0x00000002u;
   ::AUProduct* temp = product_;
   product_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
@@ -3333,13 +3811,13 @@ inline ::AUProduct* AUPackageResponse::release_product() {
 }
 inline ::AUProduct* AUPackageResponse::unsafe_arena_release_product() {
   // @@protoc_insertion_point(field_release:AUPackageResponse.product)
-  _has_bits_[0] &= ~0x00000001u;
+  _has_bits_[0] &= ~0x00000002u;
   ::AUProduct* temp = product_;
   product_ = nullptr;
   return temp;
 }
 inline ::AUProduct* AUPackageResponse::_internal_mutable_product() {
-  _has_bits_[0] |= 0x00000001u;
+  _has_bits_[0] |= 0x00000002u;
   if (product_ == nullptr) {
     auto* p = CreateMaybeMessage<::AUProduct>(GetArenaForAllocation());
     product_ = p;
@@ -3363,9 +3841,9 @@ inline void AUPackageResponse::set_allocated_product(::AUProduct* product) {
       product = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, product, submessage_arena);
     }
-    _has_bits_[0] |= 0x00000001u;
+    _has_bits_[0] |= 0x00000002u;
   } else {
-    _has_bits_[0] &= ~0x00000001u;
+    _has_bits_[0] &= ~0x00000002u;
   }
   product_ = product;
   // @@protoc_insertion_point(field_set_allocated:AUPackageResponse.product)
@@ -3784,6 +4262,8 @@ UACommands::mutable_acks() {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
