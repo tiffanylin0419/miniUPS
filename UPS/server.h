@@ -23,6 +23,7 @@ class Server {
   int sequence_num;
   int truck_num;
   int truck_distance;
+  SeqNum seqNum;
 
 
  
@@ -30,7 +31,6 @@ class Server {
   void init_world();
   void setup_sockets();
   void init_database();
-  int getSeqNum();
 
   void *sendToAmazon();
   void *sendToWorld();
@@ -42,6 +42,9 @@ class Server {
   static void* recvFromWorldWrapper(void* arg);
   static void* sendAckWorldWrapper(void* arg);
   static void* sendToWorldWrapper(void* arg);
+  static void* recvFromAmazonWrapper(void* arg);
+  static void* sendAckAmazonWrapper(void* arg);
+  static void* sendToAmazonWrapper(void* arg);
 
  public:
 

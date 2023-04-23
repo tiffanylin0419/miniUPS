@@ -5,7 +5,7 @@ AmazonResponseHandler.h
 add thread for response handling
 database connect
 connect to world many times to send ?
-
+WorldResponseHandler.h: UTruck do i need to deal with this
 
 check:
 server non stop

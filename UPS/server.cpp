@@ -21,11 +21,13 @@ void Server::run() {
     //init_database();
     init_world();
     
-    //todo
     pthread_t thread;
     pthread_create(&thread, NULL, &Server::recvFromWorldWrapper,this);
     pthread_create(&thread, NULL, &Server::sendAckWorldWrapper,this);
     pthread_create(&thread, NULL, &Server::sendToWorldWrapper,this);
+    pthread_create(&thread, NULL, &Server::recvFromAmazonWrapper,this);
+    pthread_create(&thread, NULL, &Server::sendAckAmazonWrapper,this);
+    pthread_create(&thread, NULL, &Server::sendToAmazonWrapper,this);
     
     pthread_join(thread, NULL);
 }
@@ -96,22 +98,13 @@ void Server::init_world(){
     UAConfirmConnected uaConfirmConnected;
     uaConfirmConnected.set_worldid(world_id);
     uaConfirmConnected.set_connected(true);
-    uaConfirmConnected.set_seqnum(getSeqNum());
+    uaConfirmConnected.set_seqnum(seqNum.get());
     if(!sendMesgTo<UAConfirmConnected>(uaConfirmConnected, amazon_out)){
         cerr<< "5 Err: send to amazon failure"<<endl;
     }else{
         cout<<"5 confirmed connect"<<endl;
     }
     
-}
-
-
-int Server::getSeqNum(){
-    pthread_mutex_lock(&mutex1);
-    int tmp=sequence_num;
-    sequence_num++;
-    pthread_mutex_unlock(&mutex1);
-    return sequence_num;
 }
     
 Server::~Server() {
@@ -121,8 +114,12 @@ Server::~Server() {
 
 /*----------------------------------Send & Recv-----------------------------------*/
 void *Server::sendToAmazon(){
-    //todo
-    return NULL;
+    while(true){
+        UACommands command=amazon_command.getOne();
+        if(!sendMesgTo<UACommands>(command, amazon_out)){
+            cerr<<"Error: send to amazon fail"<<endl;
+        }
+    }
 }
 
 void *Server::sendToWorld(){
@@ -135,8 +132,12 @@ void *Server::sendToWorld(){
 }
 
 void *Server::sendAckAmazon(){
-    //todo
-    return NULL;
+    while(true){
+        UACommands command=amazon_ack.getAndRemove();
+        if(!sendMesgTo<UACommands>(command, amazon_out)){
+            cerr<<"Error: send ack to amazon fail"<<endl;
+        }
+    }
 }
 
 void *Server::sendAckWorld(){
@@ -149,8 +150,14 @@ void *Server::sendAckWorld(){
 }
 
 void *Server::recvFromAmazon(){
-    //todo
-    return NULL;
+    while(true){
+        AUCommands response;
+        if (!recvMesgFrom<AUCommands>(response, amazon_in)) {
+            cerr<<"Error: recv from amazon fail"<<endl;
+        }
+        AmazonResponseHandler h(response, amazon_command, amazon_response, amazon_ack, world_id);
+        h.handle();
+    }
 }
 
 void *Server::recvFromWorld(){
@@ -179,4 +186,19 @@ void* Server::sendAckWorldWrapper(void* arg) {
 void* Server::sendToWorldWrapper(void* arg) {
     Server* server = static_cast<Server*>(arg);
     return server->sendToWorld();
+}
+
+void* Server::recvFromAmazonWrapper(void* arg) {
+    Server* server = static_cast<Server*>(arg);
+    return server->recvFromAmazon();
+}
+
+void* Server::sendAckAmazonWrapper(void* arg) {
+    Server* server = static_cast<Server*>(arg);
+    return server->sendAckAmazon();
+}
+
+void* Server::sendToAmazonWrapper(void* arg) {
+    Server* server = static_cast<Server*>(arg);
+    return server->sendToAmazon();
 }
