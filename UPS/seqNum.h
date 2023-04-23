@@ -3,20 +3,22 @@
 
 #include <mutex>
 
-class SeqNum{
-  private: 
-    int seqNum=0;
-    std::mutex mutex1;
+class SeqNum {
+private: 
+    
+    static std::mutex mutex1;
 
- public:
-    SeqNum() {}
-    int get(){
+public:
+    static int seqNum;
+    static void resetSeqNum(){
+      seqNum=0;
+    }
+
+    static int get(){
         std::unique_lock<std::mutex> lock(mutex1);
         seqNum++;
         return seqNum;
     }
-
-    ~SeqNum(){}
 };
 
 

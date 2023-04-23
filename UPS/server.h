@@ -23,7 +23,8 @@ class Server {
   int sequence_num;
   int truck_num;
   int truck_distance;
-  SeqNum seqNum;
+  //SeqNum seqNum;
+  int getSeqNum();
 
 
  

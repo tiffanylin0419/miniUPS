@@ -15,8 +15,17 @@ Server::Server(){
 }
 
 
+int Server::getSeqNum(){
+    pthread_mutex_lock(&mutex1);
+    int tmp=sequence_num;
+    sequence_num++;
+    pthread_mutex_unlock(&mutex1);
+    return sequence_num;
+}
 
 void Server::run() {
+    //SeqNum::resetSeqNum();
+    //SeqNum::seqNum=0;
     //uncomment
     //init_database();
     init_world();
@@ -98,7 +107,7 @@ void Server::init_world(){
     UAConfirmConnected uaConfirmConnected;
     uaConfirmConnected.set_worldid(world_id);
     uaConfirmConnected.set_connected(true);
-    uaConfirmConnected.set_seqnum(seqNum.get());
+    uaConfirmConnected.set_seqnum(getSeqNum());
     if(!sendMesgTo<UAConfirmConnected>(uaConfirmConnected, amazon_out)){
         cerr<< "5 Err: send to amazon failure"<<endl;
     }else{

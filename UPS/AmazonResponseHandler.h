@@ -1,6 +1,5 @@
 #include "threadSafe/threadSafeQueue.h"
 #include "threadSafe/threadSafeSet.h"
-#include "seqNum.h"
 
 #include "sql_cmd.h"
 

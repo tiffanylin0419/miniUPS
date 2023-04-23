@@ -10,8 +10,8 @@ PROTO_CC = proto/ups.pb.cc proto/ups-amazon.pb.cc
 
 all: main
 
-main: main.cpp server.cpp server.h connect_world.cpp connect_world.h connect_func.h head.h WorldResponseHandler.h $(THREAD_SAFE_H) $(SQL_H) $(PROTO_H)
-	g++ -o main main.cpp server.cpp connect_world.cpp connect_func.cpp WorldResponseHandler.h $(EXTRAFLAGS) $(PQXX) $(GPB) $(SQL_CPP) $(PROTO_CC)
+main: main.cpp server.cpp server.h connect_world.cpp connect_world.h connect_func.h head.h WorldResponseHandler.h AmazonResponseHandler.h seqNum.h $(THREAD_SAFE_H) $(SQL_H) $(PROTO_H)
+	g++ -o main main.cpp server.cpp connect_world.cpp connect_func.cpp WorldResponseHandler.h AmazonResponseHandler.h $(EXTRAFLAGS) $(PQXX) $(GPB) $(SQL_CPP) $(PROTO_CC)
 
 
 clean:
