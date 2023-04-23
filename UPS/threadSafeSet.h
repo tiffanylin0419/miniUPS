@@ -1,3 +1,6 @@
+#ifndef THREAD_SAFE_SET_H
+#define THREAD_SAFE_SET_H
+
 #include <set>
 #include <mutex>
 
@@ -24,3 +27,6 @@ class ThreadSafeSet {
 
   ~ThreadSafeSet(){}
 };
+
+
+#endif 
