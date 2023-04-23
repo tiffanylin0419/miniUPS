@@ -107,7 +107,7 @@ void Server::init_world(){
     UAConfirmConnected uaConfirmConnected;
     uaConfirmConnected.set_worldid(world_id);
     uaConfirmConnected.set_connected(true);
-    uaConfirmConnected.set_seqnum(getSeqNum());
+    uaConfirmConnected.set_seqnum(SeqNum::get());
     if(!sendMesgTo<UAConfirmConnected>(uaConfirmConnected, amazon_out)){
         cerr<< "5 Err: send to amazon failure"<<endl;
     }else{

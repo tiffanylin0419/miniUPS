@@ -2,6 +2,8 @@
 #include "threadSafe/threadSafeSet.h"
 #include "sql_cmd.h"
 
+#include "seqNum.h"
+
 class WorldResponseHandler {
  private: 
     UResponses response;

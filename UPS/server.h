@@ -2,7 +2,6 @@
 #include "connect_func.h"
 #include "connect_world.cpp"
 
-
 #include "WorldResponseHandler.h"
 #include "AmazonResponseHandler.h"
 

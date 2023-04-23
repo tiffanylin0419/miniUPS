@@ -2,6 +2,7 @@
 #include "threadSafe/threadSafeSet.h"
 
 #include "sql_cmd.h"
+#include "seqNum.h"
 
 class AmazonResponseHandler {
  private: 
