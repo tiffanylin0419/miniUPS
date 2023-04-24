@@ -2,7 +2,6 @@
 #include "connect_func.h"
 #include "connect_world.cpp"
 
-
 #include "WorldResponseHandler.h"
 #include "AmazonResponseHandler.h"
 
@@ -23,7 +22,8 @@ class Server {
   int sequence_num;
   int truck_num;
   int truck_distance;
-  SeqNum seqNum;
+  //SeqNum seqNum;
+  int getSeqNum();
 
 
  
