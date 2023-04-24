@@ -7,14 +7,15 @@
 class AmazonResponseHandler {
  private: 
     AUCommands response;
+    ThreadSafeQueue<UCommands> & world_command;
     ThreadSafeQueue<UACommands> & amazon_command;
     ThreadSafeSet& amazon_response;
     ThreadSafeQueue<UACommands> & amazon_ack;
     int world_id;
 
  public:
-    AmazonResponseHandler(AUCommands response, ThreadSafeQueue<UACommands> &amazon_command, ThreadSafeSet& amazon_response, ThreadSafeQueue<UACommands> & amazon_ack, int world_id)
-    : response(response), amazon_command(amazon_command), amazon_response(amazon_response), amazon_ack(amazon_ack), world_id(world_id) {}
+    AmazonResponseHandler(AUCommands response, ThreadSafeQueue<UCommands> &world_command, ThreadSafeQueue<UACommands> &amazon_command, ThreadSafeSet& amazon_response, ThreadSafeQueue<UACommands> & amazon_ack, int world_id)
+    : response(response), world_command(world_command), amazon_command(amazon_command), amazon_response(amazon_response), amazon_ack(amazon_ack), world_id(world_id) {}
  
    void handle(){
       for(int i=0;i<response.acks_size();i++){
@@ -24,11 +25,9 @@ class AmazonResponseHandler {
          AUInitPickUp r=response.pickupreq(i);
          if(!amazon_response.contains(r.seqnum())){
             //todo
-            //sql
+            int truck_id=1;//sql
             amazon_response.add(r.seqnum());
-            //8
-            //add 9 to world_command
-
+            addUGoPickup(r, truck_id);
          }   
          addAmazonAck(r.seqnum());
       }
@@ -52,6 +51,16 @@ class AmazonResponseHandler {
          UACommands command;
          command.add_acks(seqnum);
          amazon_ack.add(seqnum, command);
+    }
+
+    void addUGoPickup(AUInitPickUp &r, int truckid){
+      int whid=r.whid();
+      int seqNum=SeqNum::get();
+      UCommands command;
+      UGoPickup *ugopickup=command.add_pickups();
+      ugopickup->set_whid(whid);
+      ugopickup->set_seqnum(seqNum);
+      world_command.add(seqNum,command);
     }
 
     ~AmazonResponseHandler(){}

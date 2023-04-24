@@ -164,7 +164,7 @@ void *Server::recvFromAmazon(){
         if (!recvMesgFrom<AUCommands>(response, amazon_in)) {
             cerr<<"Error: recv from amazon fail"<<endl;
         }
-        AmazonResponseHandler h(response, amazon_command, amazon_response, amazon_ack, world_id);
+        AmazonResponseHandler h(response, world_command, amazon_command, amazon_response, amazon_ack, world_id);
         h.handle();
     }
 }
@@ -175,7 +175,7 @@ void *Server::recvFromWorld(){
         if (!recvMesgFrom<UResponses>(response, world_in)) {
             cerr<<"Error: recv from world fail"<<endl;
         }
-        WorldResponseHandler h(response, world_command, world_response, world_ack, world_id);
+        WorldResponseHandler h(response, amazon_command, world_command, world_response, world_ack, world_id);
         h.handle();
     }
 }
