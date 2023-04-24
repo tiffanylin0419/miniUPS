@@ -20,16 +20,16 @@ class World(models.Model):
 class Truck(models.Model):
     TRUCK_STATUS_CHOICES = (
         ('idle', 'Idle'),
-        ('traveling', 'Traveling'),
-        ('arrive_warehouse', 'Arrive Warehouse'),
-        ('loading', 'Loading'),
-        ('delivering', 'Delivering'),
+        ('traveling', 'traveling'),
+        ('loading', 'loading'),
+        ('delivering', 'delivering'),
     )
     truck_id = models.AutoField(primary_key=True, db_column='truck_id')
     world_id = models.ForeignKey(World, on_delete=models.CASCADE, blank=True, null=True, db_column='world_id')
     truck_status = models.CharField(max_length=20, choices=TRUCK_STATUS_CHOICES)
     loc_x = models.FloatField()
     loc_y = models.FloatField()
+    wh_id = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f"Truck {self.truck_id} in World {self.world_id}"
@@ -37,13 +37,15 @@ class Truck(models.Model):
 
 class Package(models.Model):
     PACKAGE_STATUS_CHOICES = [
-        ('Pickup', 'Pickup'),
-        ('Delivering', 'Delivering'),
-        ('Delivered', 'Delivered'),
+        ('pickup', 'pickup'),
+        ('loading', 'loading'),
+        ('delivering', 'delivering'),
+        ('delivered', 'delivered'),
     ]
 
     package_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amazon_user_name = models.CharField(max_length=100, default='')
     wh_id = models.IntegerField()
     addr_y = models.IntegerField()
     addr_x = models.IntegerField()

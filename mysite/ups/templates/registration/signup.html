@@ -1,7 +1,6 @@
-{% block title %}Sign Up{% endblock %}
-
 {% block content %}
 <h2>Sign up</h2>
+<p style="text-align:left; color:red;">If you want to link with an Amazon account, please enter the same account as your Amazon account.</p>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

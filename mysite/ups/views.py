@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from ups.forms import CustomUserCreationForm
 from django.contrib import messages
 from ups.models import Package
+from django.contrib.auth.decorators import login_required
 
 # 注册
 
@@ -79,21 +80,30 @@ def package_status_change(request,package_id):
 #         context['packages'] = request.user.package_set.all()
 #     return render(request, 'registration/home.html', context)
 
-def user_packages(request):
-    user = request.user
-    packages = Package.objects.filter(user=user)
-    return render(request, 'registration/user_packages.html', {'packages': packages})
+# def user_packages(request):
+#     user = request.user
+#     packages = Package.objects.filter(user=user)
+#     return render(request, 'registration/user_packages.html', {'packages': packages})
+
+@login_required
+def my_packages(request):
+    username = request.user.username
+    packages = Package.objects.filter(amazon_user_name=username)
+    return render(request, 'registration/home.html', {'packages': packages})
 
 def package_details(request, package_id):
-    package = Package.objects.get(package_id=package_id, user=request.user)
+    package = Package.objects.get(package_id=package_id, amazon_user_name=request.user.username)
     return render(request, 'registration/package_details.html', {'package': package})
 
 
 def update_delivery_address(request, package_id):
     print("1")
-    package = Package.objects.get(package_id=package_id, user=request.user)
+    package = Package.objects.get(package_id=package_id, amazon_user_name=request.user.username)
+    print("2")
     if package.package_status != 'Delivered':
+        print("213")
         if request.method == 'POST':
+            print("123222")
             package.addr_x = request.POST['addr_x']
             package.addr_y = request.POST['addr_y']
             package.save()
@@ -102,7 +112,7 @@ def update_delivery_address(request, package_id):
             return render(request, 'registration/update_delivery_address.html', {'package': package})
     else:
         messages.error(request, 'This package has already been delivered.')
-        return redirect(package_details, package_id=package.package_id)
+        return render(request, 'registration/error.html', {'message': 'This package has already been delivered.'})
 
 def update_delivery_address_tracknum(request, package_id):
     print("2")
