@@ -10,7 +10,7 @@ using namespace std;
 //create truck
 void Ucreate_truck_sql(int truck_id, int world_id, int loc_x, int loc_y) {
     // connect to database
-    pqxx::connection conn("dbname=postgres user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    pqxx::connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
 
     try {
         // execute a query to check if the truck already exists
@@ -38,23 +38,33 @@ void Ucreate_truck_sql(int truck_id, int world_id, int loc_x, int loc_y) {
 //update truck truck_status, loc_x, loc_y
 void Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, int new_y) {
     // connect to database
-    pqxx::connection conn("dbname=postgres user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    pqxx::connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
 
     try {
-        // execute a query to get the truck with the specified ID
-        pqxx::work txn(conn);
-        pqxx::result res = txn.exec("SELECT * FROM ups_truck WHERE world_id="+ to_string(world_id) +"AND truck_id=" + to_string(truck_id));
-
-        // check if the truck exists
+            // execute a query to get the truck with the specified ID
+            pqxx::work txn(conn);
+            pqxx::result res = txn.exec("SELECT * FROM ups_truck WHERE world_id="+ to_string(world_id) +"AND truck_id=" + to_string(truck_id));
+            // check if the truck exists
         if (res.empty()) {
             cerr << "Truck with world_id=" << world_id << " truck_id=" << truck_id << " does not exist." << endl;
             txn.abort();
             return;
         }
-
-        // update the truck's location
-        txn.exec("UPDATE ups_truck SET truck_status='"+ truck_status + "', loc_x=" + to_string(new_x) + ", loc_y=" + to_string(new_y) + " WHERE world_id="+ to_string(world_id) + "AND truck_id=" + to_string(truck_id));
+        //For Truck ready 10
+        if (truck_status == "loading"){
+        //update truck status to loading
+        txn.exec("UPDATE ups_truck SET truck_status='"+ truck_status + "' WHERE world_id="+ to_string(world_id) + "AND truck_id=" + to_string(truck_id));
         txn.commit();
+        txn.exec("UPDATE ups_package SET package_status='loading', load_time=NOW() WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
+        txn.commit();
+        }
+        //for Truck completed 17
+        else if(truck_status == "idle"){
+        //update truck status to idle
+        txn.exec("UPDATE ups_truck SET truck_status='"+ truck_status + "', loc_x=NULL, loc_y=NULL, wh_id=NULL WHERE world_id="+ to_string(world_id) + " AND truck_id=" + to_string(truck_id));
+        txn.commit();
+        }
+        
     } catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
     }
@@ -62,38 +72,47 @@ void Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, int
 
 
 //update package UDeliveryMade
-void UDeliveryMade_sql(int world_id,int truck_id, int package_id) {
+void UDeliveryMade_sql(int world_id, int truck_id, int package_id) {
     // connect to database
-    pqxx::connection conn("dbname=postgres user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    pqxx::connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
 
     // Get the current time
     auto now = std::chrono::system_clock::now();
     auto now_c = std::chrono::system_clock::to_time_t(now);
 
     try {
-        // execute a query to get the truck with the specified ID
+        // execute a query to get the package with the specified ID
         pqxx::work txn(conn);
-        pqxx::result res = txn.exec("SELECT * FROM ups_package WHERE truck_id=" + to_string(truck_id) +" AND package_id=" + to_string(package_id) + " AND world_id=" + to_string(world_id));
+        pqxx::result res = txn.exec("SELECT addr_x, addr_y FROM ups_package WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id) + " AND package_id=" + to_string(package_id) + " LIMIT 1");
 
-        // check if the truck exists
+        // check if the package exists
         if (res.empty()) {
-            cerr << "Package with world_id="<< world_id <<" truck_id=" << truck_id << " Truck with package_id=" << package_id << " does not exist." << endl;
+            cerr << "Package with world_id=" << world_id << ", truck_id=" << truck_id << ", package_id=" << package_id << " does not exist." << endl;
             txn.abort();
             return;
         }
 
+        // get the package's location
+        int loc_x = res[0]["addr_x"].as<int>();
+        int loc_y = res[0]["addr_y"].as<int>();
+
+        // update the package's status to Delivered
+        txn.exec("UPDATE ups_package SET package_status = 'Delivered', delivered_time = to_timestamp(" + to_string(now_c) + ") WHERE world_id = " + to_string(world_id) + " AND truck_id = " + to_string(truck_id) + " AND package_id = " + to_string(package_id));
+        txn.commit();
+
         // update the truck's location
-        txn.exec("UPDATE ups_package SET package_status= 'Delivered', delivered_time = to_timestamp(" + std::to_string(now_c) + ") WHERE truck_id=" + to_string(truck_id) +" AND package_id=" + to_string(package_id) + " AND world_id=" + to_string(world_id));
+        txn.exec("UPDATE ups_truck SET loc_x = " + to_string(loc_x) + ", loc_y = " + to_string(loc_y) + " WHERE world_id = " + to_string(world_id) + " AND truck_id = " + to_string(truck_id));
         txn.commit();
     } catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
     }
 }
 
+
 //create truck
 void UTruck_sql(int world_id, int truck_id, string truck_status, int loc_x, int loc_y) {
     // connect to database
-    pqxx::connection conn("dbname=postgres user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    pqxx::connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
 
     try {
         // execute a query to check if the truck already exists
@@ -113,6 +132,72 @@ void UTruck_sql(int world_id, int truck_id, string truck_status, int loc_x, int 
     } catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
     }
+}
+
+
+//assignmet 多加 withhouse 
+int AUInitPickUp(int world_id, int wh_id, string accountname, int package_id){
+    // connect to database
+    pqxx::connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    try {
+        pqxx::work txn(conn);
+        //search the truck in traveling and go to the same warehouse 
+        pqxx::result res = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_status='traveling' AND wh_id=" + to_string(wh_id));
+
+        if (!res.empty()) {
+            // extract truck_id from the first row
+            int truck_id = res.at(0)["truck_id"].as<int>();
+
+            // update packages with the new truck_id
+            txn.exec("INSERT INTO ups_package (truck_id, world_id, wh_id, package_id, package_status, amazon_user_name, ready_for_picktime) VALUES (" + to_string(truck_id) + ", " + to_string(world_id) + ", " + to_string(wh_id) + ", " + to_string(package_id) + ", " + "'Pickup'" + ", '" + accountname + "', NOW());");
+
+            return truck_id;
+        }
+        else{
+            pqxx::result idle_trucks = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_status='idle'");
+            if (!idle_trucks.empty()) {
+                int truck_id = idle_trucks.at(0)["truck_id"].as<int>();
+                txn.exec("UPDATE ups_truck SET truck_status='traveling', wh_id=" + to_string(wh_id) + " WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
+                txn.exec("INSERT INTO ups_package (truck_id, world_id, wh_id, package_id, package_status, amazon_user_name, ready_for_picktime) VALUES (" + to_string(truck_id) + ", " + to_string(world_id) + ", " + to_string(wh_id) + ", " + to_string(package_id) + ", " + "'Pickup'" + ", '" + accountname + "', NOW())");
+                return truck_id;
+            }
+            else {
+                // handle case where there are no idle trucks
+                return -1;
+            }
+        }
+    }
+}
+
+
+void AULoaded(int shipid){
+    int package_id = shipid;
+    // connect to database
+    pqxx::connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    try {
+    pqxx::work txn(conn);
+    //search the truck in traveling and go to the same warehouse 
+    pqxx::result res = txn.exec("SELECT * FROM ups_package WHERE world_id=" + to_string(world_id) + " AND package_id =" + to_string(package_id));
+    // check if the truck already exists
+    if (res.empty()) {
+        cerr << "Package with world_id=" << world_id << " package_id=" << package_id << " does not exist." << endl;
+        txn.abort();
+        return;
+        }
+    else{
+        txn.exec("UPDATE ups_package SET package_status='delivering' WHERE world_id=" + to_string(world_id) + " AND package_id=" + to_string(package_id));
+        int truck_id = res.at(0)["truck_id"].as<int>();
+        if (truck_id == NULL){
+            cerr << "Package with package_id=" << package_id << "track_id=" << track_id << "does not exist." << endl;
+            txn.abort();
+            return;
+        }else{
+            txn.exec("UPDATE ups_truck SET truck_status='delivering' WHERE world_id=" + to_string(world_id) + " AND package_id=" + to_string(package_id));
+        }
+    }
+    
+    }
+
 }
 
 /*
