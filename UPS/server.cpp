@@ -93,6 +93,7 @@ void Server::init_world(){
         truck->set_id(i+1);
         truck->set_x(truck_distance*i);
         truck->set_y(truck_distance*i);
+        Ucreate_truck_sql(truck->id(), world_id, truck->x(), truck->y());
     }
     connect.set_isamazon(false);
     if(!sendMesgTo<UConnect>(connect, world_out)){
