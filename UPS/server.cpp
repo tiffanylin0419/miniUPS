@@ -2,14 +2,16 @@
 #include <exception>
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
+//me: 33209
+//Alvin: 32242
+
 Server::Server(){
     world_port="12345";
-    world_hostname="vcm-32242.vm.duke.edu";//33209
+    world_hostname="vcm-33209.vm.duke.edu";
     amazon_port="5688";
-    amazon_hostname="vcm-32242.vm.duke.edu";//33209
+    amazon_hostname="vcm-33209.vm.duke.edu";
 
     sequence_num=0;
-
     truck_num=5;
     truck_distance=10;
 }
