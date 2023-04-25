@@ -39,15 +39,6 @@ class WorldResponseHandler {
             }
             addWorldAck(r.seqnum());
         }
-        // for(int i=0;i<response.truckstatus_size();i++){
-        //     //todo
-        //     UTruck r=response.truckstatus(i);
-        //     if(!world_response.contains(r.seqnum())){
-        //         UTruck_sql(world_id, r.truckid(), r.status(), r.x(), r.y());
-        //         world_response.add(r.seqnum());
-        //     }
-        //     world_ack.add(r.seqnum());
-        // }
     }
 
     void addWorldAck(int seqnum){

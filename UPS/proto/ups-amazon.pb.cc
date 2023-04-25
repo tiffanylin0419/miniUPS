@@ -22,8 +22,7 @@ namespace _pbi = _pb::internal;
 
 PROTOBUF_CONSTEXPR AUInitConnect::AUInitConnect(
     ::_pbi::ConstantInitialized)
-  : worldid_(int64_t{0})
-  , seqnum_(int64_t{0}){}
+  : worldid_(int64_t{0}){}
 struct AUInitConnectDefaultTypeInternal {
   PROTOBUF_CONSTEXPR AUInitConnectDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -36,7 +35,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR UAConfirmConnected::UAConfirmConnected(
     ::_pbi::ConstantInitialized)
   : worldid_(int64_t{0})
-  , seqnum_(int64_t{0})
   , connected_(false){}
 struct UAConfirmConnectedDefaultTypeInternal {
   PROTOBUF_CONSTEXPR UAConfirmConnectedDefaultTypeInternal()
@@ -49,9 +47,10 @@ struct UAConfirmConnectedDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UAConfirmConnectedDefaultTypeInternal _UAConfirmConnected_default_instance_;
 PROTOBUF_CONSTEXPR AUInitPickUp::AUInitPickUp(
     ::_pbi::ConstantInitialized)
-  : accountname_(&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{})
+  : product_()
+  , accountname_(&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{})
+  , deliverylocation_(nullptr)
   , seqnum_(int64_t{0})
-  , packageid_(int64_t{0})
   , whid_(0){}
 struct AUInitPickUpDefaultTypeInternal {
   PROTOBUF_CONSTEXPR AUInitPickUpDefaultTypeInternal()
@@ -103,6 +102,19 @@ struct UADeliveredDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UADeliveredDefaultTypeInternal _UADelivered_default_instance_;
+PROTOBUF_CONSTEXPR UADelievering::UADelievering(
+    ::_pbi::ConstantInitialized)
+  : packageid_()
+  , seqnum_(int64_t{0}){}
+struct UADelieveringDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UADelieveringDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~UADelieveringDefaultTypeInternal() {}
+  union {
+    UADelievering _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UADelieveringDefaultTypeInternal _UADelievering_default_instance_;
 PROTOBUF_CONSTEXPR UATruck::UATruck(
     ::_pbi::ConstantInitialized)
   : status_(&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{})
@@ -146,23 +158,23 @@ struct UAPackageRequestDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UAPackageRequestDefaultTypeInternal _UAPackageRequest_default_instance_;
-PROTOBUF_CONSTEXPR UADeliveryLocation::UADeliveryLocation(
+PROTOBUF_CONSTEXPR AUDeliveryLocation::AUDeliveryLocation(
     ::_pbi::ConstantInitialized)
   : packageid_(int64_t{0})
   , x_(0)
   , y_(0){}
-struct UADeliveryLocationDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR UADeliveryLocationDefaultTypeInternal()
+struct AUDeliveryLocationDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR AUDeliveryLocationDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~UADeliveryLocationDefaultTypeInternal() {}
+  ~AUDeliveryLocationDefaultTypeInternal() {}
   union {
-    UADeliveryLocation _instance;
+    AUDeliveryLocation _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UADeliveryLocationDefaultTypeInternal _UADeliveryLocation_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AUDeliveryLocationDefaultTypeInternal _AUDeliveryLocation_default_instance_;
 PROTOBUF_CONSTEXPR AUPackageResponse::AUPackageResponse(
     ::_pbi::ConstantInitialized)
-  : package_(nullptr)
+  : deliverylocation_(nullptr)
   , product_(nullptr)
   , seqnum_(int64_t{0}){}
 struct AUPackageResponseDefaultTypeInternal {
@@ -178,7 +190,6 @@ PROTOBUF_CONSTEXPR AUCommands::AUCommands(
     ::_pbi::ConstantInitialized)
   : pickupreq_()
   , loaded_()
-  , packageresponse_()
   , acks_(){}
 struct AUCommandsDefaultTypeInternal {
   PROTOBUF_CONSTEXPR AUCommandsDefaultTypeInternal()
@@ -194,7 +205,6 @@ PROTOBUF_CONSTEXPR UACommands::UACommands(
   : truckarrived_()
   , delivered_()
   , trucks_()
-  , packagerequest_()
   , acks_(){}
 struct UACommandsDefaultTypeInternal {
   PROTOBUF_CONSTEXPR UACommandsDefaultTypeInternal()
@@ -205,7 +215,7 @@ struct UACommandsDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UACommandsDefaultTypeInternal _UACommands_default_instance_;
-static ::_pb::Metadata file_level_metadata_ups_2damazon_2eproto[13];
+static ::_pb::Metadata file_level_metadata_ups_2damazon_2eproto[14];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_ups_2damazon_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_ups_2damazon_2eproto = nullptr;
 
@@ -217,9 +227,7 @@ const uint32_t TableStruct_ups_2damazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::AUInitConnect, worldid_),
-  PROTOBUF_FIELD_OFFSET(::AUInitConnect, seqnum_),
   0,
-  1,
   PROTOBUF_FIELD_OFFSET(::UAConfirmConnected, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::UAConfirmConnected, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -228,9 +236,7 @@ const uint32_t TableStruct_ups_2damazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::UAConfirmConnected, worldid_),
   PROTOBUF_FIELD_OFFSET(::UAConfirmConnected, connected_),
-  PROTOBUF_FIELD_OFFSET(::UAConfirmConnected, seqnum_),
   0,
-  2,
   1,
   PROTOBUF_FIELD_OFFSET(::AUInitPickUp, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::AUInitPickUp, _internal_metadata_),
@@ -241,11 +247,13 @@ const uint32_t TableStruct_ups_2damazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::AUInitPickUp, whid_),
   PROTOBUF_FIELD_OFFSET(::AUInitPickUp, seqnum_),
   PROTOBUF_FIELD_OFFSET(::AUInitPickUp, accountname_),
-  PROTOBUF_FIELD_OFFSET(::AUInitPickUp, packageid_),
+  PROTOBUF_FIELD_OFFSET(::AUInitPickUp, deliverylocation_),
+  PROTOBUF_FIELD_OFFSET(::AUInitPickUp, product_),
   3,
-  1,
-  0,
   2,
+  0,
+  1,
+  ~0u,
   PROTOBUF_FIELD_OFFSET(::UATruckArrived, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::UATruckArrived, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -280,6 +288,16 @@ const uint32_t TableStruct_ups_2damazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   2,
   0,
   1,
+  PROTOBUF_FIELD_OFFSET(::UADelievering, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::UADelievering, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::UADelievering, packageid_),
+  PROTOBUF_FIELD_OFFSET(::UADelievering, seqnum_),
+  ~0u,
+  0,
   PROTOBUF_FIELD_OFFSET(::UATruck, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::UATruck, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -318,15 +336,15 @@ const uint32_t TableStruct_ups_2damazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::UAPackageRequest, seqnum_),
   0,
   1,
-  PROTOBUF_FIELD_OFFSET(::UADeliveryLocation, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::UADeliveryLocation, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::AUDeliveryLocation, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::AUDeliveryLocation, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::UADeliveryLocation, packageid_),
-  PROTOBUF_FIELD_OFFSET(::UADeliveryLocation, x_),
-  PROTOBUF_FIELD_OFFSET(::UADeliveryLocation, y_),
+  PROTOBUF_FIELD_OFFSET(::AUDeliveryLocation, packageid_),
+  PROTOBUF_FIELD_OFFSET(::AUDeliveryLocation, x_),
+  PROTOBUF_FIELD_OFFSET(::AUDeliveryLocation, y_),
   0,
   1,
   2,
@@ -336,7 +354,7 @@ const uint32_t TableStruct_ups_2damazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::AUPackageResponse, package_),
+  PROTOBUF_FIELD_OFFSET(::AUPackageResponse, deliverylocation_),
   PROTOBUF_FIELD_OFFSET(::AUPackageResponse, product_),
   PROTOBUF_FIELD_OFFSET(::AUPackageResponse, seqnum_),
   0,
@@ -350,7 +368,6 @@ const uint32_t TableStruct_ups_2damazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::AUCommands, pickupreq_),
   PROTOBUF_FIELD_OFFSET(::AUCommands, loaded_),
-  PROTOBUF_FIELD_OFFSET(::AUCommands, packageresponse_),
   PROTOBUF_FIELD_OFFSET(::AUCommands, acks_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::UACommands, _internal_metadata_),
@@ -361,23 +378,23 @@ const uint32_t TableStruct_ups_2damazon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::UACommands, truckarrived_),
   PROTOBUF_FIELD_OFFSET(::UACommands, delivered_),
   PROTOBUF_FIELD_OFFSET(::UACommands, trucks_),
-  PROTOBUF_FIELD_OFFSET(::UACommands, packagerequest_),
   PROTOBUF_FIELD_OFFSET(::UACommands, acks_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 8, -1, sizeof(::AUInitConnect)},
-  { 10, 19, -1, sizeof(::UAConfirmConnected)},
-  { 22, 32, -1, sizeof(::AUInitPickUp)},
-  { 36, 45, -1, sizeof(::UATruckArrived)},
-  { 48, 56, -1, sizeof(::AULoaded)},
-  { 58, 67, -1, sizeof(::UADelivered)},
-  { 70, 81, -1, sizeof(::UATruck)},
-  { 86, 95, -1, sizeof(::AUProduct)},
-  { 98, 106, -1, sizeof(::UAPackageRequest)},
-  { 108, 117, -1, sizeof(::UADeliveryLocation)},
-  { 120, 129, -1, sizeof(::AUPackageResponse)},
-  { 132, -1, -1, sizeof(::AUCommands)},
-  { 142, -1, -1, sizeof(::UACommands)},
+  { 0, 7, -1, sizeof(::AUInitConnect)},
+  { 8, 16, -1, sizeof(::UAConfirmConnected)},
+  { 18, 29, -1, sizeof(::AUInitPickUp)},
+  { 34, 43, -1, sizeof(::UATruckArrived)},
+  { 46, 54, -1, sizeof(::AULoaded)},
+  { 56, 65, -1, sizeof(::UADelivered)},
+  { 68, 76, -1, sizeof(::UADelievering)},
+  { 78, 89, -1, sizeof(::UATruck)},
+  { 94, 103, -1, sizeof(::AUProduct)},
+  { 106, 114, -1, sizeof(::UAPackageRequest)},
+  { 116, 125, -1, sizeof(::AUDeliveryLocation)},
+  { 128, 137, -1, sizeof(::AUPackageResponse)},
+  { 140, -1, -1, sizeof(::AUCommands)},
+  { 149, -1, -1, sizeof(::UACommands)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -387,49 +404,50 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::_UATruckArrived_default_instance_._instance,
   &::_AULoaded_default_instance_._instance,
   &::_UADelivered_default_instance_._instance,
+  &::_UADelievering_default_instance_._instance,
   &::_UATruck_default_instance_._instance,
   &::_AUProduct_default_instance_._instance,
   &::_UAPackageRequest_default_instance_._instance,
-  &::_UADeliveryLocation_default_instance_._instance,
+  &::_AUDeliveryLocation_default_instance_._instance,
   &::_AUPackageResponse_default_instance_._instance,
   &::_AUCommands_default_instance_._instance,
   &::_UACommands_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_ups_2damazon_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\020ups-amazon.proto\"0\n\rAUInitConnect\022\017\n\007w"
-  "orldid\030\001 \002(\003\022\016\n\006seqnum\030\002 \002(\003\"H\n\022UAConfir"
-  "mConnected\022\017\n\007worldid\030\001 \002(\003\022\021\n\tconnected"
-  "\030\002 \002(\010\022\016\n\006seqnum\030\003 \002(\003\"T\n\014AUInitPickUp\022\014"
-  "\n\004whid\030\001 \002(\005\022\016\n\006seqnum\030\002 \002(\003\022\023\n\013accountn"
-  "ame\030\003 \002(\t\022\021\n\tpackageid\030\004 \002(\003\"A\n\016UATruckA"
-  "rrived\022\017\n\007truckid\030\001 \002(\005\022\016\n\006shipid\030\002 \002(\003\022"
-  "\016\n\006seqnum\030\003 \002(\003\"*\n\010AULoaded\022\016\n\006shipid\030\001 "
-  "\002(\003\022\016\n\006seqnum\030\002 \002(\003\"A\n\013UADelivered\022\017\n\007tr"
-  "uckid\030\001 \002(\005\022\021\n\tpackageid\030\002 \002(\003\022\016\n\006seqnum"
-  "\030\003 \002(\003\"P\n\007UATruck\022\017\n\007truckid\030\001 \002(\005\022\016\n\006st"
-  "atus\030\002 \002(\t\022\t\n\001x\030\003 \002(\005\022\t\n\001y\030\004 \002(\005\022\016\n\006seqn"
-  "um\030\005 \002(\003\";\n\tAUProduct\022\n\n\002id\030\001 \002(\003\022\023\n\013des"
-  "cription\030\002 \002(\t\022\r\n\005count\030\003 \002(\005\"5\n\020UAPacka"
-  "geRequest\022\021\n\tpackageid\030\001 \002(\003\022\016\n\006seqnum\030\002"
-  " \002(\003\"=\n\022UADeliveryLocation\022\021\n\tpackageid\030"
-  "\001 \002(\003\022\t\n\001x\030\002 \002(\005\022\t\n\001y\030\003 \002(\005\"f\n\021AUPackage"
-  "Response\022$\n\007package\030\001 \002(\0132\023.UADeliveryLo"
-  "cation\022\033\n\007product\030\002 \002(\0132\n.AUProduct\022\016\n\006s"
-  "eqnum\030\003 \002(\003\"\204\001\n\nAUCommands\022 \n\tpickupreq\030"
-  "\001 \003(\0132\r.AUInitPickUp\022\031\n\006loaded\030\002 \003(\0132\t.A"
-  "ULoaded\022+\n\017packageresponse\030\003 \003(\0132\022.AUPac"
-  "kageResponse\022\014\n\004acks\030\004 \003(\003\"\247\001\n\nUACommand"
+  "\n\020ups-amazon.proto\" \n\rAUInitConnect\022\017\n\007w"
+  "orldid\030\001 \002(\003\"8\n\022UAConfirmConnected\022\017\n\007wo"
+  "rldid\030\001 \002(\003\022\021\n\tconnected\030\002 \002(\010\"\215\001\n\014AUIni"
+  "tPickUp\022\014\n\004whid\030\001 \002(\005\022\016\n\006seqnum\030\002 \002(\003\022\023\n"
+  "\013accountname\030\003 \002(\t\022-\n\020deliverylocation\030\004"
+  " \002(\0132\023.AUDeliveryLocation\022\033\n\007product\030\005 \003"
+  "(\0132\n.AUProduct\"A\n\016UATruckArrived\022\017\n\007truc"
+  "kid\030\001 \002(\005\022\016\n\006shipid\030\002 \002(\003\022\016\n\006seqnum\030\003 \002("
+  "\003\"*\n\010AULoaded\022\016\n\006shipid\030\001 \002(\003\022\016\n\006seqnum\030"
+  "\002 \002(\003\"A\n\013UADelivered\022\017\n\007truckid\030\001 \002(\005\022\021\n"
+  "\tpackageid\030\002 \002(\003\022\016\n\006seqnum\030\003 \002(\003\"2\n\rUADe"
+  "lievering\022\021\n\tpackageid\030\001 \003(\003\022\016\n\006seqnum\030\002"
+  " \002(\003\"P\n\007UATruck\022\017\n\007truckid\030\001 \002(\005\022\016\n\006stat"
+  "us\030\002 \002(\t\022\t\n\001x\030\003 \002(\005\022\t\n\001y\030\004 \002(\005\022\016\n\006seqnum"
+  "\030\005 \002(\003\";\n\tAUProduct\022\n\n\002id\030\001 \002(\003\022\023\n\013descr"
+  "iption\030\002 \002(\t\022\r\n\005count\030\003 \002(\005\"5\n\020UAPackage"
+  "Request\022\021\n\tpackageid\030\001 \002(\003\022\016\n\006seqnum\030\002 \002"
+  "(\003\"=\n\022AUDeliveryLocation\022\021\n\tpackageid\030\001 "
+  "\002(\003\022\t\n\001x\030\002 \002(\005\022\t\n\001y\030\003 \002(\005\"o\n\021AUPackageRe"
+  "sponse\022-\n\020deliverylocation\030\001 \002(\0132\023.AUDel"
+  "iveryLocation\022\033\n\007product\030\002 \002(\0132\n.AUProdu"
+  "ct\022\016\n\006seqnum\030\003 \002(\003\"W\n\nAUCommands\022 \n\tpick"
+  "upreq\030\001 \003(\0132\r.AUInitPickUp\022\031\n\006loaded\030\002 \003"
+  "(\0132\t.AULoaded\022\014\n\004acks\030\003 \003(\003\"|\n\nUACommand"
   "s\022%\n\014truckarrived\030\001 \003(\0132\017.UATruckArrived"
   "\022\037\n\tdelivered\030\002 \003(\0132\014.UADelivered\022\030\n\006tru"
-  "cks\030\003 \003(\0132\010.UATruck\022)\n\016packagerequest\030\004 "
-  "\003(\0132\021.UAPackageRequest\022\014\n\004acks\030\005 \003(\003"
+  "cks\030\003 \003(\0132\010.UATruck\022\014\n\004acks\030\004 \003(\003"
   ;
 static ::_pbi::once_flag descriptor_table_ups_2damazon_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_ups_2damazon_2eproto = {
-    false, false, 1076, descriptor_table_protodef_ups_2damazon_2eproto,
+    false, false, 1073, descriptor_table_protodef_ups_2damazon_2eproto,
     "ups-amazon.proto",
-    &descriptor_table_ups_2damazon_2eproto_once, nullptr, 0, 13,
+    &descriptor_table_ups_2damazon_2eproto_once, nullptr, 0, 14,
     schemas, file_default_instances, TableStruct_ups_2damazon_2eproto::offsets,
     file_level_metadata_ups_2damazon_2eproto, file_level_enum_descriptors_ups_2damazon_2eproto,
     file_level_service_descriptors_ups_2damazon_2eproto,
@@ -449,11 +467,8 @@ class AUInitConnect::_Internal {
   static void set_has_worldid(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
-  static void set_has_seqnum(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000003) ^ 0x00000003) != 0;
+    return ((has_bits[0] & 0x00000001) ^ 0x00000001) != 0;
   }
 };
 
@@ -467,17 +482,12 @@ AUInitConnect::AUInitConnect(const AUInitConnect& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&worldid_, &from.worldid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&seqnum_) -
-    reinterpret_cast<char*>(&worldid_)) + sizeof(seqnum_));
+  worldid_ = from.worldid_;
   // @@protoc_insertion_point(copy_constructor:AUInitConnect)
 }
 
 inline void AUInitConnect::SharedCtor() {
-::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&worldid_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&seqnum_) -
-    reinterpret_cast<char*>(&worldid_)) + sizeof(seqnum_));
+worldid_ = int64_t{0};
 }
 
 AUInitConnect::~AUInitConnect() {
@@ -503,12 +513,7 @@ void AUInitConnect::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    ::memset(&worldid_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&seqnum_) -
-        reinterpret_cast<char*>(&worldid_)) + sizeof(seqnum_));
-  }
+  worldid_ = int64_t{0};
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -525,15 +530,6 @@ const char* AUInitConnect::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _Internal::set_has_worldid(&has_bits);
           worldid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // required int64 seqnum = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _Internal::set_has_seqnum(&has_bits);
-          seqnum_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -575,12 +571,6 @@ uint8_t* AUInitConnect::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_worldid(), target);
   }
 
-  // required int64 seqnum = 2;
-  if (cached_has_bits & 0x00000002u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_seqnum(), target);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -589,35 +579,13 @@ uint8_t* AUInitConnect::_InternalSerialize(
   return target;
 }
 
-size_t AUInitConnect::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AUInitConnect)
-  size_t total_size = 0;
-
-  if (_internal_has_worldid()) {
-    // required int64 worldid = 1;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_worldid());
-  }
-
-  if (_internal_has_seqnum()) {
-    // required int64 seqnum = 2;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-  }
-
-  return total_size;
-}
 size_t AUInitConnect::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:AUInitConnect)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
-    // required int64 worldid = 1;
+  // required int64 worldid = 1;
+  if (_internal_has_worldid()) {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_worldid());
-
-    // required int64 seqnum = 2;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
   }
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -645,15 +613,8 @@ void AUInitConnect::MergeFrom(const AUInitConnect& from) {
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      worldid_ = from.worldid_;
-    }
-    if (cached_has_bits & 0x00000002u) {
-      seqnum_ = from.seqnum_;
-    }
-    _has_bits_[0] |= cached_has_bits;
+  if (from._internal_has_worldid()) {
+    _internal_set_worldid(from._internal_worldid());
   }
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -674,12 +635,7 @@ void AUInitConnect::InternalSwap(AUInitConnect* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(AUInitConnect, seqnum_)
-      + sizeof(AUInitConnect::seqnum_)
-      - PROTOBUF_FIELD_OFFSET(AUInitConnect, worldid_)>(
-          reinterpret_cast<char*>(&worldid_),
-          reinterpret_cast<char*>(&other->worldid_));
+  swap(worldid_, other->worldid_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata AUInitConnect::GetMetadata() const {
@@ -697,13 +653,10 @@ class UAConfirmConnected::_Internal {
     (*has_bits)[0] |= 1u;
   }
   static void set_has_connected(HasBits* has_bits) {
-    (*has_bits)[0] |= 4u;
-  }
-  static void set_has_seqnum(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
   }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000007) ^ 0x00000007) != 0;
+    return ((has_bits[0] & 0x00000003) ^ 0x00000003) != 0;
   }
 };
 
@@ -754,7 +707,7 @@ void UAConfirmConnected::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x00000003u) {
     ::memset(&worldid_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&connected_) -
         reinterpret_cast<char*>(&worldid_)) + sizeof(connected_));
@@ -784,15 +737,6 @@ const char* UAConfirmConnected::_InternalParse(const char* ptr, ::_pbi::ParseCon
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
           _Internal::set_has_connected(&has_bits);
           connected_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // required int64 seqnum = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _Internal::set_has_seqnum(&has_bits);
-          seqnum_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -835,15 +779,9 @@ uint8_t* UAConfirmConnected::_InternalSerialize(
   }
 
   // required bool connected = 2;
-  if (cached_has_bits & 0x00000004u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(2, this->_internal_connected(), target);
-  }
-
-  // required int64 seqnum = 3;
   if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(3, this->_internal_seqnum(), target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(2, this->_internal_connected(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -863,11 +801,6 @@ size_t UAConfirmConnected::RequiredFieldsByteSizeFallback() const {
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_worldid());
   }
 
-  if (_internal_has_seqnum()) {
-    // required int64 seqnum = 3;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-  }
-
   if (_internal_has_connected()) {
     // required bool connected = 2;
     total_size += 1 + 1;
@@ -879,12 +812,9 @@ size_t UAConfirmConnected::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:UAConfirmConnected)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
     // required int64 worldid = 1;
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_worldid());
-
-    // required int64 seqnum = 3;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
 
     // required bool connected = 2;
     total_size += 1 + 1;
@@ -919,14 +849,11 @@ void UAConfirmConnected::MergeFrom(const UAConfirmConnected& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x00000003u) {
     if (cached_has_bits & 0x00000001u) {
       worldid_ = from.worldid_;
     }
     if (cached_has_bits & 0x00000002u) {
-      seqnum_ = from.seqnum_;
-    }
-    if (cached_has_bits & 0x00000004u) {
       connected_ = from.connected_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -973,28 +900,35 @@ class AUInitPickUp::_Internal {
     (*has_bits)[0] |= 8u;
   }
   static void set_has_seqnum(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
+    (*has_bits)[0] |= 4u;
   }
   static void set_has_accountname(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
-  static void set_has_packageid(HasBits* has_bits) {
-    (*has_bits)[0] |= 4u;
+  static const ::AUDeliveryLocation& deliverylocation(const AUInitPickUp* msg);
+  static void set_has_deliverylocation(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
   }
   static bool MissingRequiredFields(const HasBits& has_bits) {
     return ((has_bits[0] & 0x0000000f) ^ 0x0000000f) != 0;
   }
 };
 
+const ::AUDeliveryLocation&
+AUInitPickUp::_Internal::deliverylocation(const AUInitPickUp* msg) {
+  return *msg->deliverylocation_;
+}
 AUInitPickUp::AUInitPickUp(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
+  product_(arena) {
   SharedCtor();
   // @@protoc_insertion_point(arena_constructor:AUInitPickUp)
 }
 AUInitPickUp::AUInitPickUp(const AUInitPickUp& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _has_bits_(from._has_bits_) {
+      _has_bits_(from._has_bits_),
+      product_(from.product_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   accountname_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -1003,6 +937,11 @@ AUInitPickUp::AUInitPickUp(const AUInitPickUp& from)
   if (from._internal_has_accountname()) {
     accountname_.Set(from._internal_accountname(), 
       GetArenaForAllocation());
+  }
+  if (from._internal_has_deliverylocation()) {
+    deliverylocation_ = new ::AUDeliveryLocation(*from.deliverylocation_);
+  } else {
+    deliverylocation_ = nullptr;
   }
   ::memcpy(&seqnum_, &from.seqnum_,
     static_cast<size_t>(reinterpret_cast<char*>(&whid_) -
@@ -1016,9 +955,9 @@ accountname_.InitDefault();
   accountname_.Set("", GetArenaForAllocation());
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&seqnum_) - reinterpret_cast<char*>(this)),
+    reinterpret_cast<char*>(&deliverylocation_) - reinterpret_cast<char*>(this)),
     0, static_cast<size_t>(reinterpret_cast<char*>(&whid_) -
-    reinterpret_cast<char*>(&seqnum_)) + sizeof(whid_));
+    reinterpret_cast<char*>(&deliverylocation_)) + sizeof(whid_));
 }
 
 AUInitPickUp::~AUInitPickUp() {
@@ -1033,6 +972,7 @@ AUInitPickUp::~AUInitPickUp() {
 inline void AUInitPickUp::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   accountname_.Destroy();
+  if (this != internal_default_instance()) delete deliverylocation_;
 }
 
 void AUInitPickUp::SetCachedSize(int size) const {
@@ -1045,11 +985,18 @@ void AUInitPickUp::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  product_.Clear();
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    accountname_.ClearNonDefaultToEmpty();
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      accountname_.ClearNonDefaultToEmpty();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(deliverylocation_ != nullptr);
+      deliverylocation_->Clear();
+    }
   }
-  if (cached_has_bits & 0x0000000eu) {
+  if (cached_has_bits & 0x0000000cu) {
     ::memset(&seqnum_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&whid_) -
         reinterpret_cast<char*>(&seqnum_)) + sizeof(whid_));
@@ -1095,12 +1042,24 @@ const char* AUInitPickUp::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
         } else
           goto handle_unusual;
         continue;
-      // required int64 packageid = 4;
+      // required .AUDeliveryLocation deliverylocation = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
-          _Internal::set_has_packageid(&has_bits);
-          packageid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_deliverylocation(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .AUProduct product = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_product(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<42>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -1142,7 +1101,7 @@ uint8_t* AUInitPickUp::_InternalSerialize(
   }
 
   // required int64 seqnum = 2;
-  if (cached_has_bits & 0x00000002u) {
+  if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_seqnum(), target);
   }
@@ -1157,10 +1116,19 @@ uint8_t* AUInitPickUp::_InternalSerialize(
         3, this->_internal_accountname(), target);
   }
 
-  // required int64 packageid = 4;
-  if (cached_has_bits & 0x00000004u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(4, this->_internal_packageid(), target);
+  // required .AUDeliveryLocation deliverylocation = 4;
+  if (cached_has_bits & 0x00000002u) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::deliverylocation(this),
+        _Internal::deliverylocation(this).GetCachedSize(), target, stream);
+  }
+
+  // repeated .AUProduct product = 5;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_product_size()); i < n; i++) {
+    const auto& repfield = this->_internal_product(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(5, repfield, repfield.GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1182,14 +1150,16 @@ size_t AUInitPickUp::RequiredFieldsByteSizeFallback() const {
         this->_internal_accountname());
   }
 
+  if (_internal_has_deliverylocation()) {
+    // required .AUDeliveryLocation deliverylocation = 4;
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *deliverylocation_);
+  }
+
   if (_internal_has_seqnum()) {
     // required int64 seqnum = 2;
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-  }
-
-  if (_internal_has_packageid()) {
-    // required int64 packageid = 4;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_packageid());
   }
 
   if (_internal_has_whid()) {
@@ -1209,11 +1179,13 @@ size_t AUInitPickUp::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_accountname());
 
+    // required .AUDeliveryLocation deliverylocation = 4;
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *deliverylocation_);
+
     // required int64 seqnum = 2;
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
-
-    // required int64 packageid = 4;
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_packageid());
 
     // required int32 whid = 1;
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_whid());
@@ -1224,6 +1196,13 @@ size_t AUInitPickUp::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // repeated .AUProduct product = 5;
+  total_size += 1UL * this->_internal_product_size();
+  for (const auto& msg : this->product_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
 }
@@ -1247,16 +1226,17 @@ void AUInitPickUp::MergeFrom(const AUInitPickUp& from) {
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  product_.MergeFrom(from.product_);
   cached_has_bits = from._has_bits_[0];
   if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
       _internal_set_accountname(from._internal_accountname());
     }
     if (cached_has_bits & 0x00000002u) {
-      seqnum_ = from.seqnum_;
+      _internal_mutable_deliverylocation()->::AUDeliveryLocation::MergeFrom(from._internal_deliverylocation());
     }
     if (cached_has_bits & 0x00000004u) {
-      packageid_ = from.packageid_;
+      seqnum_ = from.seqnum_;
     }
     if (cached_has_bits & 0x00000008u) {
       whid_ = from.whid_;
@@ -1275,6 +1255,11 @@ void AUInitPickUp::CopyFrom(const AUInitPickUp& from) {
 
 bool AUInitPickUp::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_has_bits_)) return false;
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(product_))
+    return false;
+  if (_internal_has_deliverylocation()) {
+    if (!deliverylocation_->IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -1284,6 +1269,7 @@ void AUInitPickUp::InternalSwap(AUInitPickUp* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
+  product_.InternalSwap(&other->product_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &accountname_, lhs_arena,
       &other->accountname_, rhs_arena
@@ -1291,9 +1277,9 @@ void AUInitPickUp::InternalSwap(AUInitPickUp* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(AUInitPickUp, whid_)
       + sizeof(AUInitPickUp::whid_)
-      - PROTOBUF_FIELD_OFFSET(AUInitPickUp, seqnum_)>(
-          reinterpret_cast<char*>(&seqnum_),
-          reinterpret_cast<char*>(&other->seqnum_));
+      - PROTOBUF_FIELD_OFFSET(AUInitPickUp, deliverylocation_)>(
+          reinterpret_cast<char*>(&deliverylocation_),
+          reinterpret_cast<char*>(&other->deliverylocation_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata AUInitPickUp::GetMetadata() const {
@@ -2103,6 +2089,227 @@ void UADelivered::InternalSwap(UADelivered* other) {
 
 // ===================================================================
 
+class UADelievering::_Internal {
+ public:
+  using HasBits = decltype(std::declval<UADelievering>()._has_bits_);
+  static void set_has_seqnum(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static bool MissingRequiredFields(const HasBits& has_bits) {
+    return ((has_bits[0] & 0x00000001) ^ 0x00000001) != 0;
+  }
+};
+
+UADelievering::UADelievering(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
+  packageid_(arena) {
+  SharedCtor();
+  // @@protoc_insertion_point(arena_constructor:UADelievering)
+}
+UADelievering::UADelievering(const UADelievering& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _has_bits_(from._has_bits_),
+      packageid_(from.packageid_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  seqnum_ = from.seqnum_;
+  // @@protoc_insertion_point(copy_constructor:UADelievering)
+}
+
+inline void UADelievering::SharedCtor() {
+seqnum_ = int64_t{0};
+}
+
+UADelievering::~UADelievering() {
+  // @@protoc_insertion_point(destructor:UADelievering)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void UADelievering::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void UADelievering::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void UADelievering::Clear() {
+// @@protoc_insertion_point(message_clear_start:UADelievering)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  packageid_.Clear();
+  seqnum_ = int64_t{0};
+  _has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UADelievering::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated int64 packageid = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            _internal_add_packageid(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<8>(ptr));
+        } else if (static_cast<uint8_t>(tag) == 10) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt64Parser(_internal_mutable_packageid(), ptr, ctx);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // required int64 seqnum = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _Internal::set_has_seqnum(&has_bits);
+          seqnum_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* UADelievering::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:UADelievering)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated int64 packageid = 1;
+  for (int i = 0, n = this->_internal_packageid_size(); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_packageid(i), target);
+  }
+
+  cached_has_bits = _has_bits_[0];
+  // required int64 seqnum = 2;
+  if (cached_has_bits & 0x00000001u) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_seqnum(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:UADelievering)
+  return target;
+}
+
+size_t UADelievering::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:UADelievering)
+  size_t total_size = 0;
+
+  // required int64 seqnum = 2;
+  if (_internal_has_seqnum()) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_seqnum());
+  }
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated int64 packageid = 1;
+  {
+    size_t data_size = ::_pbi::WireFormatLite::
+      Int64Size(this->packageid_);
+    total_size += 1 *
+                  ::_pbi::FromIntSize(this->_internal_packageid_size());
+    total_size += data_size;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UADelievering::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
+    UADelievering::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UADelievering::GetClassData() const { return &_class_data_; }
+
+void UADelievering::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
+                      const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+  static_cast<UADelievering *>(to)->MergeFrom(
+      static_cast<const UADelievering &>(from));
+}
+
+
+void UADelievering::MergeFrom(const UADelievering& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:UADelievering)
+  GOOGLE_DCHECK_NE(&from, this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  packageid_.MergeFrom(from.packageid_);
+  if (from._internal_has_seqnum()) {
+    _internal_set_seqnum(from._internal_seqnum());
+  }
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void UADelievering::CopyFrom(const UADelievering& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:UADelievering)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UADelievering::IsInitialized() const {
+  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
+  return true;
+}
+
+void UADelievering::InternalSwap(UADelievering* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  packageid_.InternalSwap(&other->packageid_);
+  swap(seqnum_, other->seqnum_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UADelievering::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_ups_2damazon_2eproto_getter, &descriptor_table_ups_2damazon_2eproto_once,
+      file_level_metadata_ups_2damazon_2eproto[6]);
+}
+
+// ===================================================================
+
 class UATruck::_Internal {
  public:
   using HasBits = decltype(std::declval<UATruck>()._has_bits_);
@@ -2465,7 +2672,7 @@ void UATruck::InternalSwap(UATruck* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UATruck::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_2damazon_2eproto_getter, &descriptor_table_ups_2damazon_2eproto_once,
-      file_level_metadata_ups_2damazon_2eproto[6]);
+      file_level_metadata_ups_2damazon_2eproto[7]);
 }
 
 // ===================================================================
@@ -2774,7 +2981,7 @@ void AUProduct::InternalSwap(AUProduct* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata AUProduct::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_2damazon_2eproto_getter, &descriptor_table_ups_2damazon_2eproto_once,
-      file_level_metadata_ups_2damazon_2eproto[7]);
+      file_level_metadata_ups_2damazon_2eproto[8]);
 }
 
 // ===================================================================
@@ -3021,14 +3228,14 @@ void UAPackageRequest::InternalSwap(UAPackageRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UAPackageRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_2damazon_2eproto_getter, &descriptor_table_ups_2damazon_2eproto_once,
-      file_level_metadata_ups_2damazon_2eproto[8]);
+      file_level_metadata_ups_2damazon_2eproto[9]);
 }
 
 // ===================================================================
 
-class UADeliveryLocation::_Internal {
+class AUDeliveryLocation::_Internal {
  public:
-  using HasBits = decltype(std::declval<UADeliveryLocation>()._has_bits_);
+  using HasBits = decltype(std::declval<AUDeliveryLocation>()._has_bits_);
   static void set_has_packageid(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
@@ -3043,31 +3250,31 @@ class UADeliveryLocation::_Internal {
   }
 };
 
-UADeliveryLocation::UADeliveryLocation(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+AUDeliveryLocation::AUDeliveryLocation(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor();
-  // @@protoc_insertion_point(arena_constructor:UADeliveryLocation)
+  // @@protoc_insertion_point(arena_constructor:AUDeliveryLocation)
 }
-UADeliveryLocation::UADeliveryLocation(const UADeliveryLocation& from)
+AUDeliveryLocation::AUDeliveryLocation(const AUDeliveryLocation& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&packageid_, &from.packageid_,
     static_cast<size_t>(reinterpret_cast<char*>(&y_) -
     reinterpret_cast<char*>(&packageid_)) + sizeof(y_));
-  // @@protoc_insertion_point(copy_constructor:UADeliveryLocation)
+  // @@protoc_insertion_point(copy_constructor:AUDeliveryLocation)
 }
 
-inline void UADeliveryLocation::SharedCtor() {
+inline void AUDeliveryLocation::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&packageid_) - reinterpret_cast<char*>(this)),
     0, static_cast<size_t>(reinterpret_cast<char*>(&y_) -
     reinterpret_cast<char*>(&packageid_)) + sizeof(y_));
 }
 
-UADeliveryLocation::~UADeliveryLocation() {
-  // @@protoc_insertion_point(destructor:UADeliveryLocation)
+AUDeliveryLocation::~AUDeliveryLocation() {
+  // @@protoc_insertion_point(destructor:AUDeliveryLocation)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -3075,16 +3282,16 @@ UADeliveryLocation::~UADeliveryLocation() {
   SharedDtor();
 }
 
-inline void UADeliveryLocation::SharedDtor() {
+inline void AUDeliveryLocation::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
 }
 
-void UADeliveryLocation::SetCachedSize(int size) const {
+void AUDeliveryLocation::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
 
-void UADeliveryLocation::Clear() {
-// @@protoc_insertion_point(message_clear_start:UADeliveryLocation)
+void AUDeliveryLocation::Clear() {
+// @@protoc_insertion_point(message_clear_start:AUDeliveryLocation)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -3099,7 +3306,7 @@ void UADeliveryLocation::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* UADeliveryLocation::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* AUDeliveryLocation::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
@@ -3157,9 +3364,9 @@ failure:
 #undef CHK_
 }
 
-uint8_t* UADeliveryLocation::_InternalSerialize(
+uint8_t* AUDeliveryLocation::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:UADeliveryLocation)
+  // @@protoc_insertion_point(serialize_to_array_start:AUDeliveryLocation)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -3186,12 +3393,12 @@ uint8_t* UADeliveryLocation::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:UADeliveryLocation)
+  // @@protoc_insertion_point(serialize_to_array_end:AUDeliveryLocation)
   return target;
 }
 
-size_t UADeliveryLocation::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:UADeliveryLocation)
+size_t AUDeliveryLocation::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AUDeliveryLocation)
   size_t total_size = 0;
 
   if (_internal_has_packageid()) {
@@ -3211,8 +3418,8 @@ size_t UADeliveryLocation::RequiredFieldsByteSizeFallback() const {
 
   return total_size;
 }
-size_t UADeliveryLocation::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:UADeliveryLocation)
+size_t AUDeliveryLocation::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:AUDeliveryLocation)
   size_t total_size = 0;
 
   if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
@@ -3235,21 +3442,21 @@ size_t UADeliveryLocation::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UADeliveryLocation::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData AUDeliveryLocation::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSizeCheck,
-    UADeliveryLocation::MergeImpl
+    AUDeliveryLocation::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UADeliveryLocation::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*AUDeliveryLocation::GetClassData() const { return &_class_data_; }
 
-void UADeliveryLocation::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
+void AUDeliveryLocation::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to,
                       const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-  static_cast<UADeliveryLocation *>(to)->MergeFrom(
-      static_cast<const UADeliveryLocation &>(from));
+  static_cast<AUDeliveryLocation *>(to)->MergeFrom(
+      static_cast<const AUDeliveryLocation &>(from));
 }
 
 
-void UADeliveryLocation::MergeFrom(const UADeliveryLocation& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:UADeliveryLocation)
+void AUDeliveryLocation::MergeFrom(const AUDeliveryLocation& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:AUDeliveryLocation)
   GOOGLE_DCHECK_NE(&from, this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -3270,34 +3477,34 @@ void UADeliveryLocation::MergeFrom(const UADeliveryLocation& from) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void UADeliveryLocation::CopyFrom(const UADeliveryLocation& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:UADeliveryLocation)
+void AUDeliveryLocation::CopyFrom(const AUDeliveryLocation& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AUDeliveryLocation)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool UADeliveryLocation::IsInitialized() const {
+bool AUDeliveryLocation::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_has_bits_)) return false;
   return true;
 }
 
-void UADeliveryLocation::InternalSwap(UADeliveryLocation* other) {
+void AUDeliveryLocation::InternalSwap(AUDeliveryLocation* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(UADeliveryLocation, y_)
-      + sizeof(UADeliveryLocation::y_)
-      - PROTOBUF_FIELD_OFFSET(UADeliveryLocation, packageid_)>(
+      PROTOBUF_FIELD_OFFSET(AUDeliveryLocation, y_)
+      + sizeof(AUDeliveryLocation::y_)
+      - PROTOBUF_FIELD_OFFSET(AUDeliveryLocation, packageid_)>(
           reinterpret_cast<char*>(&packageid_),
           reinterpret_cast<char*>(&other->packageid_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata UADeliveryLocation::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata AUDeliveryLocation::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_2damazon_2eproto_getter, &descriptor_table_ups_2damazon_2eproto_once,
-      file_level_metadata_ups_2damazon_2eproto[9]);
+      file_level_metadata_ups_2damazon_2eproto[10]);
 }
 
 // ===================================================================
@@ -3305,8 +3512,8 @@ void UADeliveryLocation::InternalSwap(UADeliveryLocation* other) {
 class AUPackageResponse::_Internal {
  public:
   using HasBits = decltype(std::declval<AUPackageResponse>()._has_bits_);
-  static const ::UADeliveryLocation& package(const AUPackageResponse* msg);
-  static void set_has_package(HasBits* has_bits) {
+  static const ::AUDeliveryLocation& deliverylocation(const AUPackageResponse* msg);
+  static void set_has_deliverylocation(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
   static const ::AUProduct& product(const AUPackageResponse* msg);
@@ -3321,9 +3528,9 @@ class AUPackageResponse::_Internal {
   }
 };
 
-const ::UADeliveryLocation&
-AUPackageResponse::_Internal::package(const AUPackageResponse* msg) {
-  return *msg->package_;
+const ::AUDeliveryLocation&
+AUPackageResponse::_Internal::deliverylocation(const AUPackageResponse* msg) {
+  return *msg->deliverylocation_;
 }
 const ::AUProduct&
 AUPackageResponse::_Internal::product(const AUPackageResponse* msg) {
@@ -3339,10 +3546,10 @@ AUPackageResponse::AUPackageResponse(const AUPackageResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_package()) {
-    package_ = new ::UADeliveryLocation(*from.package_);
+  if (from._internal_has_deliverylocation()) {
+    deliverylocation_ = new ::AUDeliveryLocation(*from.deliverylocation_);
   } else {
-    package_ = nullptr;
+    deliverylocation_ = nullptr;
   }
   if (from._internal_has_product()) {
     product_ = new ::AUProduct(*from.product_);
@@ -3355,9 +3562,9 @@ AUPackageResponse::AUPackageResponse(const AUPackageResponse& from)
 
 inline void AUPackageResponse::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&package_) - reinterpret_cast<char*>(this)),
+    reinterpret_cast<char*>(&deliverylocation_) - reinterpret_cast<char*>(this)),
     0, static_cast<size_t>(reinterpret_cast<char*>(&seqnum_) -
-    reinterpret_cast<char*>(&package_)) + sizeof(seqnum_));
+    reinterpret_cast<char*>(&deliverylocation_)) + sizeof(seqnum_));
 }
 
 AUPackageResponse::~AUPackageResponse() {
@@ -3371,7 +3578,7 @@ AUPackageResponse::~AUPackageResponse() {
 
 inline void AUPackageResponse::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete package_;
+  if (this != internal_default_instance()) delete deliverylocation_;
   if (this != internal_default_instance()) delete product_;
 }
 
@@ -3388,8 +3595,8 @@ void AUPackageResponse::Clear() {
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x00000003u) {
     if (cached_has_bits & 0x00000001u) {
-      GOOGLE_DCHECK(package_ != nullptr);
-      package_->Clear();
+      GOOGLE_DCHECK(deliverylocation_ != nullptr);
+      deliverylocation_->Clear();
     }
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(product_ != nullptr);
@@ -3408,10 +3615,10 @@ const char* AUPackageResponse::_InternalParse(const char* ptr, ::_pbi::ParseCont
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // required .UADeliveryLocation package = 1;
+      // required .AUDeliveryLocation deliverylocation = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_package(), ptr);
+          ptr = ctx->ParseMessage(_internal_mutable_deliverylocation(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -3464,11 +3671,11 @@ uint8_t* AUPackageResponse::_InternalSerialize(
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required .UADeliveryLocation package = 1;
+  // required .AUDeliveryLocation deliverylocation = 1;
   if (cached_has_bits & 0x00000001u) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(1, _Internal::package(this),
-        _Internal::package(this).GetCachedSize(), target, stream);
+      InternalWriteMessage(1, _Internal::deliverylocation(this),
+        _Internal::deliverylocation(this).GetCachedSize(), target, stream);
   }
 
   // required .AUProduct product = 2;
@@ -3496,11 +3703,11 @@ size_t AUPackageResponse::RequiredFieldsByteSizeFallback() const {
 // @@protoc_insertion_point(required_fields_byte_size_fallback_start:AUPackageResponse)
   size_t total_size = 0;
 
-  if (_internal_has_package()) {
-    // required .UADeliveryLocation package = 1;
+  if (_internal_has_deliverylocation()) {
+    // required .AUDeliveryLocation deliverylocation = 1;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *package_);
+        *deliverylocation_);
   }
 
   if (_internal_has_product()) {
@@ -3522,10 +3729,10 @@ size_t AUPackageResponse::ByteSizeLong() const {
   size_t total_size = 0;
 
   if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
-    // required .UADeliveryLocation package = 1;
+    // required .AUDeliveryLocation deliverylocation = 1;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *package_);
+        *deliverylocation_);
 
     // required .AUProduct product = 2;
     total_size += 1 +
@@ -3567,7 +3774,7 @@ void AUPackageResponse::MergeFrom(const AUPackageResponse& from) {
   cached_has_bits = from._has_bits_[0];
   if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
-      _internal_mutable_package()->::UADeliveryLocation::MergeFrom(from._internal_package());
+      _internal_mutable_deliverylocation()->::AUDeliveryLocation::MergeFrom(from._internal_deliverylocation());
     }
     if (cached_has_bits & 0x00000002u) {
       _internal_mutable_product()->::AUProduct::MergeFrom(from._internal_product());
@@ -3589,8 +3796,8 @@ void AUPackageResponse::CopyFrom(const AUPackageResponse& from) {
 
 bool AUPackageResponse::IsInitialized() const {
   if (_Internal::MissingRequiredFields(_has_bits_)) return false;
-  if (_internal_has_package()) {
-    if (!package_->IsInitialized()) return false;
+  if (_internal_has_deliverylocation()) {
+    if (!deliverylocation_->IsInitialized()) return false;
   }
   if (_internal_has_product()) {
     if (!product_->IsInitialized()) return false;
@@ -3605,15 +3812,15 @@ void AUPackageResponse::InternalSwap(AUPackageResponse* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(AUPackageResponse, seqnum_)
       + sizeof(AUPackageResponse::seqnum_)
-      - PROTOBUF_FIELD_OFFSET(AUPackageResponse, package_)>(
-          reinterpret_cast<char*>(&package_),
-          reinterpret_cast<char*>(&other->package_));
+      - PROTOBUF_FIELD_OFFSET(AUPackageResponse, deliverylocation_)>(
+          reinterpret_cast<char*>(&deliverylocation_),
+          reinterpret_cast<char*>(&other->deliverylocation_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata AUPackageResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_2damazon_2eproto_getter, &descriptor_table_ups_2damazon_2eproto_once,
-      file_level_metadata_ups_2damazon_2eproto[10]);
+      file_level_metadata_ups_2damazon_2eproto[11]);
 }
 
 // ===================================================================
@@ -3627,7 +3834,6 @@ AUCommands::AUCommands(::PROTOBUF_NAMESPACE_ID::Arena* arena,
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned),
   pickupreq_(arena),
   loaded_(arena),
-  packageresponse_(arena),
   acks_(arena) {
   SharedCtor();
   // @@protoc_insertion_point(arena_constructor:AUCommands)
@@ -3636,7 +3842,6 @@ AUCommands::AUCommands(const AUCommands& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       pickupreq_(from.pickupreq_),
       loaded_(from.loaded_),
-      packageresponse_(from.packageresponse_),
       acks_(from.acks_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:AUCommands)
@@ -3670,7 +3875,6 @@ void AUCommands::Clear() {
 
   pickupreq_.Clear();
   loaded_.Clear();
-  packageresponse_.Clear();
   acks_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -3707,30 +3911,17 @@ const char* AUCommands::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // repeated .AUPackageResponse packageresponse = 3;
+      // repeated int64 acks = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_packageresponse(), ptr);
-            CHK_(ptr);
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated int64 acks = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
           ptr -= 1;
           do {
             ptr += 1;
             _internal_add_acks(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<32>(ptr));
-        } else if (static_cast<uint8_t>(tag) == 34) {
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<24>(ptr));
+        } else if (static_cast<uint8_t>(tag) == 26) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt64Parser(_internal_mutable_acks(), ptr, ctx);
           CHK_(ptr);
         } else
@@ -3781,18 +3972,10 @@ uint8_t* AUCommands::_InternalSerialize(
         InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // repeated .AUPackageResponse packageresponse = 3;
-  for (unsigned i = 0,
-      n = static_cast<unsigned>(this->_internal_packageresponse_size()); i < n; i++) {
-    const auto& repfield = this->_internal_packageresponse(i);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
-  }
-
-  // repeated int64 acks = 4;
+  // repeated int64 acks = 3;
   for (int i = 0, n = this->_internal_acks_size(); i < n; i++) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(4, this->_internal_acks(i), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(3, this->_internal_acks(i), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3825,14 +4008,7 @@ size_t AUCommands::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated .AUPackageResponse packageresponse = 3;
-  total_size += 1UL * this->_internal_packageresponse_size();
-  for (const auto& msg : this->packageresponse_) {
-    total_size +=
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // repeated int64 acks = 4;
+  // repeated int64 acks = 3;
   {
     size_t data_size = ::_pbi::WireFormatLite::
       Int64Size(this->acks_);
@@ -3865,7 +4041,6 @@ void AUCommands::MergeFrom(const AUCommands& from) {
 
   pickupreq_.MergeFrom(from.pickupreq_);
   loaded_.MergeFrom(from.loaded_);
-  packageresponse_.MergeFrom(from.packageresponse_);
   acks_.MergeFrom(from.acks_);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -3882,8 +4057,6 @@ bool AUCommands::IsInitialized() const {
     return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(loaded_))
     return false;
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(packageresponse_))
-    return false;
   return true;
 }
 
@@ -3892,14 +4065,13 @@ void AUCommands::InternalSwap(AUCommands* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   pickupreq_.InternalSwap(&other->pickupreq_);
   loaded_.InternalSwap(&other->loaded_);
-  packageresponse_.InternalSwap(&other->packageresponse_);
   acks_.InternalSwap(&other->acks_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata AUCommands::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_2damazon_2eproto_getter, &descriptor_table_ups_2damazon_2eproto_once,
-      file_level_metadata_ups_2damazon_2eproto[11]);
+      file_level_metadata_ups_2damazon_2eproto[12]);
 }
 
 // ===================================================================
@@ -3914,7 +4086,6 @@ UACommands::UACommands(::PROTOBUF_NAMESPACE_ID::Arena* arena,
   truckarrived_(arena),
   delivered_(arena),
   trucks_(arena),
-  packagerequest_(arena),
   acks_(arena) {
   SharedCtor();
   // @@protoc_insertion_point(arena_constructor:UACommands)
@@ -3924,7 +4095,6 @@ UACommands::UACommands(const UACommands& from)
       truckarrived_(from.truckarrived_),
       delivered_(from.delivered_),
       trucks_(from.trucks_),
-      packagerequest_(from.packagerequest_),
       acks_(from.acks_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:UACommands)
@@ -3959,7 +4129,6 @@ void UACommands::Clear() {
   truckarrived_.Clear();
   delivered_.Clear();
   trucks_.Clear();
-  packagerequest_.Clear();
   acks_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -4009,30 +4178,17 @@ const char* UACommands::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
         } else
           goto handle_unusual;
         continue;
-      // repeated .UAPackageRequest packagerequest = 4;
+      // repeated int64 acks = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            ptr = ctx->ParseMessage(_internal_add_packagerequest(), ptr);
-            CHK_(ptr);
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated int64 acks = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           ptr -= 1;
           do {
             ptr += 1;
             _internal_add_acks(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<40>(ptr));
-        } else if (static_cast<uint8_t>(tag) == 42) {
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<32>(ptr));
+        } else if (static_cast<uint8_t>(tag) == 34) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt64Parser(_internal_mutable_acks(), ptr, ctx);
           CHK_(ptr);
         } else
@@ -4091,18 +4247,10 @@ uint8_t* UACommands::_InternalSerialize(
         InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // repeated .UAPackageRequest packagerequest = 4;
-  for (unsigned i = 0,
-      n = static_cast<unsigned>(this->_internal_packagerequest_size()); i < n; i++) {
-    const auto& repfield = this->_internal_packagerequest(i);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
-  }
-
-  // repeated int64 acks = 5;
+  // repeated int64 acks = 4;
   for (int i = 0, n = this->_internal_acks_size(); i < n; i++) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(5, this->_internal_acks(i), target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(4, this->_internal_acks(i), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4142,14 +4290,7 @@ size_t UACommands::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // repeated .UAPackageRequest packagerequest = 4;
-  total_size += 1UL * this->_internal_packagerequest_size();
-  for (const auto& msg : this->packagerequest_) {
-    total_size +=
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // repeated int64 acks = 5;
+  // repeated int64 acks = 4;
   {
     size_t data_size = ::_pbi::WireFormatLite::
       Int64Size(this->acks_);
@@ -4183,7 +4324,6 @@ void UACommands::MergeFrom(const UACommands& from) {
   truckarrived_.MergeFrom(from.truckarrived_);
   delivered_.MergeFrom(from.delivered_);
   trucks_.MergeFrom(from.trucks_);
-  packagerequest_.MergeFrom(from.packagerequest_);
   acks_.MergeFrom(from.acks_);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -4202,8 +4342,6 @@ bool UACommands::IsInitialized() const {
     return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(trucks_))
     return false;
-  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(packagerequest_))
-    return false;
   return true;
 }
 
@@ -4213,14 +4351,13 @@ void UACommands::InternalSwap(UACommands* other) {
   truckarrived_.InternalSwap(&other->truckarrived_);
   delivered_.InternalSwap(&other->delivered_);
   trucks_.InternalSwap(&other->trucks_);
-  packagerequest_.InternalSwap(&other->packagerequest_);
   acks_.InternalSwap(&other->acks_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata UACommands::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_ups_2damazon_2eproto_getter, &descriptor_table_ups_2damazon_2eproto_once,
-      file_level_metadata_ups_2damazon_2eproto[12]);
+      file_level_metadata_ups_2damazon_2eproto[13]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -4249,6 +4386,10 @@ template<> PROTOBUF_NOINLINE ::UADelivered*
 Arena::CreateMaybeMessage< ::UADelivered >(Arena* arena) {
   return Arena::CreateMessageInternal< ::UADelivered >(arena);
 }
+template<> PROTOBUF_NOINLINE ::UADelievering*
+Arena::CreateMaybeMessage< ::UADelievering >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::UADelievering >(arena);
+}
 template<> PROTOBUF_NOINLINE ::UATruck*
 Arena::CreateMaybeMessage< ::UATruck >(Arena* arena) {
   return Arena::CreateMessageInternal< ::UATruck >(arena);
@@ -4261,9 +4402,9 @@ template<> PROTOBUF_NOINLINE ::UAPackageRequest*
 Arena::CreateMaybeMessage< ::UAPackageRequest >(Arena* arena) {
   return Arena::CreateMessageInternal< ::UAPackageRequest >(arena);
 }
-template<> PROTOBUF_NOINLINE ::UADeliveryLocation*
-Arena::CreateMaybeMessage< ::UADeliveryLocation >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::UADeliveryLocation >(arena);
+template<> PROTOBUF_NOINLINE ::AUDeliveryLocation*
+Arena::CreateMaybeMessage< ::AUDeliveryLocation >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::AUDeliveryLocation >(arena);
 }
 template<> PROTOBUF_NOINLINE ::AUPackageResponse*
 Arena::CreateMaybeMessage< ::AUPackageResponse >(Arena* arena) {
