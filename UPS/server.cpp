@@ -26,14 +26,10 @@ int Server::getSeqNum(){
 }
 
 void Server::run() {
-    //SeqNum::resetSeqNum();
-    //SeqNum::seqNum=0;
     //uncomment
     //init_database();
     init_world();
     
-
-
     pthread_t thread;
     pthread_create(&thread, NULL, &Server::recvFromWorldWrapper,this);
     pthread_create(&thread, NULL, &Server::sendAckWorldWrapper,this);
@@ -169,6 +165,7 @@ void *Server::recvFromAmazon(){
             cerr<<"Error: recv from amazon fail"<<endl;
         }
         AmazonResponseHandler h(response, world_command, amazon_command, amazon_response, amazon_ack, world_id);
+        // todo: add thread
         h.handle();
     }
 }
@@ -180,6 +177,7 @@ void *Server::recvFromWorld(){
             cerr<<"Error: recv from world fail"<<endl;
         }
         WorldResponseHandler h(response, amazon_command, world_command, world_response, world_ack, world_id);
+        // todo: add thread
         h.handle();
     }
 }

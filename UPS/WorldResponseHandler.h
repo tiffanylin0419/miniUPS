@@ -39,7 +39,7 @@ class WorldResponseHandler {
             if(!world_response.contains(r.seqnum())){
                 UDeliveryMade_sql(world_id, r.truckid(), r.packageid());
                 world_response.add(r.seqnum());
-                //addUADelievered(r);
+                addUADelievered(r);
             }
             addWorldAck(r.seqnum());
         }
