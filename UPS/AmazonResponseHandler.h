@@ -30,8 +30,10 @@ class AmazonResponseHandler {
                AUProduct product=r.product(j);
                description.append(product.description()+" * "+to_string(product.count())+", ");
             }
-            //todo
-            int truck_id=1;//sql (r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y(), description)
+            int truck_id=AUInitPickUp_sql(world_id, r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y());//, description
+            if(truck_id!=-1){
+               truck_id=AUInitPickUp_sql(world_id, r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y());
+            }
             amazon_response.add(r.seqnum());
             addUGoPickup(r, truck_id);
          }   
@@ -42,7 +44,7 @@ class AmazonResponseHandler {
          AULoaded r=response.loaded(i);
          if(!amazon_response.contains(r.seqnum())){
             //todo
-            //get shipid
+            //r.shipid()
             //from package table find package_id, des_x, des_y, 
             //send truckid, UDeliveryLocation:packages(packageid, x,y)
             UGoDeliver ugodeliver;//sql return a UGoDeliver without seq
