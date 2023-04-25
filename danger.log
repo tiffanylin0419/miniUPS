@@ -1,16 +1,12 @@
 todo:
-WorldResponseHandler.h: addUATruckArrived
-AmazonResponseHandler.h: sql
-add thread in server for response handling
-database connect
-database lock
-WorldResponseHandler.h: UTruck do i need to deal with this
-
-？
-Load 到一半truck開走他還會回去嗎
+收到response順序不對
+docker
 
 check:
 server non stop
 
 done: 
 use uniquelock to prevent dead locks when return from function
+database row locking
+add thread in server for sending commands and receiving response
+add thread in server for response handling
