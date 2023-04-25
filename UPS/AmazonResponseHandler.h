@@ -30,8 +30,10 @@ class AmazonResponseHandler {
                AUProduct product=r.product(j);
                description.append(product.description()+" * "+to_string(product.count())+", ");
             }
-            //todo
-            int truck_id=1;//sql (r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y(), description)
+            int truck_id=AUInitPickUp_sql(world_id, r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y(), description);
+            if(truck_id!=-1){
+               truck_id=AUInitPickUp_sql(world_id, r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y(), description);
+            }
             amazon_response.add(r.seqnum());
             addUGoPickup(r, truck_id);
          }   
@@ -41,13 +43,8 @@ class AmazonResponseHandler {
       for(int i=0;i<response.loaded_size();i++){
          AULoaded r=response.loaded(i);
          if(!amazon_response.contains(r.seqnum())){
-            //todo
-            //get shipid
-            //from package table find package_id, des_x, des_y, 
-            //send truckid, UDeliveryLocation:packages(packageid, x,y)
-            UGoDeliver ugodeliver;//sql return a UGoDeliver without seq
             amazon_response.add(r.seqnum());
-            addUGoDeliver(ugodeliver);
+            addUGoDeliver(r);
          }   
          addAmazonAck(r.seqnum());
       }
@@ -64,19 +61,30 @@ class AmazonResponseHandler {
       int seqNum=SeqNum::get();
       UCommands command;
       UGoPickup *ugopickup=command.add_pickups();
+      ugopickup->set_truckid(truckid);
       ugopickup->set_whid(whid);
       ugopickup->set_seqnum(seqNum);
       world_command.add(seqNum,command);
    }
 
-   void addUGoDeliver(UGoDeliver &ugodeliver){
-      UCommands command;
-      UGoDeliver *ugodeliver2=command.add_deliveries();
-      *ugodeliver2=ugodeliver;
-      int seqNum=SeqNum::get();
-      ugodeliver2->set_seqnum(seqNum);
-      world_command.add(seqNum,command);
+   void addUGoDeliver(AULoaded &response){
+      result R = AULoaded_sql(world_id, response.shipid());
+      for (result::const_iterator c = R.begin(); c != R.end(); ++c){
+         int truck_id=c[0].as<int>();
+         int package_id=c[1].as<int>();
+         int x=c[2].as<int>();
+         int y=c[3].as<int>();
+         UCommands command;
+         UGoDeliver *ugodeliver=command.add_deliveries();
+         ugodeliver->set_truckid(truck_id);
+         UDeliveryLocation *package = ugodeliver->add_packages();
+         package->set_packageid(package_id);
+         package->set_x(x);
+         package->set_y(y);
+         int seqNum=SeqNum::get();
+         ugodeliver->set_seqnum(seqNum);
+         world_command.add(seqNum,command);
+      }
    }
-
    ~AmazonResponseHandler(){}
 };
