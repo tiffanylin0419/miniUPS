@@ -1,11 +1,13 @@
 todo:
-server.cpp: 6 functions 
-WorldResponseHandler.h
-AmazonResponseHandler.h
-add thread for response handling
+WorldResponseHandler.h: addUATruckArrived
+AmazonResponseHandler.h: sql
+add thread in server for response handling
 database connect
-connect to world many times to send ?
+database lock
 WorldResponseHandler.h: UTruck do i need to deal with this
+
+？
+Load 到一半truck開走他還會回去嗎
 
 check:
 server non stop

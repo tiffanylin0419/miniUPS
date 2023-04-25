@@ -1,8 +1,12 @@
+#include <pqxx/pqxx>
+
 #include "threadSafe/threadSafeQueue.h"
 #include "threadSafe/threadSafeSet.h"
 #include "sql_cmd.h"
 
 #include "seqNum.h"
+
+using namespace pqxx;
 
 class WorldResponseHandler {
  private: 
@@ -39,15 +43,6 @@ class WorldResponseHandler {
             }
             addWorldAck(r.seqnum());
         }
-        // for(int i=0;i<response.truckstatus_size();i++){
-        //     //todo
-        //     UTruck r=response.truckstatus(i);
-        //     if(!world_response.contains(r.seqnum())){
-        //         UTruck_sql(world_id, r.truckid(), r.status(), r.x(), r.y());
-        //         world_response.add(r.seqnum());
-        //     }
-        //     world_ack.add(r.seqnum());
-        // }
     }
 
     void addWorldAck(int seqnum){
@@ -57,9 +52,20 @@ class WorldResponseHandler {
     }
 
     void addUATruckArrived(UFinished &r){
-        //todo
-        //if status = arrive warehouse
-            //從package table找到所有用這台truck且 loading的packageid
+        int truck_id =r.truckid();
+        std::string truck_status =r.status();
+        int new_x =r.x();
+        int new_y =r.y();
+        pqxx::result R=Ufinish_sql(world_id, truck_id, truck_status, new_x, new_y);
+        for (result::const_iterator c = R.begin(); c != R.end(); ++c){
+            UACommands command;
+            UATruckArrived *uatruckarrived=command.add_truckarrived();
+            int seqNum=SeqNum::get();
+            uatruckarrived->set_truckid(truck_id);
+            uatruckarrived->set_shipid(c[0].as<int>());
+            uatruckarrived->set_seqnum(seqNum);
+            amazon_command.add(seqNum,command);
+        }
     }
 
     void addUADelievered(UDeliveryMade &r){

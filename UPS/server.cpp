@@ -2,14 +2,16 @@
 #include <exception>
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
+//me: 33209
+//Alvin: 32242
+
 Server::Server(){
     world_port="12345";
     world_hostname="vcm-33209.vm.duke.edu";
-    amazon_port="11111";
+    amazon_port="5688";
     amazon_hostname="vcm-33209.vm.duke.edu";
 
     sequence_num=0;
-
     truck_num=5;
     truck_distance=10;
 }
@@ -24,8 +26,6 @@ int Server::getSeqNum(){
 }
 
 void Server::run() {
-    //SeqNum::resetSeqNum();
-    //SeqNum::seqNum=0;
     //uncomment
     //init_database();
     init_world();
@@ -78,7 +78,7 @@ void Server::init_world(){
     if(!recvMesgFrom<AUInitConnect>(auInitConnect, amazon_in)){
         cerr<< "2 Err: recv from world failure"<<endl;
     }else{
-        world_id-=auInitConnect.worldid();
+        world_id=auInitConnect.worldid();
         cout<<"2 receive world_id = "<<world_id<<endl;
     }
     //3 UConnect
@@ -89,6 +89,7 @@ void Server::init_world(){
         truck->set_id(i+1);
         truck->set_x(truck_distance*i);
         truck->set_y(truck_distance*i);
+        Ucreate_truck_sql(truck->id(), world_id, truck->x(), truck->y());
     }
     connect.set_isamazon(false);
     if(!sendMesgTo<UConnect>(connect, world_out)){
@@ -107,7 +108,6 @@ void Server::init_world(){
     UAConfirmConnected uaConfirmConnected;
     uaConfirmConnected.set_worldid(world_id);
     uaConfirmConnected.set_connected(true);
-    uaConfirmConnected.set_seqnum(SeqNum::get());
     if(!sendMesgTo<UAConfirmConnected>(uaConfirmConnected, amazon_out)){
         cerr<< "5 Err: send to amazon failure"<<endl;
     }else{
@@ -165,6 +165,7 @@ void *Server::recvFromAmazon(){
             cerr<<"Error: recv from amazon fail"<<endl;
         }
         AmazonResponseHandler h(response, world_command, amazon_command, amazon_response, amazon_ack, world_id);
+        // todo: add thread
         h.handle();
     }
 }
@@ -176,6 +177,7 @@ void *Server::recvFromWorld(){
             cerr<<"Error: recv from world fail"<<endl;
         }
         WorldResponseHandler h(response, amazon_command, world_command, world_response, world_ack, world_id);
+        // todo: add thread
         h.handle();
     }
 }

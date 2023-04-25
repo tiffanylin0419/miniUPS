@@ -21,16 +21,23 @@ class AmazonResponseHandler {
       for(int i=0;i<response.acks_size();i++){
          amazon_command.remove(response.acks(i));
       }
+      //8 AUInitPickup
       for(int i=0;i<response.pickupreq_size();i++){
          AUInitPickUp r=response.pickupreq(i);
          if(!amazon_response.contains(r.seqnum())){
+            string description="";
+            for(int j=0;j<r.product_size();j++){
+               AUProduct product=r.product(j);
+               description.append(product.description()+" * "+to_string(product.count())+", ");
+            }
             //todo
-            int truck_id=1;//sql
+            int truck_id=1;//sql (r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y(), description)
             amazon_response.add(r.seqnum());
             addUGoPickup(r, truck_id);
          }   
          addAmazonAck(r.seqnum());
       }
+      // 14 AULoaded
       for(int i=0;i<response.loaded_size();i++){
          AULoaded r=response.loaded(i);
          if(!amazon_response.contains(r.seqnum())){
@@ -44,17 +51,15 @@ class AmazonResponseHandler {
          }   
          addAmazonAck(r.seqnum());
       }
-      //todo
-      //AUPackageResponse
    }
 
-    void addAmazonAck(int seqnum){
-         UACommands command;
-         command.add_acks(seqnum);
-         amazon_ack.add(seqnum, command);
-    }
+   void addAmazonAck(int seqnum){
+      UACommands command;
+      command.add_acks(seqnum);
+      amazon_ack.add(seqnum, command);
+   }
 
-    void addUGoPickup(AUInitPickUp &r, int truckid){
+   void addUGoPickup(AUInitPickUp &r, int truckid){
       int whid=r.whid();
       int seqNum=SeqNum::get();
       UCommands command;
@@ -62,16 +67,16 @@ class AmazonResponseHandler {
       ugopickup->set_whid(whid);
       ugopickup->set_seqnum(seqNum);
       world_command.add(seqNum,command);
-    }
+   }
 
-    void addUGoDeliver(UGoDeliver &ugodeliver){
+   void addUGoDeliver(UGoDeliver &ugodeliver){
       UCommands command;
       UGoDeliver *ugodeliver2=command.add_deliveries();
       *ugodeliver2=ugodeliver;
       int seqNum=SeqNum::get();
       ugodeliver2->set_seqnum(seqNum);
       world_command.add(seqNum,command);
-    }
+   }
 
-    ~AmazonResponseHandler(){}
+   ~AmazonResponseHandler(){}
 };
