@@ -117,7 +117,7 @@ def update_delivery_address(request, package_id):
 def update_delivery_address_tracknum(request, package_id):
     print("2")
     package = Package.objects.get(package_id=package_id, user=request.user)
-    if package.package_status != 'Delivered':
+    if package.package_status != 'delivered' and package.package_status != 'delivering':
         if request.method == 'POST':
             package.addr_x = request.POST['addr_x']
             package.addr_y = request.POST['addr_y']
