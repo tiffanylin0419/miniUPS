@@ -6,6 +6,7 @@ from ups.forms import CustomUserCreationForm
 from django.contrib import messages
 from ups.models import Package
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 
 # 注册
 
@@ -97,31 +98,43 @@ def package_details(request, package_id):
 
 
 def update_delivery_address(request, package_id):
-    print("1")
     package = Package.objects.get(package_id=package_id, amazon_user_name=request.user.username)
-    print("2")
-    if package.package_status != 'Delivered':
-        print("213")
+    if package.package_status != 'delivered' and package.package_status != 'delivering':
         if request.method == 'POST':
-            print("123222")
-            package.addr_x = request.POST['addr_x']
-            package.addr_y = request.POST['addr_y']
+            addr_x = request.POST.get('addr_x', '').strip()
+            addr_y = request.POST.get('addr_y', '').strip()
+            
+            if not addr_x or not addr_y:
+                messages.error(request, 'Please enter values for both addr_x and addr_y.')
+                return render(request, 'registration/update_delivery_address.html', {'package': package})
+            
+            package.addr_x = addr_x
+            package.addr_y = addr_y
             package.save()
+            
             return redirect(package_details, package_id=package.package_id)
         else:
             return render(request, 'registration/update_delivery_address.html', {'package': package})
     else:
         messages.error(request, 'This package has already been delivered.')
         return render(request, 'registration/error.html', {'message': 'This package has already been delivered.'})
+    
 
 def update_delivery_address_tracknum(request, package_id):
-    print("2")
     package = Package.objects.get(package_id=package_id, user=request.user)
-    if package.package_status != 'delivered' and package.package_status != 'delivereddelivered':
+    if package.package_status != 'delivered' and package.package_status != 'delivering':
         if request.method == 'POST':
-            package.addr_x = request.POST['addr_x']
-            package.addr_y = request.POST['addr_y']
+            addr_x = request.POST.get('addr_x', '').strip()
+            addr_y = request.POST.get('addr_y', '').strip()
+            
+            if not addr_x or not addr_y:
+                messages.error(request, 'Please enter values for both addr_x and addr_y.')
+                return render(request, 'registration/update_delivery_address_tracknum.html', {'package': package})
+            
+            package.addr_x = addr_x
+            package.addr_y = addr_y
             package.save()
+            
             return redirect(package_status_change, package_id=package.package_id)
         else:
             return render(request, 'registration/update_delivery_address_tracknum.html', {'package': package})
