@@ -164,7 +164,7 @@ void UTruck_sql(int world_id, int truck_id, string truck_status, int loc_x, int 
 
 
 //assignmet 多加 withhouse *****加入, int loc_x, int loc_y***** 已加要test 
-int AUInitPickUp(int world_id, int wh_id, string accountname, int package_id, int addr_x, int addr_y, string description){
+int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id, int addr_x, int addr_y, string description){
     // connect to database
     connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
 
@@ -209,7 +209,7 @@ int AUInitPickUp(int world_id, int wh_id, string accountname, int package_id, in
 }
 
 //load package together update truck, need to test 
-bool AULoaded(int world_id ,int shipid){
+bool AULoaded_sql(int world_id ,int shipid){
     int package_id = shipid;
     // connect to database
     connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
