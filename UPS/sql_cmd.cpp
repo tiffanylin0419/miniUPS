@@ -257,7 +257,7 @@ result AULoaded_sql(int world_id ,int shipid){
     return result();
 }
 
-
+/*
 int main(){
     //Ucreate_truck_sql(1, 1, 2, 3);
     //Ucreate_truck_sql(1, 2 ,5, 6);
@@ -274,4 +274,4 @@ int main(){
     //UDeliveryMade_sql(1, 1, 1);
     Ufinish_sql(1, 1, "loading", , int new_y)
     return 0;
-}
+}*/

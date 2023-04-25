@@ -163,9 +163,8 @@ void *Server::recvFromAmazon(){
             cerr<<"Error: recv from amazon fail"<<endl;
         }
         AmazonResponseHandler h(response, world_command, amazon_command, amazon_response, amazon_ack, world_id);
-        // todo: add thread
-        
-        h.handle();
+        pthread_t thread;
+        pthread_create(&thread, NULL, h.handleWrapper,this);
     }
 }
 
@@ -176,8 +175,8 @@ void *Server::recvFromWorld(){
             cerr<<"Error: recv from world fail"<<endl;
         }
         WorldResponseHandler h(response, amazon_command, world_command, world_response, world_ack, world_id);
-        // todo: add thread
-        h.handle();
+        pthread_t thread;
+        pthread_create(&thread, NULL, h.handleWrapper,this);
     }
 }
 

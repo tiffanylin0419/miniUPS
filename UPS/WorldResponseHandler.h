@@ -21,10 +21,11 @@ class WorldResponseHandler {
     WorldResponseHandler(UResponses response, ThreadSafeQueue<UACommands> &amazon_command, ThreadSafeQueue<UCommands> &world_command, ThreadSafeSet& world_response, ThreadSafeQueue<UCommands> & world_ack, int world_id)
     : response(response), amazon_command(amazon_command), world_command(world_command), world_response(world_response), world_ack(world_ack), world_id(world_id){}
  
-    void handle(){
+    void* handle(){
         for(int i=0;i<response.acks_size();i++){
             world_command.remove(response.acks(i));
         }
+        // 10 Truck ready & 17 complete
         for(int i=0;i<response.completions_size();i++){
             UFinished r=response.completions(i);
             if(!world_response.contains(r.seqnum())){
@@ -33,6 +34,7 @@ class WorldResponseHandler {
             }   
             addWorldAck(r.seqnum());
         }
+        // 16 Delivered
         for(int i=0;i<response.delivered_size();i++){
             UDeliveryMade r=response.delivered(i);
             if(!world_response.contains(r.seqnum())){
@@ -42,6 +44,12 @@ class WorldResponseHandler {
             }
             addWorldAck(r.seqnum());
         }
+        return NULL;
+    }
+
+    static void* handleWrapper(void* arg) {
+        WorldResponseHandler* h = static_cast<WorldResponseHandler*>(arg);
+        return h->handle();
     }
 
     void addWorldAck(int seqnum){
