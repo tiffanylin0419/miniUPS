@@ -164,6 +164,7 @@ void *Server::recvFromAmazon(){
         }
         AmazonResponseHandler h(response, world_command, amazon_command, amazon_response, amazon_ack, world_id);
         // todo: add thread
+        
         h.handle();
     }
 }
