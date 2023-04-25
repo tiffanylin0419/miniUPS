@@ -5,7 +5,7 @@ result selectSQL(work &W, string sql){
   return R;
 }
 
-//create truck
+//create truck -----ok
 void Ucreate_truck_sql(int world_id, int truck_id, int loc_x, int loc_y) {
     // connect to database
     connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
@@ -41,9 +41,7 @@ void Ucreate_truck_sql(int world_id, int truck_id, int loc_x, int loc_y) {
 result Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, int new_y) {
     // connect to database
     connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
-
     try {
-            
             work txn(conn);
             // execute a query to check if the World exists
             result res_world_id_check = txn.exec("SELECT * FROM ups_world WHERE world_id=" + to_string(world_id));
@@ -163,7 +161,7 @@ void UTruck_sql(int world_id, int truck_id, string truck_status, int loc_x, int 
 }
 
 
-//assignmet 多加 withhouse *****加入, int loc_x, int loc_y***** 已加要test 
+//assignmet 多加 withhouse *****加入, int loc_x, int loc_y***** 已加要test ------ok
 int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id, int addr_x, int addr_y, string description){
     // connect to database
     connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
@@ -177,19 +175,22 @@ int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id
             txn.abort();
             return -1;
         }
+        printf("123\n");
         //search the truck in traveling and go to the same warehouse 
         result res = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_status='traveling' AND wh_id=" + to_string(wh_id));
 
         if (!res.empty()) {
+            printf("456\n");
             // extract truck_id from the first row
             int truck_id = res.at(0)["truck_id"].as<int>();
 
             // update packages with the new truck_id
-            txn.exec("INSERT INTO ups_package (truck_id, world_id, wh_id, package_id, package_status, amazon_user_name, ready_for_picktime, description) VALUES (" + to_string(truck_id) + ", " + to_string(world_id) + ", " + to_string(wh_id) + ", " + to_string(package_id) + ", " + "'Pickup'" + ", '" + accountname + "', NOW(), '" + description + "');");
+            txn.exec("INSERT INTO ups_package (truck_id, world_id, wh_id,addr_x, addr_y,  package_id, package_status, amazon_user_name, ready_for_picktime, description) VALUES (" + to_string(truck_id) + ", " + to_string(world_id) + ", " + to_string(wh_id) + ", " + to_string(addr_x) + ", " + to_string(addr_y) + ", " + to_string(package_id) + ", " + "'Pickup'" + ", '" + accountname + "', NOW(), '" + description + "');");
             txn.commit();
             return truck_id;
         }
         else{
+            printf("789\n");
             result idle_trucks = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_status='idle'");
             if (!idle_trucks.empty()) {
                 int truck_id = idle_trucks.at(0)["truck_id"].as<int>();
@@ -199,6 +200,7 @@ int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id
                 return truck_id;
             }
             else {
+                printf("1239\n");
                 // handle case where there are no idle trucks
                 return -1;
             }
@@ -255,15 +257,20 @@ bool AULoaded_sql(int world_id ,int shipid){
 }
 
 
-/*int main(){
+int main(){
     //Ucreate_truck_sql(1, 1, 2, 3);
     //Ucreate_truck_sql(1, 2 ,5, 6);
+    //Ucreate_truck_sql(int world_id, int truck_id, int loc_x, int loc_y)
     //Ucreate_truck_sql(1, 3 ,5, 6);
     //Ufinish_sql(1,1,"idle" , 3, 4);
     //UTruck_sql(1, 6, "traveling" ,2, 2);
-    //AUInitPickUp(1, 4, "andy123", 5);
+    //AUInitPickUp_sql(1, 1, "andy123", 2, 4, 5, "orange");
+    //AUInitPickUp_sql(1, 1, "andy456", 3, 4, 5, "banana");
+    //AUInitPickUp_sql(1, 1, "andy123", 2, 4, 5, "apple");
+    //AUInitPickUp_sql(1, 1, "andy123", 2, 4, 5, "apple");
     //Ufinish_sql(3,1, "loading", NULL, NULL);
     //AULoaded(1 ,8);
-    UDeliveryMade_sql(1, 1, 1);
+    //UDeliveryMade_sql(1, 1, 1);
+    Ufinish_sql(1, 1, "loading", , int new_y)
     return 0;
-}*/
+}
