@@ -65,7 +65,7 @@ result Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, i
             txn.exec("UPDATE ups_truck SET truck_status='"+ truck_status + "' WHERE world_id="+ to_string(world_id) + "AND truck_id=" + to_string(truck_id));
             txn.exec("UPDATE ups_package SET package_status='loading', load_time=NOW() WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
             //return
-            string sql1="SELECT ... FROM ups_package WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id) + "AND package_status='loading'";
+            string sql1="SELECT package_id FROM ups_package WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id) + "AND package_status='loading'";
             result R=selectSQL(txn, sql1);
             txn.commit();
             return R;
@@ -105,7 +105,7 @@ void UDeliveryMade_sql(int world_id, int truck_id, int package_id) {
             return;
         }
         // execute a query to get the package with the specified ID
-        result res = txn.exec("SELECT addr_x, addr_y FROM ups_package WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id) + " AND package_id=" + to_string(package_id) + " LIMIT 1");
+        result res = txn.exec("SELECT addr_x, addr_y FROM ups_package WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id) + " AND package_id=" + to_string(package_id) + " LIMIT 1 FOR UPDATE");
         // check if the package exists
         if (res.empty()) {
             cerr << "Package with world_id=" << world_id << ", truck_id=" << truck_id << ", package_id=" << package_id << " does not exist." << endl;
@@ -176,7 +176,7 @@ int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id
             return -1;
         }
         //search the truck in traveling and go to the same warehouse 
-        result res = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_status='traveling' AND wh_id=" + to_string(wh_id));
+        result res = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_status='traveling' AND wh_id=" + to_string(wh_id)+ " FOR UPDATE");
 
         if (!res.empty()) {
             // extract truck_id from the first row
@@ -188,7 +188,7 @@ int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id
             return truck_id;
         }
         else{
-            result idle_trucks = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_status='idle'");
+            result idle_trucks = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_status='idle' FOR UPDATE");
             if (!idle_trucks.empty()) {
                 int truck_id = idle_trucks.at(0)["truck_id"].as<int>();
                 txn.exec("UPDATE ups_truck SET truck_status='traveling', wh_id=" + to_string(wh_id) + " WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
@@ -221,7 +221,7 @@ result AULoaded_sql(int world_id ,int shipid){
             return result();
         }
         //search the truck in traveling and go to the same warehouse 
-        result res = txn.exec("SELECT * FROM ups_package WHERE world_id=" + to_string(world_id) + " AND package_id =" + to_string(package_id));
+        result res = txn.exec("SELECT * FROM ups_package WHERE world_id=" + to_string(world_id) + " AND package_id =" + to_string(package_id)+ " FOR UPDATE") ;
         // check if the truck already exists
         if (res.empty()) {
             cerr << "Package with world_id=" << world_id << " package_id=" << package_id << " does not exist." << endl;
