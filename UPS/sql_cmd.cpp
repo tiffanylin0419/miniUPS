@@ -61,7 +61,7 @@ result Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, i
         //For Truck ready 10
         if (truck_status == "loading"){
             //update truck status to loading
-            txn.exec("UPDATE ups_truck SET truck_status='"+ truck_status + "' WHERE world_id="+ to_string(world_id) + "AND truck_id=" + to_string(truck_id));
+            txn.exec("UPDATE ups_truck SET loc_x = " + to_string(new_x) +", loc_y =" + to_string(new_y) + ", truck_status='"+ truck_status + "' WHERE world_id="+ to_string(world_id) + "AND truck_id=" + to_string(truck_id));
             txn.exec("UPDATE ups_package SET package_status='loading', load_time=NOW() WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
             //return
             string sql1="SELECT package_id FROM ups_package WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id) + "AND package_status='loading'";
