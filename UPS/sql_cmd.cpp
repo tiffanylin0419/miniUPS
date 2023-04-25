@@ -94,7 +94,6 @@ void UDeliveryMade_sql(int world_id, int truck_id, int package_id) {
     auto now_c = std::chrono::system_clock::to_time_t(now);
 
     try {
-
         work txn(conn);
         // execute a query to check if the World exists
         result res_world_id_check = txn.exec("SELECT * FROM ups_world WHERE world_id=" + to_string(world_id));
@@ -204,6 +203,7 @@ int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id
     }catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
     }
+    return -1;
 }
 
 //load package together update truck, need to test 

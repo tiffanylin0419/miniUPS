@@ -30,15 +30,13 @@ void Server::run() {
     //init_database();
     init_world();
     
-    pthread_t thread;
-    pthread_create(&thread, NULL, &Server::recvFromWorldWrapper,this);
-    pthread_create(&thread, NULL, &Server::sendAckWorldWrapper,this);
-    pthread_create(&thread, NULL, &Server::sendToWorldWrapper,this);
-    pthread_create(&thread, NULL, &Server::recvFromAmazonWrapper,this);
-    pthread_create(&thread, NULL, &Server::sendAckAmazonWrapper,this);
-    pthread_create(&thread, NULL, &Server::sendToAmazonWrapper,this);
-    
-    pthread_join(thread, NULL);
+    pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
+    pthread_create(&thread1, NULL, &Server::recvFromWorldWrapper,this);
+    pthread_create(&thread2, NULL, &Server::sendAckWorldWrapper,this);
+    pthread_create(&thread3, NULL, &Server::sendToWorldWrapper,this);
+    pthread_create(&thread4, NULL, &Server::recvFromAmazonWrapper,this);
+    pthread_create(&thread5, NULL, &Server::sendAckAmazonWrapper,this);
+    pthread_create(&thread6, NULL, &Server::sendToAmazonWrapper,this);
 }
 
 void Server::init_database(){
