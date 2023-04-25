@@ -37,7 +37,7 @@ void Ucreate_truck_sql(int world_id, int truck_id, int loc_x, int loc_y) {
     }
 }
 
-//update truck truck_status, loc_x, loc_y
+//update truck truck_status, loc_x, loc_y -------o
 result Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, int new_y) {
     // connect to database
     connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
@@ -72,7 +72,7 @@ result Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, i
         //for Truck completed 17
         else if(truck_status == "idle"){
             //todo: update truck x & y
-            txn.exec("UPDATE ups_truck SET truck_status='"+ truck_status + "', loc_x=NULL, loc_y=NULL, wh_id=NULL WHERE world_id="+ to_string(world_id) + " AND truck_id=" + to_string(truck_id));
+            txn.exec("UPDATE ups_truck SET truck_status='"+ truck_status + "', loc_x=" + to_string(new_x) + ", loc_y=" + to_string(new_y) + ", wh_id=NULL WHERE world_id="+ to_string(world_id) + " AND truck_id=" + to_string(truck_id));
             txn.commit();
         }
     } 
@@ -208,7 +208,7 @@ int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id
     }
 }
 
-//load package together update truck, need to test 
+//load package together update truck, need to test ------- ok 
 result AULoaded_sql(int world_id ,int shipid){
     int package_id = shipid;
     // connect to database
@@ -272,6 +272,8 @@ int main(){
     //Ufinish_sql(3,1, "loading", NULL, NULL);
     //AULoaded(1 ,8);
     //UDeliveryMade_sql(1, 1, 1);
-    Ufinish_sql(1, 1, "loading", , int new_y)
+    Ufinish_sql(1, 1, "idle", 1 , 2);
+    //AULoaded_sql(1 ,1);
+    //UDeliveryMade_sql(1, 1, 3);
     return 0;
 }
