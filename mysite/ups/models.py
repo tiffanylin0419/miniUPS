@@ -44,19 +44,20 @@ class Package(models.Model):
     ]
 
     package_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     amazon_user_name = models.CharField(max_length=100, default='')
-    wh_id = models.IntegerField()
-    addr_y = models.IntegerField()
-    addr_x = models.IntegerField()
+    wh_id = models.IntegerField(blank=True, null=True)
+    addr_y = models.IntegerField(blank=True, null=True)
+    addr_x = models.IntegerField(blank=True, null=True)
     truck_id = models.ForeignKey(Truck, on_delete=models.SET_NULL, null=True, db_column='truck_id')
-    des_x = models.IntegerField()
-    des_y = models.IntegerField()
+    #des_x = models.IntegerField(blank=True, null=True)
+    #des_y = models.IntegerField(blank=True, null=True)
     package_status = models.CharField(max_length=10, choices=PACKAGE_STATUS_CHOICES, default='Pickup')
     world_id = models.ForeignKey(World, on_delete=models.CASCADE, db_column='world_id')
     ready_for_picktime = models.DateTimeField(null=True, blank=True)
     load_time = models.DateTimeField(null=True, blank=True)
     delivered_time = models.DateTimeField(null=True, blank=True)
+    description = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return f"Package {self.package_id}"
