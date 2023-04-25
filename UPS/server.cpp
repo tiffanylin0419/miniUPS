@@ -2,14 +2,16 @@
 #include <exception>
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
+//me: 33209
+//Alvin: 32242
+
 Server::Server(){
     world_port="12345";
     world_hostname="vcm-33209.vm.duke.edu";
-    amazon_port="11111";
+    amazon_port="5688";
     amazon_hostname="vcm-33209.vm.duke.edu";
 
     sequence_num=0;
-
     truck_num=5;
     truck_distance=10;
 }
@@ -30,6 +32,8 @@ void Server::run() {
     //init_database();
     init_world();
     
+
+
     pthread_t thread;
     pthread_create(&thread, NULL, &Server::recvFromWorldWrapper,this);
     pthread_create(&thread, NULL, &Server::sendAckWorldWrapper,this);
@@ -78,7 +82,7 @@ void Server::init_world(){
     if(!recvMesgFrom<AUInitConnect>(auInitConnect, amazon_in)){
         cerr<< "2 Err: recv from world failure"<<endl;
     }else{
-        world_id-=auInitConnect.worldid();
+        world_id=auInitConnect.worldid();
         cout<<"2 receive world_id = "<<world_id<<endl;
     }
     //3 UConnect
