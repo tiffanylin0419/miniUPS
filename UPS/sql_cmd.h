@@ -16,6 +16,6 @@ result Ufinish_sql(int world_id, int truck_id, std::string truck_status, int new
 void UDeliveryMade_sql(int world_id,int truck_id, int package_id);
 void UTruck_sql(int world_id, int truck_id, std::string truck_status, int loc_x, int loc_y);
 int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id, int addr_x, int addr_y, string description);
-bool AULoaded_sql(int world_id ,int shipid);
+result AULoaded_sql(int world_id ,int shipid);
 
 #endif //UPS_SQL_H
