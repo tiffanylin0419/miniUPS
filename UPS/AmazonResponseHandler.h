@@ -30,9 +30,9 @@ class AmazonResponseHandler {
                AUProduct product=r.product(j);
                description.append(product.description()+" * "+to_string(product.count())+", ");
             }
-            int truck_id=AUInitPickUp_sql(world_id, r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y());//, description
+            int truck_id=AUInitPickUp_sql(world_id, r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y(), description);
             if(truck_id!=-1){
-               truck_id=AUInitPickUp_sql(world_id, r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y());
+               truck_id=AUInitPickUp_sql(world_id, r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y(), description);
             }
             amazon_response.add(r.seqnum());
             addUGoPickup(r, truck_id);
