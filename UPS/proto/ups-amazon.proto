@@ -27,6 +27,7 @@ message AULoaded{
   required int64 shipid = 1;
   required int64 seqnum = 2;
 } 
+
 message UADelivered{
     required int32 truckid = 1;
     required int64 packageid = 2;
