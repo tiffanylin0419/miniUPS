@@ -6,6 +6,7 @@
 </head>
 <body>
   {% block content %}
+  <div class="form-wrapper">
   {% if user.is_authenticated %}
     <h2>Welcome, {{ user.username }}!</h2>
     <p>You are now logged in.</p>
@@ -23,6 +24,7 @@
     <p>Please log in to see your packages.</p>
     <a href="{% url 'login' %}">Log In</a>
   {% endif %}
+</div>
   {% endblock %}
 </body>
 </html>

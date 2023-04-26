@@ -6,6 +6,7 @@
 </head>
 <body>
     {% block content %}
+    <div class="form-wrapper">
     <h1>Package Status</h1>
     <p>Tracking Number: {{ package.package_id }}</p>
     <p>Current Status: {{ package.package_status }}</p>
@@ -13,6 +14,7 @@
     <p>Delivery Address: {{ package.addr_x }}, {{ package.addr_y }}</p>
     <a href="{% url 'update_delivery_address_tracknum' package_id=package.package_id %}">change</a>
     <a href="{% url 'login' %}">Return</a>
-    {% endblock %}
+  </div>
+  {% endblock %}
 </body>
 </html>

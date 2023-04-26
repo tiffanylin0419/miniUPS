@@ -6,7 +6,7 @@
 </head>
 <body>
     {% block content %}
-
+    <div class="form-wrapper">
         <h2>Update Delivery Address</h2>
         <form method="post">
             {% csrf_token %}
@@ -19,6 +19,7 @@
             <button type="submit">Update</button>
             <a href="{% url 'package_detail' package.package_id %}">Return</a>
         </form>
+        </div>
     {% endblock %}
 </body>
 </html>
