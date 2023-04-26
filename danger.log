@@ -1,7 +1,6 @@
 todo:
 docker
 email
-前端 圖
 
 done: 
 use uniquelock to prevent dead locks when return from function
