@@ -6,6 +6,7 @@
 </head>
 <body>
     {% block content %}
+    <div class="form-wrapper">
         <h2>Sign up</h2>
         <p style="text-align:left; color:red;">If you want to link with an Amazon account, please enter the same account as your Amazon account.</p>
         <form method="post">
@@ -14,6 +15,7 @@
             <button><a href="{% url 'login' %}">Log In</a></button>
             <button type="submit">Continue</button>
         </form>
+    </div>
     {% endblock %}
 </body>
 </html>

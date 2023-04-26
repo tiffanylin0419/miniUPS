@@ -6,10 +6,12 @@
 </head>
 <body>
     {% block content %}
+    <div class="form-wrapper">
         <div class="alert alert-danger" role="alert">
             {{ message }}
         </div>
         <a href="{% url 'home' %}">home</a>
+    </div>
     {% endblock %}
 </body>
 </html>

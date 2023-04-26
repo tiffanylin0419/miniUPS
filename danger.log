@@ -1,11 +1,7 @@
 todo:
 docker
 email
-前端
-change bug
-
-css
-when package_status_change.html
+前端 圖
 
 done: 
 use uniquelock to prevent dead locks when return from function
