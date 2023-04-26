@@ -1,21 +1,28 @@
-{% block title %}Home{% endblock %}
-
-{% block content %}
-{% if user.is_authenticated %}
-  <h2>Welcome, {{ user.username }}!</h2>
-  <p>You are now logged in.</p>
-  <p><a href="{% url 'login' %}">Log Out</a></p>
-  <h2>My Packages:</h2>
-  <ul>
-    {% for package in packages %}
-    <li><a href="{% url 'package_detail' package.package_id %}">{{ package.package_id }}</a></li>
-    {% empty %}
-    <li>You have no packages.</li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <h2>Welcome to our package delivery service!</h2>
-  <p>Please log in to see your packages.</p>
-  <a href="{% url 'login' %}">Log In</a>
-{% endif %}
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Home{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="../../static/registration/styles.css">
+</head>
+<body>
+  {% block content %}
+  {% if user.is_authenticated %}
+    <h2>Welcome, {{ user.username }}!</h2>
+    <p>You are now logged in.</p>
+    <p><a href="{% url 'login' %}">Log Out</a></p>
+    <h2>My Packages:</h2>
+    <ul>
+      {% for package in packages %}
+      <li><a href="{% url 'package_detail' package.package_id %}">{{ package.package_id }}</a></li>
+      {% empty %}
+      <li>You have no packages.</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <h2>Welcome to our package delivery service!</h2>
+    <p>Please log in to see your packages.</p>
+    <a href="{% url 'login' %}">Log In</a>
+  {% endif %}
+  {% endblock %}
+</body>
+</html>

@@ -1,18 +1,30 @@
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <label for="username">Username:</label>
-    <input type="text" name="username" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" name="password" required>
-    <br>
-    <button type="submit">Login</button>
-    <button><a href="{% url 'signup' %}">Create an account</a></button>
-</form>
-<form method="post" action="{% url 'package_status' %}">
-    {% csrf_token %}
-    <label for="tracking_number">Tracking number:</label>
-    <input type="text" name="tracking_number" required>   
-    <br>
-    <button type="submit">Enter</button>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Home{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="../../static/registration/styles.css">
+</head>
+<body>
+    {% block content %}
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" name="username" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+            <br>
+            <button type="submit">Login</button>
+            <button><a href="{% url 'signup' %}">Create an account</a></button>
+        </form>
+        <form method="post" action="{% url 'package_status' %}">
+            {% csrf_token %}
+            <label for="tracking_number">Tracking number:</label>
+            <input type="text" name="tracking_number" required>   
+            <br>
+            <button type="submit">Enter</button>
+        </form>
+    {% endblock %}
+</body>
+</html>
+    

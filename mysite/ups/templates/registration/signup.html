@@ -1,10 +1,19 @@
-{% block content %}
-<h2>Sign up</h2>
-<p style="text-align:left; color:red;">If you want to link with an Amazon account, please enter the same account as your Amazon account.</p>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button><a href="{% url 'login' %}">Log In</a></button>
-    <button type="submit">Continue</button>
-</form>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Home{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="../../static/registration/styles.css">
+</head>
+<body>
+    {% block content %}
+        <h2>Sign up</h2>
+        <p style="text-align:left; color:red;">If you want to link with an Amazon account, please enter the same account as your Amazon account.</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button><a href="{% url 'login' %}">Log In</a></button>
+            <button type="submit">Continue</button>
+        </form>
+    {% endblock %}
+</body>
+</html>

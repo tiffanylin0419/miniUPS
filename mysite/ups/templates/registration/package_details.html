@@ -1,6 +1,19 @@
-<h2>Package Details</h2>
-<p>Package ID: {{ package.package_id }}</p>
-<p>Status: {{ package.package_status }}</p>
-<p>Delivery Address: {{ package.addr_x }}, {{ package.addr_y }}</p>
-<a href="{% url 'update_delivery_address' package_id=package.package_id %}">change</a>
-<a href="{% url 'home' %}">home</a>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Home{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="../../static/registration/styles.css">
+</head>
+<body>
+    {% block content %}
+    <h2>Package Details</h2>
+    <p>Package ID (Tracking number): {{ package.package_id }}</p>
+    <p>Status: {{ package.package_status }}</p>
+    <p>Delivery Address: {{ package.addr_x }}, {{ package.addr_y }}</p>
+    <p>Description: {{ package.description }}</p>
+    <a href="{% url 'update_delivery_address' package_id=package.package_id %}">change</a>
+    <a href="{% url 'home' %}">home</a>
+    {% endblock %}
+</body>
+</html>
+

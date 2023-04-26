@@ -117,7 +117,7 @@ def update_delivery_address(request, package_id):
             return render(request, 'registration/update_delivery_address.html', {'package': package})
     else:
         messages.error(request, 'This package has already been delivered.')
-        return render(request, 'registration/error.html', {'message': 'This package has already been delivered.'})
+        return render(request, 'registration/error.html', {'message': 'This package is delivering or has already been delivered.'})
     
 
 def update_delivery_address_tracknum(request, package_id):
