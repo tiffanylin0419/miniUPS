@@ -1,9 +1,11 @@
 todo:
-收到response順序不對
 docker
+email
+前端
+change bug
 
-check:
-server non stop
+css
+when package_status_change.html
 
 done: 
 use uniquelock to prevent dead locks when return from function
