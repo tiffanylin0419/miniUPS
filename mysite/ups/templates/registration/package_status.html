@@ -1,11 +1,23 @@
-{% if package %}
-    <h1>Package Status</h1>
-    <p>Tracking Number: {{ package.package_id }}</p>
-    <p>Current Status: {{ package.package_status }}</p>
-    <p>Warehouse ID: {{ package.wh_id }}</p>
-    <p>Delivery Address: {{ package.addr_x }}, {{ package.addr_y }}</p>
-    <a href="{% url 'update_delivery_address_tracknum' package_id=package.package_id %}">change</a>
-{% else %}
-    <p>Package not found</p>
-{% endif %}
-<a href="{% url 'login' %}">Return</a>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Home{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="../../static/registration/styles.css">
+</head>
+<body>
+    {% block content %}
+    {% if package %}
+        <h1>Package Status</h1>
+        <p>Tracking Number: {{ package.package_id }}</p>
+        <p>Current Status: {{ package.package_status }}</p>
+        <p>Warehouse ID: {{ package.wh_id }}</p>
+        <p>Delivery Address: {{ package.addr_x }}, {{ package.addr_y }}</p>
+        <a href="{% url 'update_delivery_address_tracknum' package_id=package.package_id %}">change</a>
+    {% else %}
+        <p>Package not found</p>
+    {% endif %}
+    <a href="{% url 'login' %}">Return</a>
+    {% endblock %}
+</body>
+</html>
+

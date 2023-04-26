@@ -1,5 +1,9 @@
 # UPS
 
+settings.py改密碼
+server.cpp改amazon vcm
+
+
 ## Install
 
 ```
