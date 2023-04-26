@@ -115,7 +115,7 @@ void UDeliveryMade_sql(int world_id, int truck_id, int package_id) {
         int loc_x = res[0]["addr_x"].as<int>();
         int loc_y = res[0]["addr_y"].as<int>();
         // update the package's status to Delivered
-        txn.exec("UPDATE ups_package SET package_status = 'Delivered', delivered_time = to_timestamp(" + to_string(now_c) + ") WHERE world_id = " + to_string(world_id) + " AND truck_id = " + to_string(truck_id) + " AND package_id = " + to_string(package_id));
+        txn.exec("UPDATE ups_package SET package_status = 'delivered', delivered_time = to_timestamp(" + to_string(now_c) + ") WHERE world_id = " + to_string(world_id) + " AND truck_id = " + to_string(truck_id) + " AND package_id = " + to_string(package_id));
 
         // update the truck's location
         txn.exec("UPDATE ups_truck SET loc_x = " + to_string(loc_x) + ", loc_y = " + to_string(loc_y) + " WHERE world_id = " + to_string(world_id) + " AND truck_id = " + to_string(truck_id));
