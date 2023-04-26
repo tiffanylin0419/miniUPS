@@ -17,7 +17,7 @@ class AmazonResponseHandler {
     AmazonResponseHandler(AUCommands response, ThreadSafeQueue<UCommands> &world_command, ThreadSafeQueue<UACommands> &amazon_command, ThreadSafeSet& amazon_response, ThreadSafeQueue<UACommands> & amazon_ack, int world_id)
     : response(response), world_command(world_command), amazon_command(amazon_command), amazon_response(amazon_response), amazon_ack(amazon_ack), world_id(world_id) {}
  
-   void handle(){
+   void* handle(){
       for(int i=0;i<response.acks_size();i++){
          amazon_command.remove(response.acks(i));
       }
@@ -48,6 +48,12 @@ class AmazonResponseHandler {
          }   
          addAmazonAck(r.seqnum());
       }
+      return NULL;
+   }
+
+   static void* handleWrapper(void* arg) {
+      AmazonResponseHandler* h = static_cast<AmazonResponseHandler*>(arg);
+      return h->handle();
    }
 
    void addAmazonAck(int seqnum){

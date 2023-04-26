@@ -93,7 +93,6 @@ void UDeliveryMade_sql(int world_id, int truck_id, int package_id) {
     auto now_c = std::chrono::system_clock::to_time_t(now);
 
     try {
-
         work txn(conn);
         // execute a query to check if the World exists
         result res_world_id_check = txn.exec("SELECT * FROM ups_world WHERE world_id=" + to_string(world_id));
@@ -116,7 +115,7 @@ void UDeliveryMade_sql(int world_id, int truck_id, int package_id) {
         int loc_x = res[0]["addr_x"].as<int>();
         int loc_y = res[0]["addr_y"].as<int>();
         // update the package's status to Delivered
-        txn.exec("UPDATE ups_package SET package_status = 'Delivered', delivered_time = to_timestamp(" + to_string(now_c) + ") WHERE world_id = " + to_string(world_id) + " AND truck_id = " + to_string(truck_id) + " AND package_id = " + to_string(package_id));
+        txn.exec("UPDATE ups_package SET package_status = 'delivered', delivered_time = to_timestamp(" + to_string(now_c) + ") WHERE world_id = " + to_string(world_id) + " AND truck_id = " + to_string(truck_id) + " AND package_id = " + to_string(package_id));
 
         // update the truck's location
         txn.exec("UPDATE ups_truck SET loc_x = " + to_string(loc_x) + ", loc_y = " + to_string(loc_y) + " WHERE world_id = " + to_string(world_id) + " AND truck_id = " + to_string(truck_id));
@@ -206,6 +205,7 @@ int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id
     }catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
     }
+    return -1;
 }
 
 //load package together update truck, need to test ------- ok 
@@ -257,7 +257,7 @@ result AULoaded_sql(int world_id ,int shipid){
     return result();
 }
 
-
+/*
 int main(){
     //Ucreate_truck_sql(1, 1, 2, 3);
     //Ucreate_truck_sql(1, 2 ,5, 6);
@@ -276,4 +276,4 @@ int main(){
     //AULoaded_sql(1 ,1);
     //UDeliveryMade_sql(1, 1, 3);
     return 0;
-}
+}*/

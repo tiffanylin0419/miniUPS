@@ -71,7 +71,7 @@ def package_status(request):
     return render(request, 'registration/package_status.html')
 
 def package_status_change(request,package_id):
-    package = Package.objects.get(package_id=package_id, user=request.user)
+    package = Package.objects.get(package_id=package_id)
     return render(request, 'registration/package_status_change.html', {'package': package})
 
 # def home(request):
@@ -121,7 +121,7 @@ def update_delivery_address(request, package_id):
     
 
 def update_delivery_address_tracknum(request, package_id):
-    package = Package.objects.get(package_id=package_id, user=request.user)
+    package = Package.objects.get(package_id=package_id)
     if package.package_status != 'delivered' and package.package_status != 'delivering':
         if request.method == 'POST':
             addr_x = request.POST.get('addr_x', '').strip()

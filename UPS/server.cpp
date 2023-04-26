@@ -27,18 +27,16 @@ int Server::getSeqNum(){
 
 void Server::run() {
     //uncomment
-    //init_database();
-    init_world();
+    init_database();
+    /*init_world();
     
-    pthread_t thread;
-    pthread_create(&thread, NULL, &Server::recvFromWorldWrapper,this);
-    pthread_create(&thread, NULL, &Server::sendAckWorldWrapper,this);
-    pthread_create(&thread, NULL, &Server::sendToWorldWrapper,this);
-    pthread_create(&thread, NULL, &Server::recvFromAmazonWrapper,this);
-    pthread_create(&thread, NULL, &Server::sendAckAmazonWrapper,this);
-    pthread_create(&thread, NULL, &Server::sendToAmazonWrapper,this);
-    
-    pthread_join(thread, NULL);
+    pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
+    pthread_create(&thread1, NULL, &Server::recvFromWorldWrapper,this);
+    pthread_create(&thread2, NULL, &Server::sendAckWorldWrapper,this);
+    pthread_create(&thread3, NULL, &Server::sendToWorldWrapper,this);
+    pthread_create(&thread4, NULL, &Server::recvFromAmazonWrapper,this);
+    pthread_create(&thread5, NULL, &Server::sendAckAmazonWrapper,this);
+    pthread_create(&thread6, NULL, &Server::sendToAmazonWrapper,this);*/
 }
 
 void Server::init_database(){
@@ -47,7 +45,7 @@ void Server::init_database(){
         //docker
         //C = new connection("dbname=postgres user=postgres password=passw0rd host=db port=5432");
         //no docker
-        C = new connection("dbname=EXCHANGE_SERVER user=postgres password=passw0rd");//?
+        C = new connection("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");//?
         if (C->is_open()) {
         } else {
         cout << "Can't open database" << endl;
@@ -165,8 +163,8 @@ void *Server::recvFromAmazon(){
             cerr<<"Error: recv from amazon fail"<<endl;
         }
         AmazonResponseHandler h(response, world_command, amazon_command, amazon_response, amazon_ack, world_id);
-        // todo: add thread
-        h.handle();
+        pthread_t thread;
+        pthread_create(&thread, NULL, h.handleWrapper,this);
     }
 }
 
@@ -177,8 +175,8 @@ void *Server::recvFromWorld(){
             cerr<<"Error: recv from world fail"<<endl;
         }
         WorldResponseHandler h(response, amazon_command, world_command, world_response, world_ack, world_id);
-        // todo: add thread
-        h.handle();
+        pthread_t thread;
+        pthread_create(&thread, NULL, h.handleWrapper,this);
     }
 }
 
