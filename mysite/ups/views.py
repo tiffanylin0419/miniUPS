@@ -10,8 +10,6 @@ from django.core.exceptions import ValidationError
 
 # 注册
 
-
-
 def login_view(request):
     if request.method == 'POST':
         # 处理用户提交的登录表单
@@ -141,3 +139,5 @@ def update_delivery_address_tracknum(request, package_id):
     else:
         messages.error(request, 'This package has already been delivered.')
         return redirect(package_status_change, package_id=package.package_id)
+    
+
