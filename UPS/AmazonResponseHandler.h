@@ -18,11 +18,15 @@ class AmazonResponseHandler {
     : response(response), world_command(world_command), amazon_command(amazon_command), amazon_response(amazon_response), amazon_ack(amazon_ack), world_id(world_id) {}
  
    void* handle(){
+      cout<<"handle"<<endl;
+      cout<<"amazonresponse: handle: ack size = "<<response.acks_size()<<endl;
       for(int i=0;i<response.acks_size();i++){
+         cout<<"handle AUack"<<endl;
          amazon_command.remove(response.acks(i));
       }
       //8 AUInitPickup
       for(int i=0;i<response.pickupreq_size();i++){
+         cout<<"handle AUInitPickup"<<endl;
          AUInitPickUp r=response.pickupreq(i);
          if(!amazon_response.contains(r.seqnum())){
             string description="";
@@ -41,6 +45,7 @@ class AmazonResponseHandler {
       }
       // 14 AULoaded
       for(int i=0;i<response.loaded_size();i++){
+         cout<<"handle AUloaded"<<endl;
          AULoaded r=response.loaded(i);
          if(!amazon_response.contains(r.seqnum())){
             amazon_response.add(r.seqnum());
@@ -57,6 +62,7 @@ class AmazonResponseHandler {
    }
 
    void addAmazonAck(int seqnum){
+      cout<<"add amazon_azk = "+to_string(seqnum)<<endl;
       UACommands command;
       command.add_acks(seqnum);
       amazon_ack.add(seqnum, command);
