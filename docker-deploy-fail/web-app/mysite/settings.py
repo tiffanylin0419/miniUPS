@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['web','vcm-33209.vm.duke.edu','127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['http://*.vcm-xxxxx.vm.duke.edu:8000','http://*.127.0.0.1:8000','http://localhost:8000']
-
+CSRF_COOKIE_DOMAIN = 'vcm-xxxxx.vm.duke.edu'
 
 
 # Application definition
