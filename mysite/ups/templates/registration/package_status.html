@@ -6,17 +6,28 @@
 </head>
 <body>
     {% block content %}
+    <div class="form-wrapper">
     {% if package %}
-        <h1>Package Status</h1>
-        <p>Tracking Number: {{ package.package_id }}</p>
-        <p>Current Status: {{ package.package_status }}</p>
-        <p>Warehouse ID: {{ package.wh_id }}</p>
-        <p>Delivery Address: {{ package.addr_x }}, {{ package.addr_y }}</p>
-        <a href="{% url 'update_delivery_address_tracknum' package_id=package.package_id %}">change</a>
+        <h2>Package Details</h2>
+        <p>Package ID (Tracking number): {{ package.package_id }}</p>
+        <p>Status: {{ package.package_status }}</p>
+        <p>Delivery Address: {{ package.addr_x }}, {{ package.addr_y }}</p> <a href="{% url 'update_delivery_address' package_id=package.package_id %}">change address</a>
+        <p>Description: {{ package.description }}</p>
+        
+        {% if package.package_status == "pickup" %}
+        <img src="../../static/registration/10.gif" width="500" alt="My GIF1" autoplay>
+        {% elif package.package_status == "loading" %}
+        <img src="../../static/registration/11.gif" width="500" alt="My GIF2" autoplay>
+        {% elif package.package_status == "delivering" %}
+        <img src="../../static/registration/12.gif" width="500" alt="My GIF3" autoplay>
+    {% else %}
+      <img src="../../static/registration/13.gif" width="500" alt="My GIF4" autoplay>
+    {% endif %}
     {% else %}
         <p>Package not found</p>
     {% endif %}
     <a href="{% url 'login' %}">Return</a>
+    </div>
     {% endblock %}
 </body>
 </html>

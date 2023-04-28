@@ -6,6 +6,7 @@
 </head>
 <body>
     {% block content %}
+    <div class="form-wrapper">
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <label for="username">Username:</label>
@@ -24,6 +25,7 @@
             <br>
             <button type="submit">Enter</button>
         </form>
+    </div>
     {% endblock %}
 </body>
 </html>
