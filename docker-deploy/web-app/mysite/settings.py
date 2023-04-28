@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-r#q@*z1&2-0d(j^j9(iedx9o27!lyg7y_m1mgnu%0qpq!2fj_p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['web','vcm-33209.vm.duke.edu','127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['http://*.vcm-xxxxx.vm.duke.edu:8000','http://*.127.0.0.1:8000','http://localhost:8000']
+
 
 
 # Application definition
@@ -77,11 +79,13 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ups',
+        #'NAME': 'ups',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'Andy860812!',
+        #'PASSWORD': 'Andy860812!',
         #'PASSWORD': 'passw0rd',
-        'HOST': 'localhost',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
         'PORT': 5432,
     }
 }
