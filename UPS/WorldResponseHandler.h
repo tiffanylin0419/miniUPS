@@ -30,7 +30,7 @@ class WorldResponseHandler {
             UFinished r=response.completions(i);
             if(!world_response.contains(r.seqnum())){
                 world_response.add(r.seqnum());
-                //addUATruckArrived(r);
+                addUATruckArrived(r);
             }   
             addWorldAck(r.seqnum());
             cout<<"add world_ack = "+to_string(r.seqnum());

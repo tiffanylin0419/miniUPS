@@ -25,6 +25,7 @@ class AmazonResponseHandler {
          amazon_command.remove(response.acks(i));
       }
       //8 AUInitPickup
+      cout<<"amazonresponse: handle: pickup size = "<<response.pickupreq_size()<<endl;
       for(int i=0;i<response.pickupreq_size();i++){
          cout<<"handle AUInitPickup"<<endl;
          AUInitPickUp r=response.pickupreq(i);
@@ -44,6 +45,7 @@ class AmazonResponseHandler {
          addAmazonAck(r.seqnum());
       }
       // 14 AULoaded
+      cout<<"amazonresponse: handle: auloaded size = "<<response.loaded_size()<<endl;
       for(int i=0;i<response.loaded_size();i++){
          cout<<"handle AUloaded"<<endl;
          AULoaded r=response.loaded(i);

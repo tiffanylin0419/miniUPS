@@ -1,5 +1,6 @@
 #include "server.h"
 #include <exception>
+#include<thread>
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
 string me= "33209";
@@ -41,6 +42,13 @@ void Server::run() {
     pthread_create(&thread4, NULL, &Server::recvFromAmazonWrapper,this);
     pthread_create(&thread5, NULL, &Server::sendAckAmazonWrapper,this);
     pthread_create(&thread6, NULL, &Server::sendToAmazonWrapper,this);
+
+    //pthread_detach(thread1);
+    // pthread_detach(thread2);
+    // pthread_detach(thread3);
+    //pthread_detach(thread4);
+    // pthread_detach(thread5);
+    // pthread_detach(thread6);
 
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
@@ -187,8 +195,10 @@ void *Server::recvFromAmazon(){
         }
         cout<<"188: "<<response.acks_size()<<endl;
         AmazonResponseHandler h(response, world_command, amazon_command, amazon_response, amazon_ack, world_id);
-        pthread_t thread;
+        /*pthread_t thread;
         pthread_create(&thread, NULL, h.handleWrapper,&h);
+        pthread_detach(thread);*/
+        h.handle();
     }
 }
 
@@ -201,8 +211,10 @@ void *Server::recvFromWorld(){
             cout<<"recv from world succeed\n";
         }
         WorldResponseHandler h(response, amazon_command, world_command, world_response, world_ack, world_id);
-        pthread_t thread;
+        /*pthread_t thread;
         pthread_create(&thread, NULL, h.handleWrapper,&h);
+        pthread_detach(thread);*/
+        h.handle();
     }
 }
 
