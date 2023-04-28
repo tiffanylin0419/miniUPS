@@ -1,5 +1,7 @@
 #include "sql_cmd.h"
 
+using namespace std;
+ 
 result selectSQL(work &W, string sql){
   result R( W.exec( sql ));
   return R;
@@ -183,16 +185,18 @@ int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id
             int truck_id = res.at(0)["truck_id"].as<int>();
 
             // update packages with the new truck_id
-            txn.exec("INSERT INTO ups_package (truck_id, world_id, wh_id,addr_x, addr_y,  package_id, package_status, amazon_user_name, ready_for_picktime, description) VALUES (" + to_string(truck_id) + ", " + to_string(world_id) + ", " + to_string(wh_id) + ", " + to_string(addr_x) + ", " + to_string(addr_y) + ", " + to_string(package_id) + ", " + "'Pickup'" + ", '" + accountname + "', NOW(), '" + description + "');");
+            txn.exec("INSERT INTO ups_package (truck_id, world_id, wh_id,addr_x, addr_y,  package_id, package_status, amazon_user_name, ready_for_picktime, description, email_sent ) VALUES (" + to_string(truck_id) + ", " + to_string(world_id) + ", " + to_string(wh_id) + ", " + to_string(addr_x) + ", " + to_string(addr_y) + ", " + to_string(package_id) + ", " + "'Pickup'" + ", '" + accountname + "', NOW(), '" + description + "', false);");
             txn.commit();
             return truck_id;
         }
         else{
+            printf("12312323");
             result idle_trucks = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_status='idle' FOR UPDATE");
             if (!idle_trucks.empty()) {
                 int truck_id = idle_trucks.at(0)["truck_id"].as<int>();
                 txn.exec("UPDATE ups_truck SET truck_status='traveling', wh_id=" + to_string(wh_id) + " WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
-                txn.exec("INSERT INTO ups_package (truck_id, world_id, wh_id, addr_x, addr_y, package_id, package_status, amazon_user_name, ready_for_picktime, description) VALUES (" + to_string(truck_id) + ", " + to_string(world_id) + ", " + to_string(wh_id) + ", " + to_string(addr_x) + ", " + to_string(addr_y) + ", " + to_string(package_id) + ", " + "'Pickup'" + ", '" + accountname + "', NOW(), '" + description + "');");
+                txn.exec("INSERT INTO ups_package (truck_id, world_id, wh_id, addr_x, addr_y, package_id, package_status, amazon_user_name, ready_for_picktime, description, email_sent) VALUES (" + to_string(truck_id) + ", " + to_string(world_id) + ", " + to_string(wh_id) + ", " + to_string(addr_x) + ", " + to_string(addr_y) + ", " + to_string(package_id) + ", " + "'Pickup'" + ", '" + accountname + "', NOW(), '" + description + "', false);");
+                txn.exec("UPDATE ups_package SET amazon_user_name = auth_user.username, user_id = auth_user.id FROM auth_user WHERE ups_package.amazon_user_name = auth_user.username;");
                 txn.commit();
                 return truck_id;
             }
@@ -257,7 +261,7 @@ result AULoaded_sql(int world_id ,int shipid){
     return result();
 }
 
-/*
+
 int main(){
     //Ucreate_truck_sql(1, 1, 2, 3);
     //Ucreate_truck_sql(1, 2 ,5, 6);
@@ -268,12 +272,11 @@ int main(){
     //AUInitPickUp_sql(1, 1, "andy123", 2, 4, 5, "orange");
     //AUInitPickUp_sql(1, 1, "andy456", 3, 4, 5, "banana");
     //AUInitPickUp_sql(1, 1, "andy123", 2, 4, 5, "apple");
-    //AUInitPickUp_sql(1, 1, "andy123", 2, 4, 5, "apple");
-    //Ufinish_sql(3,1, "loading", NULL, NULL);
-    //AULoaded(1 ,8);
+    //AUInitPickUp_sql(1, 1, "andy123", 4, 4, 5, "apple");
+    //Ufinish_sql(1,1, "loading", NULL, NULL);
     //UDeliveryMade_sql(1, 1, 1);
-    Ufinish_sql(1, 1, "idle", 1 , 2);
-    //AULoaded_sql(1 ,1);
-    //UDeliveryMade_sql(1, 1, 3);
+    //Ufinish_sql(1, 1, "idle", 1 , 2);
+    //AULoaded_sql(1 ,4);
+    UDeliveryMade_sql(1, 1, 4);
     return 0;
-}*/
+}
