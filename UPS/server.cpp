@@ -1,10 +1,11 @@
 #include "server.h"
 #include <exception>
+#include<thread>
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
-//me: 33209
-//Alvin: 32242
-
+string me= "33209";
+string Alvin= "32242";
+string chimin= "27827";
 Server::Server(){
     world_port="12345";
     world_hostname="vcm-33209.vm.duke.edu";
@@ -30,6 +31,10 @@ void Server::run() {
     //init_database();
     init_world();
     
+
+    /*AUCommands aucommand;
+    recvMesgFrom<AUCommands>(aucommand, amazon_in);
+    cout<<"hi"<<aucommand.acks_size()<<endl;*/
     pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
     pthread_create(&thread1, NULL, &Server::recvFromWorldWrapper,this);
     pthread_create(&thread2, NULL, &Server::sendAckWorldWrapper,this);
@@ -37,6 +42,20 @@ void Server::run() {
     pthread_create(&thread4, NULL, &Server::recvFromAmazonWrapper,this);
     pthread_create(&thread5, NULL, &Server::sendAckAmazonWrapper,this);
     pthread_create(&thread6, NULL, &Server::sendToAmazonWrapper,this);
+
+    //pthread_detach(thread1);
+    // pthread_detach(thread2);
+    // pthread_detach(thread3);
+    //pthread_detach(thread4);
+    // pthread_detach(thread5);
+    // pthread_detach(thread6);
+
+    pthread_join(thread1, NULL);
+    pthread_join(thread2, NULL);
+    pthread_join(thread3, NULL);
+    pthread_join(thread4, NULL);
+    pthread_join(thread5, NULL);
+    pthread_join(thread6, NULL);
 }
 
 void Server::init_database(){
@@ -79,6 +98,7 @@ void Server::init_world(){
         world_id=auInitConnect.worldid();
         cout<<"2 receive world_id = "<<world_id<<endl;
     }
+    AUcreate_world_sql(world_id);
     //3 UConnect
     UConnect connect;
     connect.set_worldid(world_id);
@@ -87,7 +107,7 @@ void Server::init_world(){
         truck->set_id(i+1);
         truck->set_x(truck_distance*i);
         truck->set_y(truck_distance*i);
-        Ucreate_truck_sql(truck->id(), world_id, truck->x(), truck->y());
+        Ucreate_truck_sql( world_id,truck->id(), truck->x(), truck->y());
     }
     connect.set_isamazon(false);
     if(!sendMesgTo<UConnect>(connect, world_out)){
@@ -125,7 +145,10 @@ void *Server::sendToAmazon(){
         UACommands command=amazon_command.getOne();
         if(!sendMesgTo<UACommands>(command, amazon_out)){
             cerr<<"Error: send to amazon fail"<<endl;
+        }else{
+            cout<<"send to amazon succeed\n";
         }
+        
     }
 }
 
@@ -134,6 +157,8 @@ void *Server::sendToWorld(){
         UCommands command=world_command.getOne();
         if(!sendMesgTo<UCommands>(command, world_out)){
             cerr<<"Error: send to world fail"<<endl;
+        }else{
+            cout<<"send to world succeed\n";
         }
     }
 }
@@ -143,6 +168,8 @@ void *Server::sendAckAmazon(){
         UACommands command=amazon_ack.getAndRemove();
         if(!sendMesgTo<UACommands>(command, amazon_out)){
             cerr<<"Error: send ack to amazon fail"<<endl;
+        }else{
+            cout<<"send ack to amazon succeed\n";
         }
     }
 }
@@ -152,6 +179,8 @@ void *Server::sendAckWorld(){
         UCommands command=world_ack.getAndRemove();
         if(!sendMesgTo<UCommands>(command, world_out)){
             cerr<<"Error: send ack to world fail"<<endl;
+        }else{
+            cout<<"send ack to world succeed\n";
         }
     }
 }
@@ -161,10 +190,15 @@ void *Server::recvFromAmazon(){
         AUCommands response;
         if (!recvMesgFrom<AUCommands>(response, amazon_in)) {
             cerr<<"Error: recv from amazon fail"<<endl;
+        }else{
+            cout<<"recv from amazon succeed\n";
         }
+        cout<<"188: "<<response.acks_size()<<endl;
         AmazonResponseHandler h(response, world_command, amazon_command, amazon_response, amazon_ack, world_id);
-        pthread_t thread;
-        pthread_create(&thread, NULL, h.handleWrapper,this);
+        /*pthread_t thread;
+        pthread_create(&thread, NULL, h.handleWrapper,&h);
+        pthread_detach(thread);*/
+        h.handle();
     }
 }
 
@@ -173,10 +207,14 @@ void *Server::recvFromWorld(){
         UResponses response;
         if (!recvMesgFrom<UResponses>(response, world_in)) {
             cerr<<"Error: recv from world fail"<<endl;
+        }else{
+            cout<<"recv from world succeed\n";
         }
         WorldResponseHandler h(response, amazon_command, world_command, world_response, world_ack, world_id);
-        pthread_t thread;
-        pthread_create(&thread, NULL, h.handleWrapper,this);
+        /*pthread_t thread;
+        pthread_create(&thread, NULL, h.handleWrapper,&h);
+        pthread_detach(thread);*/
+        h.handle();
     }
 }
 

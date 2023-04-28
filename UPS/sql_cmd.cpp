@@ -2,15 +2,35 @@
 
 using namespace std;
  
+//string password="Andy860812!";
+string password="passw0rd";
+
 result selectSQL(work &W, string sql){
   result R( W.exec( sql ));
   return R;
 }
 
+void AUcreate_world_sql(int world_id){
+    // connect to database
+    connection conn("dbname=ups user=postgres password="+password+" hostaddr=127.0.0.1 port=5432");
+    try {
+        work txn(conn);
+        // insert a new world
+        string query = "INSERT INTO ups_world (world_id, connected) VALUES ("+ to_string(world_id) +",TRUE);";
+        cout<<"Insert world with world_id = "+to_string(world_id);
+        txn.exec(query);
+        txn.commit();
+    } catch (const exception &e) {
+        cerr << "Error: " << e.what() << endl;
+    }
+    
+}
+
+
 //create truck -----ok
 void Ucreate_truck_sql(int world_id, int truck_id, int loc_x, int loc_y) {
     // connect to database
-    connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    connection conn("dbname=ups user=postgres password="+password+" hostaddr=127.0.0.1 port=5432");
 
     try {
         work txn(conn);
@@ -42,7 +62,7 @@ void Ucreate_truck_sql(int world_id, int truck_id, int loc_x, int loc_y) {
 //update truck truck_status, loc_x, loc_y -------o
 result Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, int new_y) {
     // connect to database
-    connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    connection conn("dbname=ups user=postgres password="+password+" hostaddr=127.0.0.1 port=5432");
     try {
         work txn(conn);
         // execute a query to check if the World exists
@@ -88,7 +108,7 @@ result Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, i
 //update package UDeliveryMade
 void UDeliveryMade_sql(int world_id, int truck_id, int package_id) {
     // connect to database
-    connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    connection conn("dbname=ups user=postgres password="+password+" hostaddr=127.0.0.1 port=5432");
 
     // Get the current time
     auto now = std::chrono::system_clock::now();
@@ -131,7 +151,7 @@ void UDeliveryMade_sql(int world_id, int truck_id, int package_id) {
 //create truck
 void UTruck_sql(int world_id, int truck_id, string truck_status, int loc_x, int loc_y) {
     // connect to database
-    connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    connection conn("dbname=ups user=postgres password="+password+" hostaddr=127.0.0.1 port=5432");
 
     try {
         work txn(conn);
@@ -164,7 +184,7 @@ void UTruck_sql(int world_id, int truck_id, string truck_status, int loc_x, int 
 //assignmet 多加 withhouse *****加入, int loc_x, int loc_y***** 已加要test ------ok
 int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id, int addr_x, int addr_y, string description){
     // connect to database
-    connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    connection conn("dbname=ups user=postgres password="+password+" hostaddr=127.0.0.1 port=5432");
 
     try {
         work txn(conn);
@@ -216,7 +236,7 @@ int AUInitPickUp_sql(int world_id, int wh_id, string accountname, int package_id
 result AULoaded_sql(int world_id ,int shipid){
     int package_id = shipid;
     // connect to database
-    connection conn("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");
+    connection conn("dbname=ups user=postgres password="+password+" hostaddr=127.0.0.1 port=5432");
     try {
         work txn(conn);
         // execute a query to check if the World exists

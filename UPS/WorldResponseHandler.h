@@ -33,6 +33,7 @@ class WorldResponseHandler {
                 addUATruckArrived(r);
             }   
             addWorldAck(r.seqnum());
+            cout<<"add world_ack = "+to_string(r.seqnum());
         }
         // 16 Delivered
         for(int i=0;i<response.delivered_size();i++){
@@ -53,6 +54,7 @@ class WorldResponseHandler {
     }
 
     void addWorldAck(int seqnum){
+        cout<<"add world_azk = "+to_string(seqnum);
         UCommands command;
         command.add_acks(seqnum);
         world_ack.add(seqnum, command);
