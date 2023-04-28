@@ -19,7 +19,7 @@ services:
   web:
       build: ./web-app
       user: nobody
-      command: /code/runserver.sh
+      command: bash -c "/code/runserver.sh & python /code/send_email.py"
       volumes:
         - ./web-app:/code
       expose:
