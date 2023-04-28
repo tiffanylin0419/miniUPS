@@ -1,8 +1,0 @@
-<h2>My Packages</h2>
-<ul>
-    {% for package in packages %}
-        <li>{{ package.package_id }} - {{ package.package_status }}</li>
-    {% empty %}
-        <li>No packages</li>
-    {% endfor %}
-</ul>
