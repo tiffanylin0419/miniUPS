@@ -28,7 +28,7 @@ int Server::getSeqNum(){
 
 void Server::run() {
     try {
-        //delete();
+        delete_sql();
         //uncomment
         //init_database();
         init_world();

@@ -76,7 +76,7 @@ result Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, i
             return result();
         }
         // execute a query to get the truck with the specified ID
-        result res = txn.exec("SELECT * FROM ups_truck WHERE world_id="+ to_string(world_id) +"AND truck_id=" + to_string(truck_id));
+        result res = txn.exec("SELECT * FROM ups_truck WHERE world_id= "+ to_string(world_id) +" AND truck_id=" + to_string(truck_id));
         // check if the truck exists
         if (res.empty()) {
             cerr << "Truck with world_id=" << world_id << " truck_id=" << truck_id << " does not exist." << endl;
@@ -86,10 +86,10 @@ result Ufinish_sql(int world_id, int truck_id, string truck_status, int new_x, i
         //For Truck ready 10
         if (truck_status == "ARRIVE WAREHOUSE"){
             //update truck status to loading
-            txn.exec("UPDATE ups_truck SET loc_x = " + to_string(new_x) +", loc_y =" + to_string(new_y) + ", truck_status='loading' WHERE world_id="+ to_string(world_id) + "AND truck_id=" + to_string(truck_id));
+            txn.exec("UPDATE ups_truck SET loc_x = " + to_string(new_x) +", loc_y =" + to_string(new_y) + ", truck_status='loading' WHERE world_id="+ to_string(world_id) + " AND truck_id=" + to_string(truck_id));
             txn.exec("UPDATE ups_package SET package_status='loading', load_time=NOW() WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
             //return
-            string sql1="SELECT package_id FROM ups_package WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id) + "AND package_status='loading'";
+            string sql1="SELECT package_id FROM ups_package WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id) + " AND package_status='loading'";
             result R=selectSQL(txn, sql1);
             txn.commit();
             return R;
@@ -166,7 +166,7 @@ void UTruck_sql(int world_id, int truck_id, string truck_status, int loc_x, int 
             return;
         }
         // execute a query to check if the truck already exists
-        result res = txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
+        result res = txn.exec("SELECT * FROM ups_truck WHERE world_id= " + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
 
         // check if the truck already exists
         if (res.empty()) {
@@ -287,14 +287,14 @@ result AULoaded_sql(int world_id ,int shipid){
     return result();
 }
 
-/*void delete(){
-    connection conn("dbname=ups user=postgres password="+password+" hostaddr=127.0.0.1 port=5432");
+void delete_sql(){
+    connection conn(conn_db);
     try {
         work txn(conn);
         // execute a query to check if the World exists
-        string sql1="delete from ups_package"
-        string sql2="delete from ups_truck"
-        string sql3="delete from ups_world"
+        string sql1="delete from ups_package";
+        string sql2="delete from ups_truck";
+        string sql3="delete from ups_world";
         txn.exec(sql1);
         txn.exec(sql2);
         txn.exec(sql3);
@@ -304,7 +304,7 @@ result AULoaded_sql(int world_id ,int shipid){
     catch (const exception &e) {
         cerr << "Error: " << e.what() << endl;
     }
-}*/
+}
 
 
 /*int main(){
