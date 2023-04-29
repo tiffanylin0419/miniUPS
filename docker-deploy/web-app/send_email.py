@@ -33,8 +33,8 @@ def check_delivery_status():
             email(row.email)
             cursor.execute("UPDATE ups_package SET email_sent = true WHERE package_id = " + str(row.package_id))
             conn.commit()
-    else:
-        print("No delivered packages found.")
+    #else:
+        #print("No delivered packages found.")
 
     # Close the cursor and connection
     cursor.close()

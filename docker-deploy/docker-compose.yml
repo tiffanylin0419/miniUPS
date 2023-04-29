@@ -34,5 +34,20 @@ services:
        - ./nginx/config:/etc/nginx/conf.d
      depends_on:
        - web
+
+  server:
+    build: ./UPS
+    user: root
+    volumes:
+      - ./UPS:/code
+    command: bash -c "./run.sh"
+    ports:
+      - "12345:12345" # for world
+      - "9999:9999" # for web
+      - "5688:5688" # for ups
+    expose:
+      - "12345"
+    depends_on:
+      - web
 volumes:
    data-volume:
