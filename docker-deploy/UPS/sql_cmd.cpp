@@ -261,21 +261,24 @@ result AULoaded_sql(int world_id ,int shipid){
         }
         else{
             int truck_id = res.at(0)["truck_id"].as<int>();
-            result lock=txn.exec("SELECT * FROM ups_truck WHERE world_id=" + to_string(world_id) + " AND truck_id =" + to_string(truck_id)+" FOR UPDATE");
-            cout<<"\n\ntest \ntruckid="<<truck_id<<"\npackage_id="<<package_id<<"\nworld_id"<<world_id<<"\n\n";
-            txn.exec("UPDATE ups_package SET package_status='delivering' WHERE world_id=" + to_string(world_id) + " AND package_id=" + to_string(package_id));
-            result res_package = txn.exec("SELECT * FROM ups_package WHERE world_id=" + to_string(world_id) + " AND truck_id =" + to_string(truck_id)+ " AND package_status =" + "'loading'");
-            if(res_package.empty()){
-                txn.exec("UPDATE ups_truck SET truck_status='delivering' WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
-                string sql1="SELECT truck_id, package_id, addr_x, addr_y FROM ups_package WHERE world_id=" + to_string(world_id) + " AND package_id =" + to_string(package_id);
-                result R=selectSQL(txn,sql1);
-                txn.commit();
-                return R;
-            }
-            else{
-                txn.abort();
-                return result();
-            }
+            // if (truck_id == 0){
+            //     cerr << "Package with package_id=" << package_id << "truck_id=" << truck_id << "does not exist." << endl;
+            //     txn.abort();
+            //     return result();
+            // }
+            // else{
+                cout<<"\n\ntest \ntruckid="<<truck_id<<"\npackage_id="<<package_id<<"\nworld_id"<<world_id<<"\n\n";
+                txn.exec("UPDATE ups_package SET package_status='delivering' WHERE world_id=" + to_string(world_id) + " AND package_id=" + to_string(package_id));
+                // result res_package = txn.exec("SELECT * FROM ups_package WHERE world_id=" + to_string(world_id) + " AND truck_id =" + to_string(truck_id)+ " AND package_status =" + "'loading'");
+                // if(res_package.empty()){
+                    txn.exec("UPDATE ups_truck SET truck_status='delivering' WHERE world_id=" + to_string(world_id) + " AND truck_id=" + to_string(truck_id));
+                    string sql1="SELECT truck_id, package_id, addr_x, addr_y FROM ups_package WHERE world_id=" + to_string(world_id) + " AND package_id =" + to_string(package_id);
+                    result R=selectSQL(txn,sql1);
+                    txn.commit();
+                    return R;
+                //}
+                //txn.commit();
+            //}
         }
     }
     catch (const exception &e) {
