@@ -17,7 +17,7 @@ def check_delivery_status():
 
     # Execute a query
     cursor.execute("""
-    SELECT u.email, p.package_status, p.package_id
+    SELECT u.email, p.package_status, p.package_id, p.description
     FROM ups_package AS p
     JOIN auth_user AS u ON u.id = p.user_id
     WHERE p.package_status = 'delivered' AND p.email_sent = false AND p.user_id IS NOT NULL;
@@ -30,7 +30,7 @@ def check_delivery_status():
     if len(results) > 0:
         print("Yes, there are delivered packages:")
         for row in results:
-            email(row.email)
+            email(row.email, row.package_id, row.description)
             cursor.execute("UPDATE ups_package SET email_sent = true WHERE package_id = " + str(row.package_id))
             conn.commit()
     #else:
@@ -42,14 +42,12 @@ def check_delivery_status():
 
 
 
-def email(receiver_email):
+def email(receiver_email,package_id,description):
     sender_email = "rideece568duke@outlook.com"
     password = "Asdfghjklqwertyuiop"
 
-    message = """\
-    Subject: Hello from Python
+    message = f"Subject: From UPS\n\nYour package (package_id = {package_id}, content={description}) has been delivered."
 
-    This email was sent using Python!"""
 
     # Connect to SMTP server
     server = smtplib.SMTP('smtp.office365.com', 587)

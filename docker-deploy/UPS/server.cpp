@@ -13,7 +13,7 @@ Server::Server(){
     amazon_hostname="vcm-32242.vm.duke.edu";
 
     sequence_num=0;
-    truck_num=1;
+    truck_num=10;
     truck_distance=10;
 }
 
