@@ -8,12 +8,12 @@ string Alvin= "32242";
 string chimin= "27827";
 Server::Server(){
     world_port="12345";
-    world_hostname="vcm-33209.vm.duke.edu";
+    world_hostname="vcm-32242.vm.duke.edu";
     amazon_port="5688";
-    amazon_hostname="vcm-33209.vm.duke.edu";
+    amazon_hostname="vcm-32242.vm.duke.edu";
 
     sequence_num=0;
-    truck_num=5;
+    truck_num=1;
     truck_distance=10;
 }
 
@@ -27,35 +27,37 @@ int Server::getSeqNum(){
 }
 
 void Server::run() {
-    //uncomment
-    //init_database();
-    init_world();
-    
+    try {
+        //delete();
+        //uncomment
+        //init_database();
+        init_world();
 
-    /*AUCommands aucommand;
-    recvMesgFrom<AUCommands>(aucommand, amazon_in);
-    cout<<"hi"<<aucommand.acks_size()<<endl;*/
-    pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
-    pthread_create(&thread1, NULL, &Server::recvFromWorldWrapper,this);
-    pthread_create(&thread2, NULL, &Server::sendAckWorldWrapper,this);
-    pthread_create(&thread3, NULL, &Server::sendToWorldWrapper,this);
-    pthread_create(&thread4, NULL, &Server::recvFromAmazonWrapper,this);
-    pthread_create(&thread5, NULL, &Server::sendAckAmazonWrapper,this);
-    pthread_create(&thread6, NULL, &Server::sendToAmazonWrapper,this);
+        /*thread t1(&Server::recvFromWorldWrapper,this);
+        thread t2(&Server::sendAckWorldWrapper,this);
+        thread t3(&Server::sendToWorldWrapper,this);
+        thread t4(&Server::recvFromAmazonWrapper,this);
+        thread t5(&Server::sendAckAmazonWrapper,this);
+        thread t6(&Server::sendToAmazonWrapper,this);*/
+        pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
+        pthread_create(&thread1, NULL, &Server::recvFromWorldWrapper,this);
+        pthread_create(&thread3, NULL, &Server::sendToWorldWrapper,this);
+        pthread_create(&thread2, NULL, &Server::sendAckWorldWrapper,this);
+        pthread_create(&thread4, NULL, &Server::recvFromAmazonWrapper,this);
+        pthread_create(&thread5, NULL, &Server::sendAckAmazonWrapper,this);
+        pthread_create(&thread6, NULL, &Server::sendToAmazonWrapper,this);
 
-    //pthread_detach(thread1);
-    // pthread_detach(thread2);
-    // pthread_detach(thread3);
-    //pthread_detach(thread4);
-    // pthread_detach(thread5);
-    // pthread_detach(thread6);
-
-    pthread_join(thread1, NULL);
-    pthread_join(thread2, NULL);
-    pthread_join(thread3, NULL);
-    pthread_join(thread4, NULL);
-    pthread_join(thread5, NULL);
-    pthread_join(thread6, NULL);
+        pthread_join(thread1, NULL);
+        pthread_join(thread2, NULL);
+        pthread_join(thread3, NULL);
+        pthread_join(thread4, NULL);
+        pthread_join(thread5, NULL);
+        pthread_join(thread6, NULL);
+    }
+    catch (const std::exception & e) {
+        std::cerr << e.what() << '\n';
+        return;
+    }
 }
 
 void Server::init_database(){
@@ -146,9 +148,9 @@ void *Server::sendToAmazon(){
         if(!sendMesgTo<UACommands>(command, amazon_out)){
             cerr<<"Error: send to amazon fail"<<endl;
         }else{
-            cout<<"send to amazon succeed\n";
+            //cout<<"send to amazon succeed\n";
         }
-        
+        sleep(5);
     }
 }
 
@@ -158,8 +160,9 @@ void *Server::sendToWorld(){
         if(!sendMesgTo<UCommands>(command, world_out)){
             cerr<<"Error: send to world fail"<<endl;
         }else{
-            cout<<"send to world succeed\n";
+            //cout<<"send to world succeed\n";
         }
+        sleep(5);
     }
 }
 
@@ -193,12 +196,10 @@ void *Server::recvFromAmazon(){
         }else{
             cout<<"recv from amazon succeed\n";
         }
-        cout<<"188: "<<response.acks_size()<<endl;
         AmazonResponseHandler h(response, world_command, amazon_command, amazon_response, amazon_ack, world_id);
-        /*pthread_t thread;
-        pthread_create(&thread, NULL, h.handleWrapper,&h);
-        pthread_detach(thread);*/
-        h.handle();
+        pthread_t thread;
+        pthread_create(&thread, NULL, AmazonResponseHandler::handleWrapper, new AmazonResponseHandler(h));
+        pthread_detach(thread);
     }
 }
 
@@ -208,13 +209,12 @@ void *Server::recvFromWorld(){
         if (!recvMesgFrom<UResponses>(response, world_in)) {
             cerr<<"Error: recv from world fail"<<endl;
         }else{
-            cout<<"recv from world succeed\n";
+            //cout<<"recv from world succeed\n";
         }
         WorldResponseHandler h(response, amazon_command, world_command, world_response, world_ack, world_id);
-        /*pthread_t thread;
-        pthread_create(&thread, NULL, h.handleWrapper,&h);
-        pthread_detach(thread);*/
-        h.handle();
+        pthread_t thread;
+        pthread_create(&thread, NULL, WorldResponseHandler::handleWrapper,new WorldResponseHandler(h));
+        pthread_detach(thread);
     }
 }
 

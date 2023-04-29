@@ -20,7 +20,8 @@ class ThreadSafeSet {
   bool contains(int seq){
     std::unique_lock<std::mutex> lock(set_mutex);
     if(mySet.count(seq)==0){
-        return false;
+      mySet.insert(seq);
+      return false;
     }
     return true;
   }

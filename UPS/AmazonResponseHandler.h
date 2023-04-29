@@ -1,6 +1,6 @@
 #include "threadSafe/threadSafeQueue.h"
 #include "threadSafe/threadSafeSet.h"
-
+#include <unistd.h>
 #include "sql_cmd.h"
 #include "seqNum.h"
 
@@ -18,17 +18,15 @@ class AmazonResponseHandler {
     : response(response), world_command(world_command), amazon_command(amazon_command), amazon_response(amazon_response), amazon_ack(amazon_ack), world_id(world_id) {}
  
    void* handle(){
-      cout<<"handle"<<endl;
-      cout<<"amazonresponse: handle: ack size = "<<response.acks_size()<<endl;
+      cout<<"handle amazon response"<<endl;
       for(int i=0;i<response.acks_size();i++){
          cout<<"handle AUack"<<endl;
          amazon_command.remove(response.acks(i));
       }
       //8 AUInitPickup
-      cout<<"amazonresponse: handle: pickup size = "<<response.pickupreq_size()<<endl;
       for(int i=0;i<response.pickupreq_size();i++){
-         cout<<"handle AUInitPickup"<<endl;
          AUInitPickUp r=response.pickupreq(i);
+         cout<<"handle AUInitPickup: "<<r.seqnum()<<endl;
          if(!amazon_response.contains(r.seqnum())){
             string description="";
             for(int j=0;j<r.product_size();j++){
@@ -36,21 +34,20 @@ class AmazonResponseHandler {
                description.append(product.description()+" * "+to_string(product.count())+", ");
             }
             int truck_id=AUInitPickUp_sql(world_id, r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y(), description);
-            if(truck_id!=-1){
+            while(truck_id==-1){
                truck_id=AUInitPickUp_sql(world_id, r.whid(), r.accountname(), r.deliverylocation().packageid(), r.deliverylocation().x(), r.deliverylocation().y(), description);
+               sleep(5);
             }
-            amazon_response.add(r.seqnum());
+            cout<<"truck id = "<<truck_id<<endl;
             addUGoPickup(r, truck_id);
          }   
          addAmazonAck(r.seqnum());
       }
       // 14 AULoaded
-      cout<<"amazonresponse: handle: auloaded size = "<<response.loaded_size()<<endl;
       for(int i=0;i<response.loaded_size();i++){
-         cout<<"handle AUloaded"<<endl;
          AULoaded r=response.loaded(i);
+         cout<<"handle AUloaded: "<<r.seqnum()<<endl;
          if(!amazon_response.contains(r.seqnum())){
-            amazon_response.add(r.seqnum());
             addUGoDeliver(r);
          }   
          addAmazonAck(r.seqnum());
@@ -64,13 +61,14 @@ class AmazonResponseHandler {
    }
 
    void addAmazonAck(int seqnum){
-      cout<<"add amazon_azk = "+to_string(seqnum)<<endl;
+      cout<<"add amazon_ack = "+to_string(seqnum)<<endl;
       UACommands command;
       command.add_acks(seqnum);
       amazon_ack.add(seqnum, command);
    }
 
    void addUGoPickup(AUInitPickUp &r, int truckid){
+      cout<<"add UGoPickup"<<endl;
       int whid=r.whid();
       int seqNum=SeqNum::get();
       UCommands command;
@@ -82,8 +80,10 @@ class AmazonResponseHandler {
    }
 
    void addUGoDeliver(AULoaded &response){
+      cout<<"UGoDeliver function"<<endl;
       result R = AULoaded_sql(world_id, response.shipid());
       for (result::const_iterator c = R.begin(); c != R.end(); ++c){
+         cout<<"add UGoDeliver"<<endl;
          int truck_id=c[0].as<int>();
          int package_id=c[1].as<int>();
          int x=c[2].as<int>();
