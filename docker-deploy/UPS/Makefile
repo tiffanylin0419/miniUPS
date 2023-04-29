@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-O3
-EXTRAFLAGS= -lpqxx -lpq -lpugixml -lpthread
+EXTRAFLAGS= -lpqxx -lpq -lpthread
 GPB = `pkg-config --cflags --libs protobuf`
 THREAD_SAFE_H = threadSafe/threadSafeQueue.h threadSafe/threadSafeSet.h 
 SQL_H = sql_cmd.h 

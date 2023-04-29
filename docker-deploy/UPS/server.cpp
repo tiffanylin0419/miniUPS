@@ -33,12 +33,6 @@ void Server::run() {
         //init_database();
         init_world();
 
-        /*thread t1(&Server::recvFromWorldWrapper,this);
-        thread t2(&Server::sendAckWorldWrapper,this);
-        thread t3(&Server::sendToWorldWrapper,this);
-        thread t4(&Server::recvFromAmazonWrapper,this);
-        thread t5(&Server::sendAckAmazonWrapper,this);
-        thread t6(&Server::sendToAmazonWrapper,this);*/
         pthread_t thread1, thread2, thread3, thread4, thread5, thread6;
         pthread_create(&thread1, NULL, &Server::recvFromWorldWrapper,this);
         pthread_create(&thread3, NULL, &Server::sendToWorldWrapper,this);
@@ -66,11 +60,12 @@ void Server::init_database(){
         //docker
         //C = new connection("dbname=postgres user=postgres password=passw0rd host=db port=5432");
         //no docker
-        C = new connection("dbname=ups user=postgres password=Andy860812! hostaddr=127.0.0.1 port=5432");//?
+        C = new connection("dbname=postgres user=postgres password=postgres host=db port=5432");//?
         if (C->is_open()) {
+            cout<< "connect database succesfully \n";
         } else {
-        cout << "Can't open database" << endl;
-        return;
+            cout << "Can't open database" << endl;
+            return;
         } 
     } catch (const std::exception &e){
         cerr << e.what() << std::endl;
