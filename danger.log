@@ -1,9 +1,9 @@
-todo:
-docker
-email
+1. use uniquelock to prevent dead locks from happening when return from function before releasing the lock.
+2. database row locking to prevent data race.
+3. add thread in server for sending commands and receiving response to speed up.
+4. add thread in server for response handling to prevent other responses from being stuck when there are no idle trucks available.
+5. try-catch blocks for exception handling in both SQL commands and the thread creation process.
+6. user registration password cannot be too simple, to prevent user password from being cracked by hackers.
+7. ensure "exact 1 method" by decently handling acks.
 
-done: 
-use uniquelock to prevent dead locks when return from function
-database row locking
-add thread in server for sending commands and receiving response
-add thread in server for response handling
+
