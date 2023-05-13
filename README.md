@@ -1,5 +1,7 @@
 # UPS
 
+[Project Info](Project_Spec.pdf)
+
 settings.py改密碼
 server.cpp改amazon vcm
 
